@@ -236,13 +236,15 @@ public class SchermataManager extends JFrame {
         }
     }
 
-
+    /*dato il nome del prodotto, visualizza gli ingredienti che lo compongono*/
     private void visualizzaIngredientiProdotto() {
-        String codice = JOptionPane.showInputDialog(this, "Inserisci il codice del prodotto:");
+        String nome_prodotto = JOptionPane.showInputDialog(this, "Inserisci il codice(nome) del prodotto:");
 
         try {
             Statement statement = conn.createStatement();
-            String query = "SELECT I.nome_commerciale FROM Ingredienti I JOIN ingredienti_prodotti IP ON I.ID = IP.ID_ingrediente WHERE IP.codice_prodotto = '" + codice + "'";
+            String query = "SELECT * FROM Ingredienti I, ingredienti_prodotti IP, Prodotti P WHERE  I.ID = IP.ID_ingrediente AND IP.codice_prodotto = P.codice AND P.descrizione = '" + nome_prodotto + "'";
+
+
             ResultSet resultSet = statement.executeQuery(query);
 
             DefaultTableModel tableModel = new DefaultTableModel();
