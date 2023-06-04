@@ -34,7 +34,7 @@ public class SchermataIniziale extends JFrame {
         btnVendita.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Avvia la schermata di vendita
-                SchermataVendite vendita = new SchermataVendite(conn);
+                Schermatavendite2 vendita = new Schermatavendite2(conn);
                 vendita.setVisible(true);
 
                 //aggiunge un cliente alla tabella clienti
