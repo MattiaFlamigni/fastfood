@@ -26,6 +26,7 @@ public class SchermataManager extends JFrame {
         JButton btnAggiungiIngredienti = new JButton("Aggiungi Ingredienti a Prodotto");
         JButton btnAggiungiIngrediente = new JButton("Aggiungi Ingrediente");
         JButton btnVisualizzaIngredienti = new JButton("Visualizza Ingredienti di un Prodotto");
+        JButton btnFatturatoMensile = new JButton("Visualizza Fatturato Mensile");
 
         // Creazione del layout
         Container container = getContentPane();
@@ -35,6 +36,7 @@ public class SchermataManager extends JFrame {
         container.add(btnAggiungiIngredienti);
         container.add(btnAggiungiIngrediente);
         container.add(btnVisualizzaIngredienti);
+        container.add(btnFatturatoMensile);
 
         // Aggiunta delle azioni ai pulsanti
         btnVisualizzaProdotti.addActionListener(new ActionListener() {
@@ -67,6 +69,11 @@ public class SchermataManager extends JFrame {
             }
         });
 
+        btnFatturatoMensile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                visualizzaFatturatoMensile();
+            }
+        });
 
     }
 
@@ -296,6 +303,26 @@ public class SchermataManager extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Errore durante l'aggiunta dell'ingrediente.", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void visualizzaFatturatoMensile(){
+        try{
+            Statement statement = conn.createStatement();
+                String query = "SELECT SUM(P.prezzovendita * D.quantita) as TotIncassoLordo, SUM(P.prezzounitario*D.quantita) as MateriePrime, SUM(P.prezzovendita * D.quantita)-SUM(P.prezzounitario*D.quantita) as TotNetto\n" +
+                        "FROM prodotti P, ordine O, dettaglio_ordini D\n" +
+                        "WHERE D.ID_ordine = O.ID and D.codice_prodotto = P.codice;";
+            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.next();
+            int totaleIncassoLordo = resultSet.getInt("TotIncassoLordo");
+            int totaleMateriePrime = resultSet.getInt("MateriePrime");
+            int totaleNetto = resultSet.getInt("TotNetto");
+            resultSet.close();
+            statement.close();
+            JOptionPane.showMessageDialog(this, "Fatturato Lordo: " + totaleIncassoLordo +"\nMaterie prime: " + totaleMateriePrime + "\nFatturato netto: "+totaleNetto, "Fatturato", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
