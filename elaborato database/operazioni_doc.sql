@@ -45,21 +45,13 @@ SELECT avg(subquery.totale) as scontrino_medio
 	FROM prodotti P, ordine O, dettaglio_ordini D
 	where O.ID=D.ID_ORDINE and P.codice=D.codice_prodotto
     GROUP BY O.ID) AS subquery;
-    
--- M8: fatturato lordo mensile
-SELECT O.data, D.codice_prodotto, SUM(D.quantita) AS quantità_totale, SUM(D.quantita * P.prezzovendita) AS totale_vendite
-FROM ORDINE O
-JOIN DETTAGLIO_ORDINI D ON O.ID = D.ID_ordine
-JOIN PRODOTTI P ON D.codice_prodotto = P.codice
-WHERE MONTH(O.data) = MONTH(current_date())  -- Filtra gli ordini per la data odierna
-GROUP BY O.data, D.codice_prodotto;
 
--- M9: fatturato netto mensile
+-- M8/M9: fatturato lordo/netto mensile
 SELECT SUM(P.prezzovendita * D.quantita) as TotIncassoLordo, SUM(P.prezzounitario*D.quantita) as MateriePrime, SUM(P.prezzovendita * D.quantita)-SUM(P.prezzounitario*D.quantita) as TotNetto
 FROM prodotti P, ordine O, dettaglio_ordini D
 WHERE D.ID_ordine = O.ID and D.codice_prodotto = P.codice;
 
--- M10 Visualizzare top10 prodoti
+-- M11 Visualizzare top10 prodoti
 SELECT P.descrizione, SUM(D.quantita) as totale_vendite
 FROM dettaglio_ordini D, prodotti P
 where P.codice = D.codice_prodotto
@@ -68,6 +60,28 @@ order by totale_vendite desc
 LIMIT 10;
 
 
-select * from ordine
+-- A5
+SELECT SUBSTRING(CAST(SUM(ora_fine-ora_inizio) AS CHAR),1,2) AS TOTALE_ORE
+FROM lavoro
+WHERE CF_addetto="FLMMTT"
+GROUP BY CF_addetto;
+
+
+select * from dettaglio_ordini;
+
+
+-- C1
+SELECT OFFERTA.codice, OFFERTA.percentuale
+FROM OFFERTA
+JOIN POSSEDIMENTO_OFFERTA ON OFFERTA.codice = POSSEDIMENTO_OFFERTA.codice_offerta
+JOIN CLIENTE ON CLIENTE.ID = 'ID_CLIENTE';
+
+
+
+
+
+
+
+
 
 

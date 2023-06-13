@@ -50,6 +50,13 @@ public class Schermatavendite2 extends JFrame {
         button.addActionListener(e -> {
             nuovo_cliente();
         });
+
+        //in basso a destra sotto il precedente bottone un bottone "inserisci offerta"
+        JButton button2 = new JButton("Inserisci Offerta");
+        panel.add(button2);
+        button2.addActionListener(e -> {
+            inserisci_offerta();
+        });
     }
 
     //restituisce id cliente e id ordine
@@ -242,6 +249,16 @@ public class Schermatavendite2 extends JFrame {
             while (resultSet.next()) {
                 idProdotto = resultSet.getInt("codice");
             }
+            //ottieni il prezzo del prodotto selezionato
+            String queryprezzo = "SELECT prezzovendita FROM prodotti WHERE descrizione = ?";
+            statement = conn.prepareStatement(queryprezzo);
+            statement.setString(1, nomeprodotto);
+            resultSet = statement.executeQuery();
+            double prezzo = 0;
+            while (resultSet.next()) {
+                prezzo = resultSet.getDouble("prezzovendita");
+            }
+
 
             // Verifica se il cliente corrente ha già quel codice prodotto nel suo ordinativo
             String check = "SELECT codice_prodotto FROM dettaglio_ordini WHERE ID_ordine = ? AND codice_prodotto = ?";
@@ -261,6 +278,12 @@ public class Schermatavendite2 extends JFrame {
                     updateStatement.setInt(1, idordine);
                     updateStatement.setInt(2, idProdotto);
                     updateStatement.executeUpdate();
+
+                    // Aggiorna il prezzo totale dell'ordine
+                    String updatePrezzo = "UPDATE dettaglio_ordini SET totale = totale + ? WHERE ID = ?";
+                    PreparedStatement updatePrezzoStatement = conn.prepareStatement(updatePrezzo);
+                    updatePrezzoStatement.setDouble(1, prezzo);
+                    updatePrezzoStatement.setInt(2, idordine);
 
                     flag = true;
                 }
@@ -302,6 +325,15 @@ public class Schermatavendite2 extends JFrame {
                     statement.setInt(2, idProdotto);
                     statement.setInt(3, 1);
                     statement.executeUpdate();
+
+                    // Aggiorna il prezzo totale dell'ordine
+                    String updatePrezzo = "UPDATE dettaglio_ordini SET totale = totale + ? WHERE ID_ordine = ?";
+                    PreparedStatement updatePrezzoStatement = conn.prepareStatement(updatePrezzo);
+                    updatePrezzoStatement.setDouble(1, prezzo);
+                    updatePrezzoStatement.setInt(2, idordine);
+                    updatePrezzoStatement.executeUpdate();
+
+
                 }
             }
 
@@ -363,6 +395,52 @@ public class Schermatavendite2 extends JFrame {
         getCurrentcliente();
         getCurrentordine();
 
+    }
+
+    public void inserisci_offerta(){
+        try{
+            int idcliente=getCurrentcliente();
+            int idordine=getCurrentordine();
+            //textbox che chiede il numero di offerta
+            JDialog dialog = new JDialog();
+            dialog.setAlwaysOnTop(true);
+            String numero_offerta = JOptionPane.showInputDialog(dialog, "Inserisci il numero dell'offerta");
+            int numero_offerta_int = Integer.parseInt(numero_offerta);
+            String query = "INSERT INTO possedimento_offerta(ID_cliente, codice_offerta) VALUES (?, ?) ";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, idcliente);
+            statement.setInt(2, idordine);
+            statement.executeUpdate();
+
+            //recupera il valore dello sconto
+            String query2 = "SELECT percentuale FROM offerta WHERE codice = ?";
+            PreparedStatement statement2 = conn.prepareStatement(query2);
+            statement2.setInt(numero_offerta_int, numero_offerta_int);
+            ResultSet resultSet = statement2.executeQuery();
+            int sconto = 0;
+            while (resultSet.next()) {
+                sconto = resultSet.getInt("percentuale");
+            }
+
+            //aggiorna il totale dell'ordine
+            String query3 = "UPDATE dettaglio_ordini SET totale = totale - (totale * ? / 100) WHERE ID = ?";
+            PreparedStatement statement3 = conn.prepareStatement(query3);
+            statement3.setInt(1, sconto);
+            statement3.setInt(2, idordine);
+            statement3.executeUpdate();
+
+
+
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        //aggiorno i correnti
+
+        getCurrentcliente();
+        getCurrentordine();
     }
 
 }
