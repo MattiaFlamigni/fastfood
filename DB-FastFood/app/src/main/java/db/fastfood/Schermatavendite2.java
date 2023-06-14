@@ -406,11 +406,11 @@ public class Schermatavendite2 extends JFrame {
             dialog.setAlwaysOnTop(true);
             String numero_offerta = JOptionPane.showInputDialog(dialog, "Inserisci il numero dell'offerta");
             int numero_offerta_int = Integer.parseInt(numero_offerta);
-            String query = "INSERT INTO possedimento_offerta(ID_cliente, codice_offerta) VALUES (?, ?) ";
+            /*String query = "INSERT INTO possedimento_offerta(ID_cliente, codice_offerta) VALUES (?, ?) ";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, idcliente);
             statement.setInt(2, idordine);
-            statement.executeUpdate();
+            statement.executeUpdate();*/
 
             //recupera il valore dello sconto
             String query2 = "SELECT percentuale FROM offerta WHERE codice = ?";
@@ -423,7 +423,7 @@ public class Schermatavendite2 extends JFrame {
             }
 
             //aggiorna il totale dell'ordine
-            String query3 = "UPDATE dettaglio_ordini SET totale = totale - (totale * ? / 100) WHERE ID = ?";
+            String query3 = "UPDATE dettaglio_ordini SET totale = totale - (totale * ? / 100) WHERE ID_ordine = ?";
             PreparedStatement statement3 = conn.prepareStatement(query3);
             statement3.setInt(1, sconto);
             statement3.setInt(2, idordine);
