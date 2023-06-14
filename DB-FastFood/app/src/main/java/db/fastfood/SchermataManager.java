@@ -26,6 +26,7 @@ public class SchermataManager extends JFrame {
         JButton btnVisualizzaIngredienti = new JButton("Visualizza Ingredienti di un Prodotto");
         JButton btnFatturatoMensile = new JButton("Visualizza Fatturato Mensile");
         JButton btnInserisciRichiesta = new JButton("Nuova richiesta");
+        JButton btnVisualizzaRifiuta = new JButton("Visualizza/rifiuta richieste");
 
         // Creazione del layout
         Container container = getContentPane();
@@ -37,7 +38,7 @@ public class SchermataManager extends JFrame {
         container.add(btnVisualizzaIngredienti);
         container.add(btnFatturatoMensile);
         container.add(btnInserisciRichiesta);
-
+        container.add(btnVisualizzaRifiuta);
         // Aggiunta delle azioni ai pulsanti
         btnVisualizzaProdotti.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -78,6 +79,12 @@ public class SchermataManager extends JFrame {
         btnInserisciRichiesta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 inserisciRichiesta();
+            }
+        });
+
+        btnVisualizzaRifiuta.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                visualizzaRifiutaRichieste();
             }
         });
 
@@ -360,6 +367,118 @@ public class SchermataManager extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Errore durante l'aggiunta della richiesta.", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void visualizzaRifiutaRichieste(){
+        //visualizza tutte le richieste di riposo, ferie o malattia e permette di rifiutarle
+        //se una richiesta viene rifiutata, viene eliminata dalla tabella richieste
+
+        try{
+            Statement statement = conn.createStatement();
+            String query = "SELECT * FROM richieste";
+            ResultSet resultSet = statement.executeQuery(query);
+            DefaultTableModel tableModel = new DefaultTableModel();
+            tableModel.addColumn("Tipo");
+            tableModel.addColumn("datainizio");
+            tableModel.addColumn("datafine");
+            tableModel.addColumn("CF_addetto");
+            tableModel.addColumn("CF_manager");
+            tableModel.addColumn("DataRichiesta");
+            while (resultSet.next()) {
+                String tipo = resultSet.getString("tipo");
+                String datainizio = resultSet.getString("datainizio");
+                String datafine = resultSet.getString("datafine");
+                String CF_addetto = resultSet.getString("CF_addetto");
+                String dataRichiesta = resultSet.getString("dataRichiesta");
+                tableModel.addRow(new Object[]{tipo, datainizio, datafine, CF_addetto, dataRichiesta});
+            }
+            JTable table = new JTable(tableModel);
+            JFrame tableFrame = new JFrame("Tabella Richieste");
+            tableFrame.setSize(400, 300);
+            tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            tableFrame.setLocationRelativeTo(null);
+            tableFrame.getContentPane().add(new JScrollPane(table));
+            tableFrame.setVisible(true);
+            resultSet.close();
+            statement.close();
+
+            //l'utente seleziona la richiesta da rifiutare selezionando la riga della tabella
+            //e cliccando sul pulsante "Rifiuta"
+
+            JButton rifiutaButton = new JButton("Rifiuta");
+            tableFrame.getContentPane().add(rifiutaButton, BorderLayout.SOUTH);
+            rifiutaButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    //solo un direttore puo rifiutare una richiesta
+                    //l'utente deve inserire il proprio CF per rifiutare la richiesta
+
+                    String CF_manager = JOptionPane.showInputDialog(tableFrame, "Inserisci il tuo CF:");
+                    //se è presente nella tabella direttori allora è un direttore
+
+                    try {
+                        Statement statement = conn.createStatement();
+                        String query = "SELECT * FROM direttori WHERE CF = ?";
+                        PreparedStatement preparedStatement = conn.prepareStatement(query);
+                        preparedStatement.setString(1, CF_manager);
+                        ResultSet resultSet = preparedStatement.executeQuery();
+                        if (!resultSet.next()) {
+                            JOptionPane.showMessageDialog(tableFrame, "Non sei un direttore.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        } else {
+
+
+                        int selectedRow = table.getSelectedRow();
+                        if (selectedRow == -1) {
+                            JOptionPane.showMessageDialog(tableFrame, "Seleziona una riga.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            String tipo = (String) table.getValueAt(selectedRow, 0);
+                            String datainizio = (String) table.getValueAt(selectedRow, 1);
+                            String datafine = (String) table.getValueAt(selectedRow, 2);
+                            String CF_addetto = (String) table.getValueAt(selectedRow, 3);
+                            String dataRichiesta = (String) table.getValueAt(selectedRow, 4);
+                            try {
+                                Statement statementdelete = conn.createStatement();
+                                String querydelete = "DELETE FROM richieste WHERE tipo = ? AND datainizio = ? AND datafine = ? AND CF_addetto = ? AND dataRichiesta = ?";
+                                PreparedStatement preparedStatementdelete = conn.prepareStatement(querydelete);
+                                preparedStatementdelete.setString(1, tipo);
+                                preparedStatementdelete.setString(2, datainizio);
+                                preparedStatementdelete.setString(3, datafine);
+                                preparedStatementdelete.setString(4, CF_addetto);
+                                preparedStatementdelete.setString(5, dataRichiesta);
+                                int rowsAffected = preparedStatementdelete.executeUpdate();
+                                preparedStatementdelete.close();
+                                if (rowsAffected > 0) {
+                                    JOptionPane.showMessageDialog(tableFrame, "Richiesta rifiutata con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                                    //aggirona la tabella richieste
+                                    tableModel.removeRow(selectedRow);
+                                } else {
+                                    JOptionPane.showMessageDialog(tableFrame, "Impossibile rifiutare la richiesta.", "Errore", JOptionPane.ERROR_MESSAGE);
+                                }
+                            } catch (SQLException ex) {
+                                ex.printStackTrace();
+                                JOptionPane.showMessageDialog(tableFrame, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+
+
+                }
+
+                        resultSet.close();
+                        preparedStatement.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(tableFrame, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+
+
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
