@@ -429,32 +429,32 @@ public class SchermataManager extends JFrame {
                         } else {
 
 
-                        int selectedRow = table.getSelectedRow();
-                        if (selectedRow == -1) {
-                            JOptionPane.showMessageDialog(tableFrame, "Seleziona una riga.", "Errore", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            String tipo = (String) table.getValueAt(selectedRow, 0);
-                            String datainizio = (String) table.getValueAt(selectedRow, 1);
-                            String datafine = (String) table.getValueAt(selectedRow, 2);
-                            String CF_addetto = (String) table.getValueAt(selectedRow, 3);
-                            String dataRichiesta = (String) table.getValueAt(selectedRow, 4);
-                            try {
-                                Statement statementdelete = conn.createStatement();
-                                String querydelete = "DELETE FROM richieste WHERE tipo = ? AND datainizio = ? AND datafine = ? AND CF_addetto = ? AND dataRichiesta = ?";
-                                PreparedStatement preparedStatementdelete = conn.prepareStatement(querydelete);
-                                preparedStatementdelete.setString(1, tipo);
-                                preparedStatementdelete.setString(2, datainizio);
-                                preparedStatementdelete.setString(3, datafine);
-                                preparedStatementdelete.setString(4, CF_addetto);
-                                preparedStatementdelete.setString(5, dataRichiesta);
-                                int rowsAffected = preparedStatementdelete.executeUpdate();
-                                preparedStatementdelete.close();
-                                if (rowsAffected > 0) {
-                                    JOptionPane.showMessageDialog(tableFrame, "Richiesta rifiutata con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
-                                    //aggirona la tabella richieste
-                                    tableModel.removeRow(selectedRow);
-                                } else {
-                                    JOptionPane.showMessageDialog(tableFrame, "Impossibile rifiutare la richiesta.", "Errore", JOptionPane.ERROR_MESSAGE);
+                            int selectedRow = table.getSelectedRow();
+                            if (selectedRow == -1) {
+                                JOptionPane.showMessageDialog(tableFrame, "Seleziona una riga.", "Errore", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                String tipo = (String) table.getValueAt(selectedRow, 0);
+                                String datainizio = (String) table.getValueAt(selectedRow, 1);
+                                String datafine = (String) table.getValueAt(selectedRow, 2);
+                                String CF_addetto = (String) table.getValueAt(selectedRow, 3);
+                                String dataRichiesta = (String) table.getValueAt(selectedRow, 4);
+                                try {
+                                    Statement statementdelete = conn.createStatement();
+                                    String querydelete = "DELETE FROM richieste WHERE tipo = ? AND datainizio = ? AND datafine = ? AND CF_addetto = ? AND dataRichiesta = ?";
+                                    PreparedStatement preparedStatementdelete = conn.prepareStatement(querydelete);
+                                    preparedStatementdelete.setString(1, tipo);
+                                    preparedStatementdelete.setString(2, datainizio);
+                                    preparedStatementdelete.setString(3, datafine);
+                                    preparedStatementdelete.setString(4, CF_addetto);
+                                    preparedStatementdelete.setString(5, dataRichiesta);
+                                    int rowsAffected = preparedStatementdelete.executeUpdate();
+                                    preparedStatementdelete.close();
+                                    if (rowsAffected > 0) {
+                                        JOptionPane.showMessageDialog(tableFrame, "Richiesta rifiutata con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                                        //aggirona la tabella richieste
+                                        tableModel.removeRow(selectedRow);
+                                    } else {
+                                        JOptionPane.showMessageDialog(tableFrame, "Impossibile rifiutare la richiesta.", "Errore", JOptionPane.ERROR_MESSAGE);
                                 }
                             } catch (SQLException ex) {
                                 ex.printStackTrace();
@@ -463,8 +463,7 @@ public class SchermataManager extends JFrame {
                         }
 
 
-                }
-
+                    }
                         resultSet.close();
                         preparedStatement.close();
                     } catch (SQLException ex) {
