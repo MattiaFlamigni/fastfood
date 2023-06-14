@@ -5,10 +5,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
 
 public class SchermataManager extends JFrame {
     private Connection conn;
@@ -27,6 +25,7 @@ public class SchermataManager extends JFrame {
         JButton btnAggiungiIngrediente = new JButton("Aggiungi Ingrediente");
         JButton btnVisualizzaIngredienti = new JButton("Visualizza Ingredienti di un Prodotto");
         JButton btnFatturatoMensile = new JButton("Visualizza Fatturato Mensile");
+        JButton btnInserisciRichiesta = new JButton("Nuova richiesta");
 
         // Creazione del layout
         Container container = getContentPane();
@@ -37,6 +36,7 @@ public class SchermataManager extends JFrame {
         container.add(btnAggiungiIngrediente);
         container.add(btnVisualizzaIngredienti);
         container.add(btnFatturatoMensile);
+        container.add(btnInserisciRichiesta);
 
         // Aggiunta delle azioni ai pulsanti
         btnVisualizzaProdotti.addActionListener(new ActionListener() {
@@ -72,6 +72,12 @@ public class SchermataManager extends JFrame {
         btnFatturatoMensile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 visualizzaFatturatoMensile();
+            }
+        });
+
+        btnInserisciRichiesta.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                inserisciRichiesta();
             }
         });
 
@@ -323,6 +329,37 @@ public class SchermataManager extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void inserisciRichiesta(){
+        //un addetto puo effettuare una richiesta di riposo, di ferie o di malattia
+        String tipoRichiesta = JOptionPane.showInputDialog(this, "Inserisci il tipo di richiesta (riposo, ferie, malattia):");
+        String dataInizio = JOptionPane.showInputDialog(this, "Inserisci la data di inizio (YYYY-MM-DD):");
+        String dataFine = JOptionPane.showInputDialog(this, "Inserisci la data di fine (YYYY-MM-DD):");
+        String idAddetto = JOptionPane.showInputDialog(this, "Inserisci CF dell'addetto:");
+
+        try {
+            Statement statement = conn.createStatement();
+            String query = "INSERT INTO richieste (tipo, datainizio, datafine, CF_addetto, dataRichiesta) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, tipoRichiesta);
+            preparedStatement.setString(2, dataInizio);
+            preparedStatement.setString(3, dataFine);
+            preparedStatement.setString(4, idAddetto);
+            preparedStatement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+            int rowsAffected = preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Richiesta aggiunta con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Impossibile aggiungere la richiesta.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Errore durante l'aggiunta della richiesta.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
