@@ -6,10 +6,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.time.LocalDate;
 
 public class SchermataManager extends JFrame {
-    private Connection conn;
+    private final Connection conn;
 
     public SchermataManager(Connection conn) {
         this.conn = conn;
@@ -19,7 +18,6 @@ public class SchermataManager extends JFrame {
         setLocationRelativeTo(null);
 
         // Creazione dei pulsanti
-        JLabel label = new JLabel("PRODOTTI");
         JButton btnVisualizzaProdotti = new JButton("Visualizza Prodotti Disponibili");
         JButton btnAggiungiProdotto = new JButton("Aggiungi Prodotto");
         JButton btnAggiungiIngredienti = new JButton("Aggiungi Ingredienti a Prodotto");
@@ -49,65 +47,25 @@ public class SchermataManager extends JFrame {
         container.add(btnVisualizzaAddetti);
 
         // Aggiunta delle azioni ai pulsanti
-        btnVisualizzaProdotti.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                visualizzaProdottiDisponibili();
-            }
-        });
+        btnVisualizzaProdotti.addActionListener(e -> visualizzaProdottiDisponibili());
 
-        btnAggiungiProdotto.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                aggiungiProdotto();
-            }
-        });
+        btnAggiungiProdotto.addActionListener(e -> aggiungiProdotto());
 
-        btnAggiungiIngredienti.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                aggiungiIngredientiAProdotto();
-            }
-        });
+        btnAggiungiIngredienti.addActionListener(e -> aggiungiIngredientiAProdotto());
 
-        btnAggiungiIngrediente.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                aggiungiIngrediente();
-            }
-        });
+        btnAggiungiIngrediente.addActionListener(e -> aggiungiIngrediente());
 
-        btnVisualizzaIngredienti.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                visualizzaIngredientiProdotto();
-            }
-        });
+        btnVisualizzaIngredienti.addActionListener(e -> visualizzaIngredientiProdotto());
 
-        btnFatturatoMensile.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                visualizzaFatturatoMensile();
-            }
-        });
+        btnFatturatoMensile.addActionListener(e -> visualizzaFatturatoMensile());
 
-        btnInserisciRichiesta.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                inserisciRichiesta();
-            }
-        });
+        btnInserisciRichiesta.addActionListener(e -> inserisciRichiesta());
 
-        btnVisualizzaRifiuta.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                visualizzaRifiutaRichieste();
-            }
-        });
+        btnVisualizzaRifiuta.addActionListener(e -> visualizzaRifiutaRichieste());
 
-        btnInserisciAddetto.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                inserisciDipendente();
-            }
-        });
+        btnInserisciAddetto.addActionListener(e -> inserisciDipendente());
 
-        btnVisualizzaAddetti.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                visualizzaAddetti();
-            }
-        });
+        btnVisualizzaAddetti.addActionListener(e -> visualizzaAddetti());
 
     }
 
@@ -183,11 +141,7 @@ public class SchermataManager extends JFrame {
             while (resultSet.next()) {
                 String nome = resultSet.getString("nome_commerciale");
                 JButton btn = new JButton(nome);
-                btn.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        aggiungiIngredienteAProdotto(nome);
-                    }
-                });
+                btn.addActionListener(e -> aggiungiIngredienteAProdotto(nome));
                 ingredientiFrame.add(btn);
             }
 
@@ -343,9 +297,10 @@ public class SchermataManager extends JFrame {
     private void visualizzaFatturatoMensile(){
         try{
             Statement statement = conn.createStatement();
-                String query = "SELECT SUM(P.prezzovendita * D.quantita) as TotIncassoLordo, SUM(P.prezzounitario*D.quantita) as MateriePrime, SUM(P.prezzovendita * D.quantita)-SUM(P.prezzounitario*D.quantita) as TotNetto\n" +
-                        "FROM prodotti P, ordine O, dettaglio_ordini D\n" +
-                        "WHERE D.ID_ordine = O.ID and D.codice_prodotto = P.codice;";
+                String query = """
+                        SELECT SUM(P.prezzovendita * D.quantita) as TotIncassoLordo, SUM(P.prezzounitario*D.quantita) as MateriePrime, SUM(P.prezzovendita * D.quantita)-SUM(P.prezzounitario*D.quantita) as TotNetto
+                        FROM prodotti P, ordine O, dettaglio_ordini D
+                        WHERE D.ID_ordine = O.ID and D.codice_prodotto = P.codice;""";
             ResultSet resultSet = statement.executeQuery(query);
             resultSet.next();
             int totaleIncassoLordo = resultSet.getInt("TotIncassoLordo");
