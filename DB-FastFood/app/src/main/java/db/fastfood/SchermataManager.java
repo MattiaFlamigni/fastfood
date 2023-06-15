@@ -19,6 +19,7 @@ public class SchermataManager extends JFrame {
         setLocationRelativeTo(null);
 
         // Creazione dei pulsanti
+        JLabel label = new JLabel("PRODOTTI");
         JButton btnVisualizzaProdotti = new JButton("Visualizza Prodotti Disponibili");
         JButton btnAggiungiProdotto = new JButton("Aggiungi Prodotto");
         JButton btnAggiungiIngredienti = new JButton("Aggiungi Ingredienti a Prodotto");
@@ -27,10 +28,15 @@ public class SchermataManager extends JFrame {
         JButton btnFatturatoMensile = new JButton("Visualizza Fatturato Mensile");
         JButton btnInserisciRichiesta = new JButton("Nuova richiesta");
         JButton btnVisualizzaRifiuta = new JButton("Visualizza/rifiuta richieste");
+        JButton btnInserisciAddetto = new JButton("Inserisci Dipendente");
+        JButton btnVisualizzaAddetti = new JButton("Visualizza Dipendenti");
+
 
         // Creazione del layout
         Container container = getContentPane();
+        //i pulsanti li metto in una griglia 2x2
         container.setLayout(new FlowLayout());
+
         container.add(btnVisualizzaProdotti);
         container.add(btnAggiungiProdotto);
         container.add(btnAggiungiIngredienti);
@@ -39,6 +45,9 @@ public class SchermataManager extends JFrame {
         container.add(btnFatturatoMensile);
         container.add(btnInserisciRichiesta);
         container.add(btnVisualizzaRifiuta);
+        container.add(btnInserisciAddetto);
+        container.add(btnVisualizzaAddetti);
+
         // Aggiunta delle azioni ai pulsanti
         btnVisualizzaProdotti.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -85,6 +94,18 @@ public class SchermataManager extends JFrame {
         btnVisualizzaRifiuta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 visualizzaRifiutaRichieste();
+            }
+        });
+
+        btnInserisciAddetto.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                inserisciDipendente();
+            }
+        });
+
+        btnVisualizzaAddetti.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                visualizzaAddetti();
             }
         });
 
@@ -480,4 +501,122 @@ public class SchermataManager extends JFrame {
             JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    private void inserisciAddetto() {
+        try{
+            String CF = JOptionPane.showInputDialog(this, "Inserisci il CF:");
+            String nome = JOptionPane.showInputDialog(this, "Inserisci il nome:");
+            String cognome = JOptionPane.showInputDialog(this, "Inserisci il cognome:");
+            Statement statement = conn.createStatement();
+            String query = "INSERT INTO ADDETTO VALUES(?,?,?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, CF);
+            preparedStatement.setString(2, nome);
+            preparedStatement.setString(3, cognome);
+            int rowsAffected = preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Dipendente inserito con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Impossibile inserire il dipendente.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void visualizzaAddetti() {
+
+        try {
+            Statement statement = conn.createStatement();
+            String query = "SELECT * FROM addetto";
+            ResultSet resultSet = statement.executeQuery(query);
+            String[] columnNames = {"CF", "Nome", "Cognome"};
+            DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+            while (resultSet.next()) {
+                String CF = resultSet.getString("CF");
+                String nome = resultSet.getString("nome");
+                String cognome = resultSet.getString("cognome");
+                Object[] row = {CF, nome, cognome};
+                tableModel.addRow(row);
+            }
+            resultSet.close();
+            statement.close();
+            JTable table = new JTable(tableModel);
+            JFrame tableFrame = new JFrame("Addetti");
+            tableFrame.setSize(400, 300);
+            tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            tableFrame.setLocationRelativeTo(null);
+            tableFrame.getContentPane().add(new JScrollPane(table));
+            tableFrame.setVisible(true);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    private void inserisciDipendente(){
+        String tipo = JOptionPane.showInputDialog(this, "manager o addetto?:");
+        tipo.toLowerCase();
+        if(tipo.equals("manager")){
+            try{
+                String CF = JOptionPane.showInputDialog(this, "Inserisci il CF:");
+                String nome = JOptionPane.showInputDialog(this, "Inserisci il nome:");
+                String cognome = JOptionPane.showInputDialog(this, "Inserisci il cognome:");
+                String direttore = JOptionPane.showInputDialog(this, "Inserisci il CF del direttore:");
+                Statement statement = conn.createStatement();
+                String query = "INSERT INTO MANAGER VALUES(?,?,?,?)";
+                PreparedStatement preparedStatement = conn.prepareStatement(query);
+                preparedStatement.setString(1, CF);
+                preparedStatement.setString(2, nome);
+                preparedStatement.setString(3, cognome);
+                preparedStatement.setString(4, direttore);
+                int rowsAffected = preparedStatement.executeUpdate();
+                preparedStatement.close();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(this, "Dipendente inserito con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Impossibile inserire il dipendente.", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else if(tipo.equals("addetto")){
+            try{
+                String CF = JOptionPane.showInputDialog(this, "Inserisci il CF:");
+                String nome = JOptionPane.showInputDialog(this, "Inserisci il nome:");
+                String cognome = JOptionPane.showInputDialog(this, "Inserisci il cognome:");
+                Statement statement = conn.createStatement();
+                String query = "INSERT INTO ADDETTO VALUES(?,?,?)";
+                PreparedStatement preparedStatement = conn.prepareStatement(query);
+                preparedStatement.setString(1, CF);
+                preparedStatement.setString(2, nome);
+                preparedStatement.setString(3, cognome);
+                int rowsAffected = preparedStatement.executeUpdate();
+                preparedStatement.close();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(this, "Dipendente inserito con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Impossibile inserire il dipendente.", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Errore durante l'inserimento del dipendente.", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }
