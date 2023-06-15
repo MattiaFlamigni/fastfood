@@ -10,6 +10,7 @@ import java.time.LocalDate;
 
 public class SchermataManager extends JFrame {
     private Connection conn;
+    ListenerManager listenerManager = new ListenerManager();
 
     public SchermataManager(Connection conn) {
         this.conn = conn;
