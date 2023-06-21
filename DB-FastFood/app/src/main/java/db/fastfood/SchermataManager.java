@@ -16,75 +16,99 @@ public class SchermataManager extends JFrame {
     public SchermataManager(Connection conn) {
         this.conn = conn;
         setTitle("Schermata Manager");
-        setSize(400, 300);
+        setSize(400, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Creazione dei pulsanti
+        
+
+
+        // Creazione dei pulsanti per la sezione "Prodotti"
+        
+
+
         JButton btnVisualizzaProdotti = new JButton("Visualizza Prodotti Disponibili");
         JButton btnAggiungiProdotto = new JButton("Aggiungi Prodotto");
         JButton btnAggiungiIngredienti = new JButton("Aggiungi Ingredienti a Prodotto");
         JButton btnAggiungiIngrediente = new JButton("Aggiungi Ingrediente");
         JButton btnVisualizzaIngredienti = new JButton("Visualizza Ingredienti di un Prodotto");
-        JButton btnFatturatoMensile = new JButton("Visualizza Fatturato Mensile");
+
+        // Creazione dei pulsanti per la sezione "Richieste"
         JButton btnInserisciRichiesta = new JButton("Nuova richiesta");
         JButton btnVisualizzaRifiuta = new JButton("Visualizza/rifiuta richieste");
+
+        // Creazione dei pulsanti per la sezione "Dipendenti"
         JButton btnInserisciAddetto = new JButton("Inserisci Dipendente");
         JButton btnVisualizzaAddetti = new JButton("Visualizza Dipendenti");
-        JButton btncontratti = new JButton("Crea contratto");
+        JButton btnContratti = new JButton("Crea contratto");
         JButton btnVisualizzaContratti = new JButton("Visualizza contratti");
         JButton btnRicercaContratto = new JButton("Ricerca contratto");
-        JButton btnCreaFidelty = new JButton("Crea Fidelity");
+
+        // Creazione del pulsante per la sezione "Altro"
+        JButton btnFatturatoMensile = new JButton("Visualizza Fatturato Mensile");
+        JButton btnCreaFidelity = new JButton("Crea Fidelity");
+
+        
 
 
         // Creazione del layout
         Container container = getContentPane();
-        //i pulsanti li metto in una griglia 2x2
-        container.setLayout(new FlowLayout());
+        container.setLayout(new GridLayout(4, 0)); // 4 righe per suddividere in sezioni
 
-        container.add(btnVisualizzaProdotti);
-        container.add(btnAggiungiProdotto);
-        container.add(btnAggiungiIngredienti);
-        container.add(btnAggiungiIngrediente);
-        container.add(btnVisualizzaIngredienti);
-        container.add(btnFatturatoMensile);
-        container.add(btnInserisciRichiesta);
-        container.add(btnVisualizzaRifiuta);
-        container.add(btnInserisciAddetto);
-        container.add(btnVisualizzaAddetti);
-        container.add(btncontratti);
-        container.add(btnVisualizzaContratti);
-        container.add(btnRicercaContratto);
-        container.add(btnCreaFidelty);
+        // Aggiunta dei pulsanti alla sezione "Prodotti"
+        JPanel prodottiPanel = new JPanel();
+        prodottiPanel.setLayout(new FlowLayout());
+        prodottiPanel.add(btnVisualizzaProdotti);
+        prodottiPanel.add(btnAggiungiProdotto);
+        prodottiPanel.add(btnAggiungiIngredienti);
+        prodottiPanel.add(btnAggiungiIngrediente);
+        prodottiPanel.add(btnVisualizzaIngredienti);
+        container.add(prodottiPanel);
+
+        // Aggiunta dei pulsanti alla sezione "Richieste"
+        JPanel richiestePanel = new JPanel();
+
+        richiestePanel.setLayout(new FlowLayout());
+        richiestePanel.add(btnInserisciRichiesta);
+        richiestePanel.add(btnVisualizzaRifiuta);
+        //richiestePanel.add(richiesteTitle);
+        container.add(richiestePanel);
+
+        // Aggiunta dei pulsanti alla sezione "Dipendenti"
+        JPanel dipendentiPanel = new JPanel();
+
+        dipendentiPanel.setLayout(new FlowLayout());
+        dipendentiPanel.add(btnInserisciAddetto);
+        dipendentiPanel.add(btnVisualizzaAddetti);
+        dipendentiPanel.add(btnContratti);
+        dipendentiPanel.add(btnVisualizzaContratti);
+        dipendentiPanel.add(btnRicercaContratto);
+        container.add(dipendentiPanel);
+
+        // Aggiunta dei pulsanti alla sezione "Altro"
+        JPanel altroPanel = new JPanel();
+
+        altroPanel.setLayout(new FlowLayout());
+        altroPanel.add(btnFatturatoMensile);
+        altroPanel.add(btnCreaFidelity);
+        container.add(altroPanel);
 
         // Aggiunta delle azioni ai pulsanti
         btnVisualizzaProdotti.addActionListener(e -> visualizzaProdottiDisponibili());
-
         btnAggiungiProdotto.addActionListener(e -> aggiungiProdotto());
-
         btnAggiungiIngredienti.addActionListener(e -> aggiungiIngredientiAProdotto());
-
         btnAggiungiIngrediente.addActionListener(e -> aggiungiIngrediente());
-
         btnVisualizzaIngredienti.addActionListener(e -> visualizzaIngredientiProdotto());
-
-        btnFatturatoMensile.addActionListener(e -> visualizzaFatturatoMensile());
-
         btnInserisciRichiesta.addActionListener(e -> inserisciRichiesta());
-
         btnVisualizzaRifiuta.addActionListener(e -> visualizzaRifiutaRichieste());
-
         btnInserisciAddetto.addActionListener(e -> inserisciDipendente());
-
         btnVisualizzaAddetti.addActionListener(e -> visualizzaAddetti());
+        btnContratti.addActionListener(e -> inserisciContratto());
+        btnVisualizzaContratti.addActionListener(e -> visualizzaContratti(""));
+        btnRicercaContratto.addActionListener(e -> ricercaContratti());
+        btnFatturatoMensile.addActionListener(e -> visualizzaFatturatoMensile());
+        btnCreaFidelity.addActionListener(e -> creaFidelity());
 
-        btncontratti.addActionListener(e-> inserisciContratto());
-
-        btnVisualizzaContratti.addActionListener(e-> visualizzaContratti(""));
-
-        btnRicercaContratto.addActionListener(e-> ricercaContratti());
-
-        btnCreaFidelty.addActionListener(e-> creaFidelity());
 
     }
 
@@ -786,11 +810,15 @@ public class SchermataManager extends JFrame {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Errore durante la creazione della fidelity.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
+    }
 
-
-
-
-
+    private void setLabel(JLabel label, String text){
+        JLabel prodottiTitle  = new JLabel(text);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setPreferredSize(new Dimension(400, 50));
+        prodottiTitle.setFont(prodottiTitle.getFont().deriveFont(Font.BOLD, 16)); // Imposta il font in grassetto
+        label.add(prodottiTitle, BorderLayout.NORTH);
     }
 
 

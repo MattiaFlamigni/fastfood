@@ -4,8 +4,6 @@
 .vscode/*
 /*.class
 
-DB-FastFood/app/bin/main/db/fastfood/SchermataManager$1.class
-
 
 # Ignore Gradle build output directory
 build
