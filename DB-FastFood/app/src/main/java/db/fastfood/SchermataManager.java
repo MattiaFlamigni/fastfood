@@ -594,13 +594,13 @@ public class SchermataManager extends JFrame {
         //si connette alla tabella e conta il numero di righe
         int count=0;
         try {
-            String query = "SELECT COUNT(*) FROM contratto";
+            String query = "SELECT MAX(ID) FROM contratto";
             Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
             if (resultSet.next()) {
                 count = resultSet.getInt(1);
-                //System.out.println("Numero di righe: " + count);
+                System.out.println("Numero di righe: " + count);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -682,14 +682,13 @@ public class SchermataManager extends JFrame {
             }
         }*/
         
-        
         private void visualizzaContratti(String cfDipendenteDaCercare) {
     try {
         Statement statement = conn.createStatement();
         String query = "SELECT * FROM CONTRATTO C, ADDETTO D WHERE C.CF_addetto = D.CF";
 
         if (cfDipendenteDaCercare != null && !cfDipendenteDaCercare.isEmpty()) {
-            query += " AND D.CF = '" + cfDipendenteDaCercare + "'";
+            query += " AND D.Cognome = '" + cfDipendenteDaCercare + "'";
         }
 
         ResultSet resultSet = statement.executeQuery(query);
@@ -754,10 +753,11 @@ public class SchermataManager extends JFrame {
     }
 }
 
+        
 
 
     private void ricercaContratti(){
-        String CFricercato = JOptionPane.showInputDialog(this, "Inserisci il CF del dipendente:");
+        String CFricercato = JOptionPane.showInputDialog(this, "Cognome del dipendente:");
         visualizzaContratti(CFricercato);
     }
 
