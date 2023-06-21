@@ -67,7 +67,7 @@ WHERE CF_addetto="FLMMTT"
 GROUP BY CF_addetto;
 
 
-select * from dettaglio_ordini;
+select * from addetto;
 
 
 -- C1
@@ -75,8 +75,6 @@ SELECT OFFERTA.codice, OFFERTA.percentuale
 FROM OFFERTA
 JOIN POSSEDIMENTO_OFFERTA ON OFFERTA.codice = POSSEDIMENTO_OFFERTA.codice_offerta
 JOIN CLIENTE ON CLIENTE.ID = 'ID_CLIENTE';
-
-
 
 
 
