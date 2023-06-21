@@ -2,10 +2,13 @@ package db.fastfood;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.Vector;
 
 public class SchermataManager extends JFrame {
     private final Connection conn;
@@ -28,6 +31,9 @@ public class SchermataManager extends JFrame {
         JButton btnVisualizzaRifiuta = new JButton("Visualizza/rifiuta richieste");
         JButton btnInserisciAddetto = new JButton("Inserisci Dipendente");
         JButton btnVisualizzaAddetti = new JButton("Visualizza Dipendenti");
+        JButton btncontratti = new JButton("Crea contratto");
+        JButton btnVisualizzaContratti = new JButton("Visualizza contratti");
+        JButton btnRicercaContratto = new JButton("Ricerca contratto");
 
 
         // Creazione del layout
@@ -45,6 +51,9 @@ public class SchermataManager extends JFrame {
         container.add(btnVisualizzaRifiuta);
         container.add(btnInserisciAddetto);
         container.add(btnVisualizzaAddetti);
+        container.add(btncontratti);
+        container.add(btnVisualizzaContratti);
+        container.add(btnRicercaContratto);
 
         // Aggiunta delle azioni ai pulsanti
         btnVisualizzaProdotti.addActionListener(e -> visualizzaProdottiDisponibili());
@@ -66,6 +75,12 @@ public class SchermataManager extends JFrame {
         btnInserisciAddetto.addActionListener(e -> inserisciDipendente());
 
         btnVisualizzaAddetti.addActionListener(e -> visualizzaAddetti());
+
+        btncontratti.addActionListener(e-> inserisciContratto());
+
+        btnVisualizzaContratti.addActionListener(e-> visualizzaContratti(""));
+
+        btnRicercaContratto.addActionListener(e-> ricercaContratti());
 
     }
 
@@ -574,4 +589,178 @@ public class SchermataManager extends JFrame {
         }
     }
 
+
+    private void inserisciContratto(){
+        //si connette alla tabella e conta il numero di righe
+        int count=0;
+        try {
+            String query = "SELECT COUNT(*) FROM contratto";
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+                //System.out.println("Numero di righe: " + count);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+
+        //inserisce il contratto
+        String CF = JOptionPane.showInputDialog(this, "CF del dipendente:");
+        String stipendio = JOptionPane.showInputDialog(this, "Stipendio:");
+        String dataInizio = JOptionPane.showInputDialog(this, "Data di inizio (YYYY-MM-DD):");
+        String dataFine = JOptionPane.showInputDialog(this, "Data di fine (YYYY-MM-DD):");
+        String ore = JOptionPane.showInputDialog(this, "Ore settimanali:");
+
+        try{
+            Statement statement = conn.createStatement();
+            String query = "INSERT INTO CONTRATTO VALUES(?,?,?,?,?,?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setInt(1, count+1);
+            preparedStatement.setString(2, stipendio);
+            preparedStatement.setString(3, dataFine);
+            preparedStatement.setString(4, ore);
+            preparedStatement.setString(5, dataInizio);
+            preparedStatement.setString(6, CF);
+            int rowsAffected = preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Contratto inserito con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Impossibile inserire il contratto.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+        /*private void visualizzaContratti(String CFricercato){
+            try{
+                Statement statement = conn.createStatement();
+                //oltre al contratto voglio visualizzare i dati del dipendente
+                String query = "SELECT * FROM CONTRATTO C, ADDETTO D WHERE C.CF_addetto = D.CF";
+                if (CFricercato != null && !CFricercato.isEmpty()) {
+                    query += " AND D.CF = '" + CFricercato + "'";
+                }
+                ResultSet resultSet = statement.executeQuery(query);
+                String[] columnNames = {"ID", "Stipendio", "Data fine", "Ore settimanali", "Data inizio", "CF addetto", "Nome", "Cognome"};
+                if(resultSet.next()){
+                    DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+                    do{
+                        int ID = resultSet.getInt("ID");
+                        String stipendio = resultSet.getString("stipendio");
+                        String dataFine = resultSet.getString("data_fine");
+                        String ore = resultSet.getString("ore_previste_settimanali");
+                        String dataInizio = resultSet.getString("data_inizio");
+                        String CF = resultSet.getString("CF_addetto");
+                        String nome = resultSet.getString("nome");
+                        String cognome = resultSet.getString("cognome");
+                        Object[] row = {ID, stipendio, dataFine, ore, dataInizio, CF, nome, cognome};
+                        tableModel.addRow(row);
+                    } while(resultSet.next());
+                    JTable table = new JTable(tableModel);
+                    JScrollPane scrollPane = new JScrollPane(table);
+                    JFrame frame = new JFrame("Contratti");
+                    frame.add(scrollPane, BorderLayout.CENTER);
+                    frame.setSize(800, 600);
+                    frame.setVisible(true);
+
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Non ci sono contratti da visualizzare.", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+                
+
+            } catch(SQLException ex){
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        }*/
+        
+        
+        private void visualizzaContratti(String cfDipendenteDaCercare) {
+    try {
+        Statement statement = conn.createStatement();
+        String query = "SELECT * FROM CONTRATTO C, ADDETTO D WHERE C.CF_addetto = D.CF";
+
+        if (cfDipendenteDaCercare != null && !cfDipendenteDaCercare.isEmpty()) {
+            query += " AND D.CF = '" + cfDipendenteDaCercare + "'";
+        }
+
+        ResultSet resultSet = statement.executeQuery(query);
+        String[] columnNames = {"ID", "Stipendio", "Data fine", "Ore settimanali", "Data inizio", "CF addetto", "Nome", "Cognome"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+
+        while (resultSet.next()) {
+            int ID = resultSet.getInt("ID");
+            String stipendio = resultSet.getString("stipendio");
+            String dataFine = resultSet.getString("data_fine");
+            String ore = resultSet.getString("ore_previste_settimanali");
+            String dataInizio = resultSet.getString("data_inizio");
+            String CF = resultSet.getString("CF_addetto");
+            String nome = resultSet.getString("nome");
+            String cognome = resultSet.getString("cognome");
+            Object[] row = {ID, stipendio, dataFine, ore, dataInizio, CF, nome, cognome};
+            tableModel.addRow(row);
+        }
+
+        JTable table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+        JFrame frame = new JFrame("Contratti");
+        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.setSize(800, 600);
+
+        JButton eliminaButton = new JButton("Elimina");
+        eliminaButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow != -1) {
+                    int idContratto = (int) table.getValueAt(selectedRow, 0);
+
+                    try {
+                        Statement deleteStatement = conn.createStatement();
+                        String deleteQuery = "DELETE FROM CONTRATTO WHERE ID = " + idContratto;
+                        int rowsAffected = deleteStatement.executeUpdate(deleteQuery);
+
+                        if (rowsAffected > 0) {
+                            JOptionPane.showMessageDialog(frame, "Record eliminato con successo.", "Eliminazione", JOptionPane.INFORMATION_MESSAGE);
+                            visualizzaContratti(cfDipendenteDaCercare); // Aggiorna la visualizzazione dei contratti
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "Nessun record eliminato.", "Eliminazione", JOptionPane.WARNING_MESSAGE);
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(frame, "Errore durante l'eliminazione del record.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Seleziona un record da eliminare.", "Eliminazione", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(eliminaButton);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+        frame.setVisible(true);
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+    }
 }
+
+
+
+    private void ricercaContratti(){
+        String CFricercato = JOptionPane.showInputDialog(this, "Inserisci il CF del dipendente:");
+        visualizzaContratti(CFricercato);
+    }
+
+  
+}
+
