@@ -765,6 +765,34 @@ public class SchermataManager extends JFrame {
         visualizzaContratti(CFricercato);
     }
 
+    private void creaFidelity(){
+
+        String id = JOptionPane.showInputDialog(this, "numero tessera:");
+        int timbri = 0;
+        String scadenza = JOptionPane.showInputDialog(this, "scadenza card [YYYY-MM-DD]:"); 
+        int menu=0;
+        String cliente = JOptionPane.showInputDialog(this, "CF cliente:");
+        int storico=0;
+        String query = "INSERT INTO FIDELTY VALUES (" + id + ", " + timbri + ", '" + scadenza + "', " + menu + ", '" + Integer.parseInt(cliente) + "', " + storico + ")";
+        try {
+            Statement statement = conn.createStatement();
+            int rowsAffected = statement.executeUpdate(query);
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Fidelity creata con successo.", "Creazione", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Nessuna fidelity creata.", "Creazione", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Errore durante la creazione della fidelity.", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+
+
+
+
+
+    }
+
 
 
   
