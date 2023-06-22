@@ -594,32 +594,33 @@ public class SchermataManager extends JFrame {
                         JOptionPane.showMessageDialog(tableFrame, "Seleziona una riga.", "Errore", JOptionPane.ERROR_MESSAGE);
                     } else {
                         codF = (String) table.getValueAt(selectedRow, 0);
-                        }try {
-                            Statement statementdelete = conn.createStatement();
-                            String querydelete = "DELETE FROM "+tabella+" WHERE CF = ?";
-                            PreparedStatement preparedStatementdelete = conn.prepareStatement(querydelete);
-                            preparedStatementdelete.setString(1, codF);
-                            int rowsAffected = preparedStatementdelete.executeUpdate();
-                            preparedStatementdelete.close();
-                            if (rowsAffected > 0) {
-                                JOptionPane.showMessageDialog(tableFrame, "Dipendente eliminato con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
-                                //aggirona la tabella richieste
-                                tableModel.removeRow(selectedRow);
-                                } else {
-                                    JOptionPane.showMessageDialog(tableFrame, "Il dipendente risulta associato a un contratto", "Errore", JOptionPane.ERROR_MESSAGE);
-                                }
-                            } catch (SQLException ex) {
-                                ex.printStackTrace();
+                    }try {
+                        Statement statementdelete = conn.createStatement();
+                        String querydelete = "DELETE FROM "+tabella+" WHERE CF = ?";
+                        PreparedStatement preparedStatementdelete = conn.prepareStatement(querydelete);
+                        preparedStatementdelete.setString(1, codF);
+                        int rowsAffected = preparedStatementdelete.executeUpdate();
+                        preparedStatementdelete.close();
+                        if (rowsAffected > 0) {
+                            JOptionPane.showMessageDialog(tableFrame, "Dipendente eliminato con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                            //aggirona la tabella richieste
+                            tableModel.removeRow(selectedRow);
+                            } else {
                                 JOptionPane.showMessageDialog(tableFrame, "Il dipendente risulta associato a un contratto", "Errore", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }catch (SQLException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(tableFrame, "Il dipendente risulta associato a un contratto", "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
-                }
-            });
+                });
             
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
         }
-    }
+  //}
 
     
 
