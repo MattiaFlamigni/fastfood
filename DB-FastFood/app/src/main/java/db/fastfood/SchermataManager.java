@@ -2,13 +2,11 @@ package db.fastfood;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.Vector;
 
 public class SchermataManager extends JFrame {
     private final Connection conn;
