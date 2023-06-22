@@ -593,61 +593,50 @@ public class SchermataManager extends JFrame {
                         JOptionPane.showMessageDialog(tableFrame, "Seleziona una riga.", "Errore", JOptionPane.ERROR_MESSAGE);
                     } else {
                         codF = (String) table.getValueAt(selectedRow, 0);
-                    }try {
-
-                        //se il contratto del dipendente è scaduto, elimina il dipendente
+                    }
+                    try{
+                        //se il contratto è scaduto, elimina il contratto
                         Statement statement = conn.createStatement();
-                        String query = "SELECT * FROM contratto WHERE CF_addetto = ?";
-                        PreparedStatement preparedStatement = conn.prepareStatement(query);
-                        preparedStatement.setString(1, codF);
-                        ResultSet resultSet = preparedStatement.executeQuery();
+                        String query = "SELECT data_fine FROM contratto WHERE CF_addetto = '" + codF + "'";
+                        ResultSet resultSet = statement.executeQuery(query);
                         if (resultSet.next()) {
-                            //controlla se il contratto è scaduto
                             Date dataFine = resultSet.getDate("data_fine");
-                            Date dataOggi = new Date();
-                            if (dataFine.before(dataOggi)) {
-                                //elimina il contratto del dipendente
-                                String querydelete2 = "DELETE FROM contratto WHERE CF_addetto = ?";
-                                PreparedStatement preparedStatementdelete2 = conn.prepareStatement(querydelete2);
-                                preparedStatementdelete2.setString(1, codF);
-                                preparedStatementdelete2.close();
-
-                                //elimina turni assegnati al dipendente
-                                String querydelete3 = "DELETE FROM LAVORO WHERE CF_addetto = ?";
-                                PreparedStatement preparedStatementdelete3 = conn.prepareStatement(querydelete3);
-                                preparedStatementdelete3.setString(1, codF);
-                                preparedStatementdelete3.close();
-                                }
-                            }
-                                    
-                            String querydelete3 = "DELETE FROM "+tabella+" WHERE CF = ?";
-                            PreparedStatement preparedStatementdelete3 = conn.prepareStatement(querydelete3);
-                            preparedStatementdelete3.setString(1, codF);
-                            int rowsAffected3 = preparedStatementdelete3.executeUpdate();
-                            preparedStatementdelete3.close();
-                            if (rowsAffected3 > 0) {
-                                JOptionPane.showMessageDialog(tableFrame, "Contratto scaduto. Dipendente eliminato con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
-                                //aggirona la tabella richieste
-                                tableModel.removeRow(selectedRow);
-                            } else {
-                                JOptionPane.showMessageDialog(tableFrame, "errore generico", "Errore", JOptionPane.ERROR_MESSAGE);
-                            }
-                            resultSet.close();
-                            statement.close();
-
-                            } catch (SQLException ex) {
-                                ex.printStackTrace();
-                                JOptionPane.showMessageDialog(tableFrame, "il dipendente risulta essere associato a un contratto valido.", "Errore", JOptionPane.ERROR_MESSAGE);
+                            if (dataFine.before(new Date())) {
+                                query = "DELETE FROM contratto WHERE CF_Addetto= '" + codF + "'";
+                                statement.executeUpdate(query);
+                                //avvisa che il contratto è scaduto
+                                JOptionPane.showMessageDialog(tableFrame, "Il contratto è scaduto", "Contratto scaduto", JOptionPane.INFORMATION_MESSAGE);
                             }
                         }
-                    });
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-        }
-  //}
+                        resultSet.close();
+                        statement.close();
 
+                        //elimina il dipendente
+
+                        statement = conn.createStatement();
+                        query = "DELETE FROM " + tabella + " WHERE CF = '" + codF + "'";
+                        int rowsAffected = statement.executeUpdate(query);
+                        if (rowsAffected > 0) {
+                            JOptionPane.showMessageDialog(tableFrame, "Dipendente eliminato con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(tableFrame, "Impossibile eliminare il dipendente.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                        statement.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(tableFrame, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+
+
+                    }
+                }
+            });
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+
+                        
+        }
+    }
     
 
 
