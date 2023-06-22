@@ -500,13 +500,24 @@ public class SchermataManager extends JFrame {
         }
     }
 
-    private void inserisciAddetto() {
+    /*private void inserisciAddetto() {
+        //menu di scelta a cascata per selezionare opzione tra addetto, direttore, manager
+        String tabella=null;
+        String[] options = {"Addetto", "Direttore", "Manager"};
+        int choice = JOptionPane.showOptionDialog(this, "Seleziona il tipo di dipendente:", "Inserisci dipendente", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        if (choice == 0) {
+            tabella = "addetti";
+        } else if (choice == 1) {
+            tabella = "direttori";
+        } else if (choice == 2) {
+            tabella = "manager";
+        }
         try{
             String CF = JOptionPane.showInputDialog(this, "Inserisci il CF:");
             String nome = JOptionPane.showInputDialog(this, "Inserisci il nome:");
             String cognome = JOptionPane.showInputDialog(this, "Inserisci il cognome:");
             Statement statement = conn.createStatement();
-            String query = "INSERT INTO ADDETTO VALUES(?,?,?)";
+            String query = "INSERT INTO " + tabella + " VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, CF);
             preparedStatement.setString(2, nome);
@@ -524,13 +535,24 @@ public class SchermataManager extends JFrame {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
-    }
+    }*/
 
     private void visualizzaAddetti() {
+        String[] options = {"Addetto", "Direttore", "Manager"};
+        int choice = JOptionPane.showOptionDialog(this, "Seleziona il tipo di dipendente:", "Inserisci dipendente", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        String tabella = null;  
+        if (choice == 0) {
+            tabella = "addetto";
+        } else if (choice == 1) {
+            tabella = "direttori";
+        } else if (choice == 2) {
+            tabella = "manager";
+        }
+
 
         try {
             Statement statement = conn.createStatement();
-            String query = "SELECT * FROM addetto";
+            String query = "SELECT * FROM " + tabella;
             ResultSet resultSet = statement.executeQuery(query);
             String[] columnNames = {"CF", "Nome", "Cognome"};
             DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
@@ -544,7 +566,7 @@ public class SchermataManager extends JFrame {
             resultSet.close();
             statement.close();
             JTable table = new JTable(tableModel);
-            JFrame tableFrame = new JFrame("Addetti");
+            JFrame tableFrame = new JFrame(tabella);
             tableFrame.setSize(400, 300);
             tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             tableFrame.setLocationRelativeTo(null);
@@ -556,11 +578,14 @@ public class SchermataManager extends JFrame {
         }
     }
 
+    
+
 
     private void inserisciDipendente(){
-        String tipo = JOptionPane.showInputDialog(this, "manager o addetto?:");
-        tipo.toLowerCase();
-        if(tipo.equals("manager")){
+        String[] options = {"Addetto", "Manager"};
+        int choice = JOptionPane.showOptionDialog(this, "Seleziona il tipo di dipendente:", "Inserisci dipendente", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        
+        if(choice==1){
             try{
                 String CF = JOptionPane.showInputDialog(this, "Inserisci il CF:");
                 String nome = JOptionPane.showInputDialog(this, "Inserisci il nome:");
@@ -587,7 +612,7 @@ public class SchermataManager extends JFrame {
                 JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         }
-        else if(tipo.equals("addetto")){
+        else if(choice==0){
             try{
                 String CF = JOptionPane.showInputDialog(this, "Inserisci il CF:");
                 String nome = JOptionPane.showInputDialog(this, "Inserisci il nome:");
