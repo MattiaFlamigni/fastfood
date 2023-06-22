@@ -384,10 +384,11 @@ public class Schermatavendite2 extends JFrame {
             //associo id cliente alla tabella ordine
             int idordine=getCurrentordine()+1;
 
-            String query2 = "INSERT INTO ordine(ID, ID_cliente) VALUES (?, ?) ";
+            String query2 = "INSERT INTO ordine(ID, data, ID_cliente) VALUES (?, ?, ?) ";
             PreparedStatement statement2 = conn.prepareStatement(query2);
             statement2.setInt(1, idordine);
-            statement2.setInt(2, idcliente);
+            statement2.setDate(2, java.sql.Date.valueOf(java.time.LocalDate.now()));
+            statement2.setInt(3, idcliente);
             statement2.executeUpdate();
 
 

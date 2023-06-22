@@ -339,15 +339,16 @@ public class SchermataManager extends JFrame {
     private void visualizzaFatturatoMensile(){
         try{
             Statement statement = conn.createStatement();
-                String query = """
-                        SELECT SUM(P.prezzovendita * D.quantita) as TotIncassoLordo, SUM(P.prezzounitario*D.quantita) as MateriePrime, SUM(P.prezzovendita * D.quantita)-SUM(P.prezzounitario*D.quantita) as TotNetto
-                        FROM prodotti P, ordine O, dettaglio_ordini D
-                        WHERE D.ID_ordine = O.ID and D.codice_prodotto = P.codice;""";
+               String query = """
+SELECT SUM(P.prezzovendita * D.quantita) as TotIncassoLordo, SUM(P.prezzounitario*D.quantita) as MateriePrime, SUM(P.prezzovendita * D.quantita)-SUM(P.prezzounitario*D.quantita) as TotNetto
+FROM prodotti P, ordine O, dettaglio_ordini D
+WHERE D.ID_ordine = O.ID and D.codice_prodotto = P.codice
+AND MONTH(O.data) = MONTH(CURRENT_DATE());""";
             ResultSet resultSet = statement.executeQuery(query);
             resultSet.next();
-            int totaleIncassoLordo = resultSet.getInt("TotIncassoLordo");
-            int totaleMateriePrime = resultSet.getInt("MateriePrime");
-            int totaleNetto = resultSet.getInt("TotNetto");
+            double totaleIncassoLordo = resultSet.getInt("TotIncassoLordo");
+            double totaleMateriePrime = resultSet.getInt("MateriePrime");
+            double totaleNetto = resultSet.getInt("TotNetto");
             resultSet.close();
             statement.close();
             JOptionPane.showMessageDialog(this, "Fatturato Lordo: " + totaleIncassoLordo +"\nMaterie prime: " + totaleMateriePrime + "\nFatturato netto: "+totaleNetto, "Fatturato", JOptionPane.INFORMATION_MESSAGE);
