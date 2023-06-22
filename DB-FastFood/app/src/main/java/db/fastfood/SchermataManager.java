@@ -573,6 +573,10 @@ public class SchermataManager extends JFrame {
             tableFrame.setVisible(true);
 
             //possibilita di eliminazione
+
+            //SE HO SCELTO DIRETTORI, NON POSSO ELIMINARE
+
+
             JButton eliminaButton = new JButton("Elimina");
             tableFrame.getContentPane().add(eliminaButton, BorderLayout.SOUTH);
             eliminaButton.addActionListener(new ActionListener() {
@@ -583,7 +587,9 @@ public class SchermataManager extends JFrame {
                     if (choice == 0) {
                         tabella = "addetto";
                     } else if (choice == 1) {
-                        tabella = "direttori";
+                        //non posso eliminare direttori
+                        JOptionPane.showMessageDialog(tableFrame, "Un direttore non puo essere eliminato", "Errore", JOptionPane.ERROR_MESSAGE);
+                        return;
                     } else if (choice == 2) {
                         tabella = "manager";
                     }
@@ -595,6 +601,8 @@ public class SchermataManager extends JFrame {
                         codF = (String) table.getValueAt(selectedRow, 0);
                     }
                     try{
+
+
                         //se il contratto è scaduto, elimina il contratto
                         Statement statement = conn.createStatement();
                         String query = "SELECT data_fine FROM contratto WHERE CF_addetto = '" + codF + "'";
@@ -624,7 +632,7 @@ public class SchermataManager extends JFrame {
                         statement.close();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
-                        JOptionPane.showMessageDialog(tableFrame, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(tableFrame, "Il dipendente ha un contratto valido in corso oppure dipendenze rilevate", "Errore", JOptionPane.ERROR_MESSAGE);
 
 
                     }
