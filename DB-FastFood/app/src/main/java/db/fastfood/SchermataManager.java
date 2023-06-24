@@ -19,7 +19,7 @@ public class SchermataManager extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        
+
 
 
         // Creazione dei pulsanti per la sezione "Prodotti"
@@ -92,23 +92,66 @@ public class SchermataManager extends JFrame {
         container.add(altroPanel);
 
         // Aggiunta delle azioni ai pulsanti
-        btnVisualizzaProdotti.addActionListener(e -> visualizzaProdottiDisponibili());
-        btnAggiungiProdotto.addActionListener(e -> aggiungiProdotto());
-        btnAggiungiIngredienti.addActionListener(e -> aggiungiIngredientiAProdotto());
-        btnAggiungiIngrediente.addActionListener(e -> aggiungiIngrediente());
-        btnVisualizzaIngredienti.addActionListener(e -> visualizzaIngredientiProdotto());
-        btnInserisciRichiesta.addActionListener(e -> inserisciRichiesta());
-        btnVisualizzaRifiuta.addActionListener(e -> visualizzaRifiutaRichieste());
-        btnInserisciAddetto.addActionListener(e -> inserisciDipendente());
-        btnVisualizzaAddetti.addActionListener(e -> visualizzaAddetti());
-        btnContratti.addActionListener(e -> inserisciContratto());
-        btnVisualizzaContratti.addActionListener(e -> visualizzaContratti(""));
-        btnRicercaContratto.addActionListener(e -> ricercaContratti());
-        btnFatturatoMensile.addActionListener(e -> visualizzaFatturatoMensile());
-        btnCreaFidelity.addActionListener(e -> creaFidelity());
-        btnMagazzino.addActionListener(e -> visualizzaMagazzino());
-
-
+        btnVisualizzaProdotti.addActionListener(e->{
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.visualizzaProdottiDisponibili();
+        });
+        btnAggiungiProdotto.addActionListener(e -> {
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.aggiungiProdotto();
+        });
+        btnAggiungiIngredienti.addActionListener(e ->{
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.aggiungiIngredienteAProdotto();
+        });
+        btnAggiungiIngrediente.addActionListener(e ->{
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.aggiungiIngrediente();
+        });
+        btnVisualizzaIngredienti.addActionListener(e ->{ 
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.visualizzaIngredientiProdotto();
+        });
+        btnInserisciRichiesta.addActionListener(e ->{ 
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.inserisciRichiesta();
+        });
+        btnVisualizzaRifiuta.addActionListener(e -> {
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.visualizzaRifiutaRichieste();
+        });
+        btnInserisciAddetto.addActionListener(e -> {
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.inserisciDipendente();
+        });
+        btnVisualizzaAddetti.addActionListener(e -> {
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.visualizzaAddetti();
+        });
+        btnContratti.addActionListener(e -> {
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.inserisciContratto();
+        });
+        btnVisualizzaContratti.addActionListener(e -> {
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            new SchermataManager(conn).visualizzaContratti("");
+        });
+        btnRicercaContratto.addActionListener(e -> {
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.ricercaContratti();
+        });
+        btnFatturatoMensile.addActionListener(e -> {
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.visualizzaFatturatoMensile();
+        }); 
+        btnCreaFidelity.addActionListener(e -> {
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.creaFidelty();
+        });
+        btnMagazzino.addActionListener(e -> {
+            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            logic.visualizzaMagazzino();
+        });
     }
 
     private void visualizzaProdottiDisponibili() {
@@ -148,9 +191,6 @@ public class SchermataManager extends JFrame {
     }
 
     private void aggiungiProdotto() {
-
-
-
         String codice = JOptionPane.showInputDialog(this, "Inserisci il codice del prodotto:");
         String descrizione = JOptionPane.showInputDialog(this, "Inserisci la descrizione del prodotto:");
         double prezzoVendita = Double.parseDouble(JOptionPane.showInputDialog(this, "Inserisci il prezzo di vendita del prodotto:"));
@@ -906,15 +946,6 @@ AND MONTH(O.data) = MONTH(CURRENT_DATE());""";
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Errore durante la creazione della fidelity.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    private void setLabel(JLabel label, String text){
-        JLabel prodottiTitle  = new JLabel(text);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setVerticalAlignment(JLabel.CENTER);
-        label.setPreferredSize(new Dimension(400, 50));
-        prodottiTitle.setFont(prodottiTitle.getFont().deriveFont(Font.BOLD, 16)); // Imposta il font in grassetto
-        label.add(prodottiTitle, BorderLayout.NORTH);
     }
 
     private void visualizzaMagazzino(){

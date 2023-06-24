@@ -194,13 +194,13 @@ public class Schermatavendite2 extends JFrame {
                     int idIngrediente = resultSet.getInt("ID");
                     double quantitaIngrediente = resultSet.getDouble("quantita");
                     double quantitaUtilizzata = resultSet.getDouble("quantita_utilizzata");
-                    System.out.println(quantitaUtilizzata);
+                    //System.out.println(quantitaUtilizzata);
                     /*int*/
                     idProdotto = resultSet.getInt("codice");
 
                     // Calcolo della nuova quantità dell'ingrediente dopo la vendita
                     double nuovaQuantita = quantitaIngrediente - quantitaUtilizzata;
-                    System.out.println(nuovaQuantita);
+                    //System.out.println(nuovaQuantita);
 
                     // Aggiornamento della quantità dell'ingrediente nel database
                     String updateQuery = "UPDATE Ingredienti SET Quantita = ? WHERE ID = ?";
@@ -310,15 +310,16 @@ public class Schermatavendite2 extends JFrame {
 
 
                 while (resultSet.next()) {
+                    String nomeIngrediente = resultSet.getString("nome_commerciale");
                     int idIngrediente = resultSet.getInt("ID");
                     double quantitaIngrediente = resultSet.getDouble("quantita");
                     double quantitaUtilizzata = resultSet.getDouble("quantita_utilizzata");
-                    System.out.println(quantitaUtilizzata);
+                    //System.out.println(quantitaUtilizzata);
                     idProdotto = resultSet.getInt("codice");
 
                     // Calcolo della nuova quantità dell'ingrediente dopo la vendita
                     double nuovaQuantita = quantitaIngrediente - quantitaUtilizzata;
-                    //System.out.println(nuovaQuantita);
+                    System.out.println(nomeIngrediente + " " + quantitaIngrediente + " " + quantitaUtilizzata + " " + nuovaQuantita);
 
                     // Aggiornamento della quantità dell'ingrediente nel database
                     String updateQuery = "UPDATE Ingredienti SET Quantita = ? WHERE ID = ?";
