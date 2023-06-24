@@ -23,14 +23,12 @@ public class SchermataManager extends JFrame {
 
 
         // Creazione dei pulsanti per la sezione "Prodotti"
-        
-
-
         JButton btnVisualizzaProdotti = new JButton("Visualizza Prodotti Disponibili");
         JButton btnAggiungiProdotto = new JButton("Aggiungi Prodotto");
         JButton btnAggiungiIngredienti = new JButton("Aggiungi Ingredienti a Prodotto");
         JButton btnAggiungiIngrediente = new JButton("Aggiungi Ingrediente");
         JButton btnVisualizzaIngredienti = new JButton("Visualizza Ingredienti di un Prodotto");
+        JButton btnMagazzino = new JButton("Situazione magazzino");
 
         // Creazione dei pulsanti per la sezione "Richieste"
         JButton btnInserisciRichiesta = new JButton("Nuova richiesta");
@@ -62,6 +60,7 @@ public class SchermataManager extends JFrame {
         prodottiPanel.add(btnAggiungiIngredienti);
         prodottiPanel.add(btnAggiungiIngrediente);
         prodottiPanel.add(btnVisualizzaIngredienti);
+        prodottiPanel.add(btnMagazzino);
         container.add(prodottiPanel);
 
         // Aggiunta dei pulsanti alla sezione "Richieste"
@@ -107,6 +106,7 @@ public class SchermataManager extends JFrame {
         btnRicercaContratto.addActionListener(e -> ricercaContratti());
         btnFatturatoMensile.addActionListener(e -> visualizzaFatturatoMensile());
         btnCreaFidelity.addActionListener(e -> creaFidelity());
+        btnMagazzino.addActionListener(e -> visualizzaMagazzino());
 
 
     }
@@ -149,7 +149,7 @@ public class SchermataManager extends JFrame {
 
     private void aggiungiProdotto() {
 
-        
+
 
         String codice = JOptionPane.showInputDialog(this, "Inserisci il codice del prodotto:");
         String descrizione = JOptionPane.showInputDialog(this, "Inserisci la descrizione del prodotto:");
@@ -915,6 +915,39 @@ AND MONTH(O.data) = MONTH(CURRENT_DATE());""";
         label.setPreferredSize(new Dimension(400, 50));
         prodottiTitle.setFont(prodottiTitle.getFont().deriveFont(Font.BOLD, 16)); // Imposta il font in grassetto
         label.add(prodottiTitle, BorderLayout.NORTH);
+    }
+
+    private void visualizzaMagazzino(){
+        String query = "SELECT * FROM ingredienti";
+        
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            String[] columnNames = {"ID", "Nome", "Quantità", "Prezzo unitario"};
+            DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+
+            while (resultSet.next()) {
+                int ID = resultSet.getInt("ID");
+                double prezzoUnitario = resultSet.getDouble("prezzoUnitario");
+                String nome = resultSet.getString("nome_commerciale");
+                int quantita = resultSet.getInt("quantita");
+
+                Object[] row = {ID, nome, quantita, prezzoUnitario};
+                tableModel.addRow(row);
+
+            }
+
+            JTable table = new JTable(tableModel);
+            JScrollPane scrollPane = new JScrollPane(table);
+            JFrame frame = new JFrame("Magazzino");
+            frame.add(scrollPane, BorderLayout.CENTER);
+            frame.setSize(800, 600);
+
+            frame.setVisible(true);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 
