@@ -944,6 +944,8 @@ AND MONTH(O.data) = MONTH(CURRENT_DATE());""";
             frame.setSize(800, 600);
 
             frame.setVisible(true);
+
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
