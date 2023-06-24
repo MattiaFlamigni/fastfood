@@ -291,6 +291,33 @@ public class Schermatavendite2 extends JFrame {
                     updatePrezzoStatement.setDouble(1, prezzo);
                     updatePrezzoStatement.setInt(2, idordine);
 
+                    //decrementa la quantita di ingredienti
+                    String query1 = "SELECT P.codice, I.ID, I.quantita, P.descrizione, I.nome_commerciale, PI.quantita_utilizzata  FROM PRODOTTI P JOIN INGREDIENTI_PRODOTTI PI ON P.codice = PI.codice_prodotto JOIN INGREDIENTI I ON PI.ID_ingrediente = I.ID where P.descrizione = ?";
+                    statement = conn.prepareStatement(query1);
+                    statement.setString(1, nomeprodotto);
+                    resultSet = statement.executeQuery();
+
+                    while (resultSet.next()) {
+                        String nomeIngrediente = resultSet.getString("nome_commerciale");
+                        int idIngrediente = resultSet.getInt("ID");
+                        double quantitaIngrediente = resultSet.getDouble("quantita");
+                        double quantitaUtilizzata = resultSet.getDouble("quantita_utilizzata");
+                        //System.out.println(quantitaUtilizzata);
+                        /*int*/
+                        idProdotto = resultSet.getInt("codice");
+
+                        // Calcolo della nuova quantità dell'ingrediente dopo la vendita
+                        double nuovaQuantita = quantitaIngrediente - quantitaUtilizzata;
+                        //System.out.println(nuovaQuantita);
+
+                        // Aggiornamento della quantità dell'ingrediente nel database
+                        String updateQuery = "UPDATE Ingredienti SET Quantita = ? WHERE ID = ?";
+                        PreparedStatement updateStatement2 = conn.prepareStatement(updateQuery);
+                        updateStatement2.setDouble(1, nuovaQuantita);
+                        updateStatement2.setInt(2, idIngrediente);
+                        updateStatement2.executeUpdate();
+                    }
+
                     flag = true;
                 }
             }
@@ -298,7 +325,7 @@ public class Schermatavendite2 extends JFrame {
             if (!flag) {
                 // Il prodotto non esiste ancora nel dettaglio ordine, procedi con il resto delle operazioni
 
-                // Ottieni ingredienti del prodotto
+                // Ottieni ingredienti del prodotto 
 
                 String query1 = "SELECT P.codice, I.ID, I.quantita, P.descrizione, I.nome_commerciale, PI.quantita_utilizzata  FROM PRODOTTI P JOIN INGREDIENTI_PRODOTTI PI ON P.codice = PI.codice_prodotto JOIN INGREDIENTI I ON PI.ID_ingrediente = I.ID where P.descrizione = ?";
                 statement = conn.prepareStatement(query1);
@@ -313,7 +340,7 @@ public class Schermatavendite2 extends JFrame {
                     String nomeIngrediente = resultSet.getString("nome_commerciale");
                     int idIngrediente = resultSet.getInt("ID");
                     double quantitaIngrediente = resultSet.getDouble("quantita");
-                    double quantitaUtilizzata = resultSet.getDouble("quantita_utilizzata");
+                    double quantitaUtilizzata = resultSet.getDouble("quantita_utilizzata"); //se il prodotto è stato inserito due volte, la quantità utilizzata è doppia
                     //System.out.println(quantitaUtilizzata);
                     idProdotto = resultSet.getInt("codice");
 
