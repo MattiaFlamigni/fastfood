@@ -152,10 +152,6 @@ public class SchermataManager extends JFrame {
             schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
             logic.visualizzaMagazzino();
         });
-    }
-
-
-
-  
+    } 
 }
 
