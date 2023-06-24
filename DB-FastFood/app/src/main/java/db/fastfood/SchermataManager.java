@@ -148,6 +148,9 @@ public class SchermataManager extends JFrame {
     }
 
     private void aggiungiProdotto() {
+
+        
+
         String codice = JOptionPane.showInputDialog(this, "Inserisci il codice del prodotto:");
         String descrizione = JOptionPane.showInputDialog(this, "Inserisci la descrizione del prodotto:");
         double prezzoVendita = Double.parseDouble(JOptionPane.showInputDialog(this, "Inserisci il prezzo di vendita del prodotto:"));

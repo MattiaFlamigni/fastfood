@@ -299,10 +299,15 @@ public class Schermatavendite2 extends JFrame {
                 // Il prodotto non esiste ancora nel dettaglio ordine, procedi con il resto delle operazioni
 
                 // Ottieni ingredienti del prodotto
+
                 String query1 = "SELECT P.codice, I.ID, I.quantita, P.descrizione, I.nome_commerciale, PI.quantita_utilizzata  FROM PRODOTTI P JOIN INGREDIENTI_PRODOTTI PI ON P.codice = PI.codice_prodotto JOIN INGREDIENTI I ON PI.ID_ingrediente = I.ID where P.descrizione = ?";
                 statement = conn.prepareStatement(query1);
                 statement.setString(1, nomeprodotto);
                 resultSet = statement.executeQuery();
+
+                
+
+
 
                 while (resultSet.next()) {
                     int idIngrediente = resultSet.getInt("ID");
@@ -313,7 +318,7 @@ public class Schermatavendite2 extends JFrame {
 
                     // Calcolo della nuova quantità dell'ingrediente dopo la vendita
                     double nuovaQuantita = quantitaIngrediente - quantitaUtilizzata;
-                    System.out.println(nuovaQuantita);
+                    //System.out.println(nuovaQuantita);
 
                     // Aggiornamento della quantità dell'ingrediente nel database
                     String updateQuery = "UPDATE Ingredienti SET Quantita = ? WHERE ID = ?";
@@ -322,25 +327,25 @@ public class Schermatavendite2 extends JFrame {
                     updateStatement.setInt(2, idIngrediente);
                     updateStatement.executeUpdate();
 
-                    // Inserisci la vendita nel database del cliente corrente
-                    idcliente = getCurrentcliente();
-                    idordine = getCurrentordine();
-                    String query2 = "INSERT INTO dettaglio_ordini (ID_ordine, codice_prodotto, quantita) VALUES (?,?,?)";
-                    statement = conn.prepareStatement(query2);
-                    statement.setInt(1, idordine);
-                    statement.setInt(2, idProdotto);
-                    statement.setInt(3, 1);
-                    statement.executeUpdate();
 
-                    // Aggiorna il prezzo totale dell'ordine
-                    String updatePrezzo = "UPDATE dettaglio_ordini SET totale = totale + ? WHERE ID_ordine = ?";
-                    PreparedStatement updatePrezzoStatement = conn.prepareStatement(updatePrezzo);
-                    updatePrezzoStatement.setDouble(1, prezzo);
-                    updatePrezzoStatement.setInt(2, idordine);
-                    updatePrezzoStatement.executeUpdate();
+                }  
 
+                // Inserisci la vendita nel database del cliente corrente
+                idcliente = getCurrentcliente();
+                idordine = getCurrentordine();
+                String query2 = "INSERT INTO dettaglio_ordini (ID_ordine, codice_prodotto, quantita) VALUES (?,?,?)";
+                statement = conn.prepareStatement(query2);
+                statement.setInt(1, idordine);
+                statement.setInt(2, idProdotto);
+                statement.setInt(3, 1);
+                statement.executeUpdate();
 
-                }
+                // Aggiorna il prezzo totale dell'ordine
+                String updatePrezzo = "UPDATE dettaglio_ordini SET totale = totale + ? WHERE ID_ordine = ?";
+                PreparedStatement updatePrezzoStatement = conn.prepareStatement(updatePrezzo);
+                updatePrezzoStatement.setDouble(1, prezzo);
+                updatePrezzoStatement.setInt(2, idordine);
+                updatePrezzoStatement.executeUpdate();
             }
 
         } catch (Exception e) {
@@ -354,10 +359,13 @@ public class Schermatavendite2 extends JFrame {
                 if (statement != null) {
                     statement.close();
                 }
+                
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
         }
+
 
         flag = false;
     }
