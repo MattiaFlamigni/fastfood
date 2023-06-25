@@ -129,6 +129,7 @@ public class ViewSchermatavendite2 extends JFrame {
         boolean flag = false;
 
         try {
+            @SuppressWarnings("unused")
             int idcliente = getCurrentcliente();
             int idordine = getCurrentordine();
             int idProdotto = 0;

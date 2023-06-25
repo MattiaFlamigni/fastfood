@@ -14,6 +14,7 @@ import java.awt.*;
 import java.sql.*;
 
 public class ViewSchermataManager extends JFrame {
+    @SuppressWarnings("unused")
     private final Connection conn;
 
     public ViewSchermataManager(Connection conn) {
