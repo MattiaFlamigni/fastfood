@@ -5,10 +5,10 @@ import javax.swing.*;
 import db.fastfood.Impl.ManagerImpl;
 import db.fastfood.Impl.ManagerIngredientiImpl;
 import db.fastfood.Impl.ManagerProductsImpl;
+import db.fastfood.Impl.ManagerRichiesteImpl;
 import db.fastfood.api.Manager;
 import db.fastfood.api.ManagerProducts;
 import db.fastfood.api.ManagerRichieste;
-import db.fastfood.api.ManagerRichiesteImpl;
 
 import java.awt.*;
 import java.sql.*;

@@ -1,4 +1,4 @@
-package db.fastfood.api;
+package db.fastfood.Impl;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import db.fastfood.api.ManagerRichieste;
 
 public class ManagerRichiesteImpl implements ManagerRichieste{
 
@@ -127,7 +129,7 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
                                 String CF_addetto = (String) table.getValueAt(selectedRow, 3);
                                 String dataRichiesta = (String) table.getValueAt(selectedRow, 4);
                                 try {
-                                    Statement statementdelete = conn.createStatement();
+                                    //Statement statementdelete = conn.createStatement();
                                     String querydelete = "DELETE FROM richieste WHERE tipo = ? AND datainizio = ? AND datafine = ? AND CF_addetto = ? AND dataRichiesta = ?";
                                     PreparedStatement preparedStatementdelete = conn.prepareStatement(querydelete);
                                     preparedStatementdelete.setString(1, tipo);

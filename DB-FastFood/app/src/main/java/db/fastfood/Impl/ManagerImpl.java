@@ -413,45 +413,4 @@ AND MONTH(O.data) = MONTH(CURRENT_DATE());""";
             JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-
-
-    private void aggiungiIngredienteAProdotto(String nomeIngrediente) {
-        String nomeProdotto = JOptionPane.showInputDialog(null, "Inserisci il nome del prodotto:");
-        String quantita = JOptionPane.showInputDialog(null, "Inserisci la quantità di " + nomeIngrediente + " da aggiungere al prodotto:");
-        String idIngrediente = "";
-
-        try {
-            Statement statement = conn.createStatement();
-            String query = "SELECT * FROM Ingredienti WHERE nome_commerciale = '" + nomeIngrediente + "'";
-            ResultSet resultSet = statement.executeQuery(query);
-            resultSet.next();
-            idIngrediente = resultSet.getString("ID");
-            resultSet.close();
-            statement.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-
-        try {
-            Statement statement = conn.createStatement();
-            String query = "SELECT * FROM Prodotti WHERE descrizione = '" + nomeProdotto + "'";
-            ResultSet resultSet = statement.executeQuery(query);
-            resultSet.next();
-            String codice = resultSet.getString("codice");
-            String query2 = "INSERT INTO ingredienti_prodotti (codice_prodotto, ID_ingrediente, quantita_utilizzata) VALUES ('" + codice + "', '" + idIngrediente + "', " + quantita + ")";
-            int rowsAffected = statement.executeUpdate(query2);
-            statement.close();
-
-            if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Ingrediente aggiunto con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Impossibile aggiungere l'ingrediente.", "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'aggiunta dell'ingrediente.", "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 }

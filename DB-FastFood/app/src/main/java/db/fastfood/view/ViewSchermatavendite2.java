@@ -1,9 +1,7 @@
 package db.fastfood.view;
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
-import java.util.Map;
 
 public class ViewSchermatavendite2 extends JFrame {
     private Connection conn;
@@ -123,118 +121,6 @@ public class ViewSchermatavendite2 extends JFrame {
         return idordine;
     }
 
-    private void vendita0000(String nomeprodotto){
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-
-        try {
-
-            int idcliente = getCurrentcliente();
-            int idordine = getCurrentordine();
-            //ottengo il codice del prodotto selezionato
-            int idProdotto = 0;
-            String query = "SELECT codice FROM prodotti WHERE descrizione = ?";
-            statement = conn.prepareStatement(query);
-            statement.setString(1, nomeprodotto);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                idProdotto = resultSet.getInt("codice");
-            }
-
-
-            //verifico se il cliente corrente ha già quel codice prodotto nel suo ordinativo
-            String check = "SELECT codice_prodotto FROM dettaglio_ordini WHERE ID_ordine = ? AND codice_prodotto = ?";
-            PreparedStatement statement22 = conn.prepareStatement(check);
-            statement22.setInt(1, idordine);
-            statement22.setInt(2, idProdotto);
-            ResultSet result2 = statement22.executeQuery();
-
-
-
-            while (result2.next()) {
-                int codice = result2.getInt("codice_prodotto");
-                if (codice == idProdotto) {
-                    //se il cliente ha già quel prodotto nel suo ordine, aggiorno la quantità
-                    String update = "UPDATE dettaglio_ordini SET quantita = quantita + 1 WHERE ID_ordine = ? AND codice_prodotto = ?";
-                    PreparedStatement updateStatement = conn.prepareStatement(update);
-                    updateStatement.setInt(1, idordine);
-                    updateStatement.setInt(2, idProdotto);
-                    updateStatement.executeUpdate();
-                }
-            }
-
-
-            while (result2.next()) {
-                int codice = result2.getInt("codice_prodotto");
-                if (codice == idProdotto) {
-                    //se il cliente ha già quel prodotto nel suo ordine, aggiorno la quantità
-                    String update = "UPDATE dettaglio_ordini SET quantita = quantita + 1 WHERE ID_ordine = ? AND codice_prodotto = ?";
-                    PreparedStatement updateStatement = conn.prepareStatement(update);
-                    updateStatement.setInt(1, idordine);
-                    updateStatement.setInt(2, idProdotto);
-                    updateStatement.executeUpdate();
-
-                    flag = true;
-                }
-            }
-
-
-            if (flag==false) {
-
-
-
-                //ottengo ingredienti del prodotto
-                String query1 = "SELECT P.codice, I.ID, I.quantita, P.descrizione, I.nome_commerciale, PI.quantita_utilizzata  FROM PRODOTTI P JOIN INGREDIENTI_PRODOTTI PI ON P.codice = PI.codice_prodotto JOIN INGREDIENTI I ON PI.ID_ingrediente = I.ID where P.descrizione = ?";
-                statement = conn.prepareStatement(query1);
-                statement.setString(1, nomeprodotto);
-                resultSet = statement.executeQuery();
-
-                while (resultSet.next()) {
-                    int idIngrediente = resultSet.getInt("ID");
-                    double quantitaIngrediente = resultSet.getDouble("quantita");
-                    double quantitaUtilizzata = resultSet.getDouble("quantita_utilizzata");
-                    //System.out.println(quantitaUtilizzata);
-                    /*int*/
-                    idProdotto = resultSet.getInt("codice");
-
-                    // Calcolo della nuova quantità dell'ingrediente dopo la vendita
-                    double nuovaQuantita = quantitaIngrediente - quantitaUtilizzata;
-                    //System.out.println(nuovaQuantita);
-
-                    // Aggiornamento della quantità dell'ingrediente nel database
-                    String updateQuery = "UPDATE Ingredienti SET Quantita = ? WHERE ID = ?";
-                    PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
-                    updateStatement.setDouble(1, nuovaQuantita);
-                    updateStatement.setInt(2, idIngrediente);
-                    updateStatement.executeUpdate();
-
-
-                    //inserisco la vendita nel database del cliente corrente
-
-                    /*int*/
-                    idcliente = getCurrentcliente();
-                    /*int*/
-                    idordine = getCurrentordine();
-                    String query2 = "INSERT INTO dettaglio_ordini (ID_ordine, codice_prodotto, quantita) VALUES (?,?,?)";
-                    statement = conn.prepareStatement(query2);
-                    statement.setInt(1, idordine);
-                    statement.setInt(2, idProdotto);
-                    statement.setInt(3, 1);
-                    statement.executeUpdate();
-                }
-            }
-
-            }catch(Exception e){
-                e.printStackTrace();
-
-        }
-        flag=false;
-    }
-
-
-
-
 
 
     private void vendita(String nomeprodotto) {
@@ -298,7 +184,7 @@ public class ViewSchermatavendite2 extends JFrame {
                     resultSet = statement.executeQuery();
 
                     while (resultSet.next()) {
-                        String nomeIngrediente = resultSet.getString("nome_commerciale");
+                        //String nomeIngrediente = resultSet.getString("nome_commerciale");
                         int idIngrediente = resultSet.getInt("ID");
                         double quantitaIngrediente = resultSet.getDouble("quantita");
                         double quantitaUtilizzata = resultSet.getDouble("quantita_utilizzata");
@@ -442,7 +328,7 @@ public class ViewSchermatavendite2 extends JFrame {
 
     public void inserisci_offerta(){
         try{
-            int idcliente=getCurrentcliente();
+            //int idcliente=getCurrentcliente();
             int idordine=getCurrentordine();
             //textbox che chiede il numero di offerta
             JDialog dialog = new JDialog();
