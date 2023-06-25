@@ -15,5 +15,10 @@ public interface ManagerIngredienti {
      * Method that allow to add an ingredient to a product
      */
     public void aggiungiIngredienteAProdotto();
+
+    /*
+     * Method that allow to show all ingredients into the warehouse
+     */
+    public void visualizzaMagazzino();
     
 }
