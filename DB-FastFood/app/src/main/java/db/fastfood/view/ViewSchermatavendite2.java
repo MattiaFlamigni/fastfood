@@ -1,6 +1,10 @@
 package db.fastfood.view;
 
 import javax.swing.*;
+
+import db.fastfood.Impl.VenditaImpl;
+import db.fastfood.api.Vendita;
+
 import java.sql.*;
 
 public class ViewSchermatavendite2 extends JFrame {
