@@ -377,40 +377,4 @@ AND MONTH(O.data) = MONTH(CURRENT_DATE());""";
             JOptionPane.showMessageDialog(null, "Errore durante la creazione della fidelity.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    @Override
-    public void visualizzaMagazzino() {
-        String query = "SELECT * FROM ingredienti";
-        
-        try {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            String[] columnNames = {"ID", "Nome", "Quantità", "Prezzo unitario"};
-            DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-
-            while (resultSet.next()) {
-                int ID = resultSet.getInt("ID");
-                double prezzoUnitario = resultSet.getDouble("prezzoUnitario");
-                String nome = resultSet.getString("nome_commerciale");
-                double quantita = resultSet.getDouble("quantita");
-
-                Object[] row = {ID, nome, quantita, prezzoUnitario};
-                tableModel.addRow(row);
-
-            }
-
-            JTable table = new JTable(tableModel);
-            JScrollPane scrollPane = new JScrollPane(table);
-            JFrame frame = new JFrame("Magazzino");
-            frame.add(scrollPane, BorderLayout.CENTER);
-            frame.setSize(800, 600);
-
-            frame.setVisible(true);
-
-            
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 }

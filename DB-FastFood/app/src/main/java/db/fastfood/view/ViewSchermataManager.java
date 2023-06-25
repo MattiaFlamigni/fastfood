@@ -153,8 +153,8 @@ public class ViewSchermataManager extends JFrame {
             logic.creaFidelty();
         });
         btnMagazzino.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
-            logic.visualizzaMagazzino();
+            ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
+            managerIngredienti.visualizzaMagazzino();
         });
     } 
 }
