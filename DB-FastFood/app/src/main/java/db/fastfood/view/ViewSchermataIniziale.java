@@ -30,7 +30,7 @@ public class ViewSchermataIniziale extends JFrame {
         // Aggiunta dei listener ai pulsanti
         btnVendita.addActionListener(e -> {
             // Avvia la schermata di vendita
-            ViewSchermatavendite2 vendita = new ViewSchermatavendite2(conn);
+            ViewSchermatavendita vendita = new ViewSchermatavendita(conn);
             vendita.setVisible(true);
 
             //aggiunge un cliente alla tabella clienti
