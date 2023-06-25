@@ -25,6 +25,9 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
         this.conn = conn;
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public void aggiungiIngrediente() {
         String nome = JOptionPane.showInputDialog(null, "Inserisci il nome dell'ingrediente:");
@@ -51,7 +54,9 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
         }
     }
 
-
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public void visualizzaIngredientiProdotto() {
         String nome_prodotto = JOptionPane.showInputDialog(null, "Inserisci il codice(nome) del prodotto:");
@@ -88,6 +93,9 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
         }
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public void aggiungiIngredienteAProdotto() {
         try {
@@ -117,6 +125,9 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
         }
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public void visualizzaMagazzino() {
         String query = "SELECT * FROM ingredienti";
@@ -153,7 +164,9 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
         }
     }
 
-
+    /**
+     * method to add an ingredient to a product
+     */
     private void aggiungiIngredienteAProdotto(String nomeIngrediente) {
         String nomeProdotto = JOptionPane.showInputDialog(null, "Inserisci il nome del prodotto:");
         String quantita = JOptionPane.showInputDialog(null, "Inserisci la quantità di " + nomeIngrediente + " da aggiungere al prodotto:");
