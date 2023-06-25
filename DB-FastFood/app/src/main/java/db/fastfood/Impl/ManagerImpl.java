@@ -29,6 +29,9 @@ public class ManagerImpl implements Manager {
         this.conn = conn;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void inserisciDipendente() {
         String[] options = {"Addetto", "Manager"};
@@ -92,6 +95,9 @@ public class ManagerImpl implements Manager {
         
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visualizzaAddetti() {
         String[] options = {"Addetto", "Direttore", "Manager"};
@@ -203,6 +209,9 @@ public class ManagerImpl implements Manager {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void inserisciContratto() {
         //si connette alla tabella e conta il numero di righe
@@ -254,6 +263,9 @@ public class ManagerImpl implements Manager {
         
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visualizzaContratti(String cfDipendenteDaCercare  ) {
         try {
@@ -326,12 +338,18 @@ public class ManagerImpl implements Manager {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void ricercaContratti() {
         String CFricercato = JOptionPane.showInputDialog(null, "Cognome del dipendente:");
         visualizzaContratti(CFricercato);
-    }
+    }   
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visualizzaFatturatoMensile() {
         try{
@@ -355,6 +373,9 @@ AND MONTH(O.data) = MONTH(CURRENT_DATE());""";
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void creaFidelty() {
         String id = JOptionPane.showInputDialog(null, "numero tessera:");
