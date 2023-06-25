@@ -1,4 +1,4 @@
-package db.fastfood;
+package db.fastfood.Impl;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -19,12 +19,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class schermataManagerLogicImpl implements schermataManagerLogic {
+import db.fastfood.api.Manager;
+
+public class ManagerImpl implements Manager {
 
 
     private final Connection conn;
 
-    public schermataManagerLogicImpl(Connection conn) {
+    public ManagerImpl(Connection conn) {
         this.conn = conn;
     }
 

@@ -1,6 +1,7 @@
-package db.fastfood;
+package db.fastfood.view;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,9 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class SchermataIniziale extends JFrame {
+public class ViewSchermataIniziale extends JFrame {
 
-    public SchermataIniziale(Connection conn) {
+    public ViewSchermataIniziale(Connection conn) {
         setTitle("Schermata Iniziale");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,7 +30,7 @@ public class SchermataIniziale extends JFrame {
         // Aggiunta dei listener ai pulsanti
         btnVendita.addActionListener(e -> {
             // Avvia la schermata di vendita
-            Schermatavendite2 vendita = new Schermatavendite2(conn);
+            ViewSchermatavendite2 vendita = new ViewSchermatavendite2(conn);
             vendita.setVisible(true);
 
             //aggiunge un cliente alla tabella clienti
@@ -67,7 +68,7 @@ public class SchermataIniziale extends JFrame {
 
         btnManager.addActionListener(e -> {
             // Avvia la schermata del manager
-            JFrame manager = new SchermataManager(conn);
+            JFrame manager = new ViewSchermataManager(conn);
             manager.setVisible(true);
         });
 

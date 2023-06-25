@@ -1,6 +1,6 @@
-package db.fastfood;
+package db.fastfood.api;
 
-public interface schermataManagerLogic  {
+public interface Manager  {
     public void visualizzaProdottiDisponibili();
 
     public void aggiungiProdotto();

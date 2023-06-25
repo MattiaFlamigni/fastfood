@@ -1,17 +1,17 @@
-package db.fastfood;
+package db.fastfood.view;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.Map;
 
-public class Schermatavendite2 extends JFrame {
+public class ViewSchermatavendite2 extends JFrame {
     private Connection conn;
     private JPanel panel;
 
     boolean flag = false;
 
-    public Schermatavendite2(Connection conn) {
+    public ViewSchermatavendite2(Connection conn) {
         this.conn = conn;
         panel = new JPanel();
         add(panel);

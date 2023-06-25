@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.SwingUtilities;
 
+import db.fastfood.view.ViewSchermataIniziale;
+
 
 public class App {
 
@@ -39,7 +41,7 @@ public class App {
         // Avvia la schermata iniziale
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                SchermataIniziale schermataIniziale = new SchermataIniziale(connection.getConnection());
+                ViewSchermataIniziale schermataIniziale = new ViewSchermataIniziale(connection.getConnection());
                 schermataIniziale.setVisible(true);
             }
         });

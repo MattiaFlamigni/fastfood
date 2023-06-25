@@ -1,7 +1,10 @@
-package db.fastfood;
+package db.fastfood.view;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import db.fastfood.Impl.ManagerImpl;
+import db.fastfood.api.Manager;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,10 +12,10 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Date;
 
-public class SchermataManager extends JFrame {
+public class ViewSchermataManager extends JFrame {
     private final Connection conn;
 
-    public SchermataManager(Connection conn) {
+    public ViewSchermataManager(Connection conn) {
         this.conn = conn;
         setTitle("Schermata Manager");
         setSize(400, 800);
@@ -93,63 +96,63 @@ public class SchermataManager extends JFrame {
 
         // Aggiunta delle azioni ai pulsanti
         btnVisualizzaProdotti.addActionListener(e->{
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.visualizzaProdottiDisponibili();
         });
         btnAggiungiProdotto.addActionListener(e -> {
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.aggiungiProdotto();
         });
         btnAggiungiIngredienti.addActionListener(e ->{
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.aggiungiIngredienteAProdotto();
         });
         btnAggiungiIngrediente.addActionListener(e ->{
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.aggiungiIngrediente();
         });
         btnVisualizzaIngredienti.addActionListener(e ->{ 
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.visualizzaIngredientiProdotto();
         });
         btnInserisciRichiesta.addActionListener(e ->{ 
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.inserisciRichiesta();
         });
         btnVisualizzaRifiuta.addActionListener(e -> {
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.visualizzaRifiutaRichieste();
         });
         btnInserisciAddetto.addActionListener(e -> {
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.inserisciDipendente();
         });
         btnVisualizzaAddetti.addActionListener(e -> {
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.visualizzaAddetti();
         });
         btnContratti.addActionListener(e -> {
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.inserisciContratto();
         });
         btnVisualizzaContratti.addActionListener(e -> {
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.visualizzaContratti("");
         });
         btnRicercaContratto.addActionListener(e -> {
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.ricercaContratti();
         });
         btnFatturatoMensile.addActionListener(e -> {
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.visualizzaFatturatoMensile();
         }); 
         btnCreaFidelity.addActionListener(e -> {
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.creaFidelty();
         });
         btnMagazzino.addActionListener(e -> {
-            schermataManagerLogic logic = new schermataManagerLogicImpl(conn);
+            Manager logic = new ManagerImpl(conn);
             logic.visualizzaMagazzino();
         });
     } 
