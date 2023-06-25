@@ -1,16 +1,17 @@
 package db.fastfood.view;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 import db.fastfood.Impl.ManagerImpl;
+import db.fastfood.Impl.ManagerIngredientiImpl;
+import db.fastfood.Impl.ManagerProductsImpl;
 import db.fastfood.api.Manager;
+import db.fastfood.api.ManagerProducts;
+import db.fastfood.api.ManagerRichieste;
+import db.fastfood.api.ManagerRichiesteImpl;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.Date;
 
 public class ViewSchermataManager extends JFrame {
     private final Connection conn;
@@ -96,32 +97,32 @@ public class ViewSchermataManager extends JFrame {
 
         // Aggiunta delle azioni ai pulsanti
         btnVisualizzaProdotti.addActionListener(e->{
-            Manager logic = new ManagerImpl(conn);
-            logic.visualizzaProdottiDisponibili();
+            ManagerProducts managerProducts = new ManagerProductsImpl(conn);
+            managerProducts.visualizzaProdottiDisponibili();
         });
         btnAggiungiProdotto.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
-            logic.aggiungiProdotto();
+            ManagerProducts managerProducts = new ManagerProductsImpl(conn);
+            managerProducts.aggiungiProdotto();
         });
         btnAggiungiIngredienti.addActionListener(e ->{
-            Manager logic = new ManagerImpl(conn);
-            logic.aggiungiIngredienteAProdotto();
+            ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
+            managerIngredienti.aggiungiIngredienteAProdotto();
         });
         btnAggiungiIngrediente.addActionListener(e ->{
-            Manager logic = new ManagerImpl(conn);
-            logic.aggiungiIngrediente();
+            ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
+            managerIngredienti.aggiungiIngrediente();
         });
         btnVisualizzaIngredienti.addActionListener(e ->{ 
-            Manager logic = new ManagerImpl(conn);
-            logic.visualizzaIngredientiProdotto();
+            ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
+            managerIngredienti.visualizzaIngredientiProdotto();
         });
         btnInserisciRichiesta.addActionListener(e ->{ 
-            Manager logic = new ManagerImpl(conn);
-            logic.inserisciRichiesta();
+            ManagerRichieste managerRichieste = new ManagerRichiesteImpl(conn);
+            managerRichieste.inserisciRichiesta();
         });
         btnVisualizzaRifiuta.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
-            logic.visualizzaRifiutaRichieste();
+            ManagerRichieste managerRichieste = new ManagerRichiesteImpl(conn);
+            managerRichieste.visualizzaRifiutaRichieste();
         });
         btnInserisciAddetto.addActionListener(e -> {
             Manager logic = new ManagerImpl(conn);

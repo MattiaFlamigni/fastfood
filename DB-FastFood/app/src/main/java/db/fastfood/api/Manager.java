@@ -1,19 +1,6 @@
 package db.fastfood.api;
 
 public interface Manager  {
-    public void visualizzaProdottiDisponibili();
-
-    public void aggiungiProdotto();
-
-    public void aggiungiIngredienteAProdotto();
-
-    public void aggiungiIngrediente();
-
-    public void visualizzaIngredientiProdotto();
-
-    public void inserisciRichiesta();
-
-    public void visualizzaRifiutaRichieste();
 
     public void inserisciDipendente();
 
