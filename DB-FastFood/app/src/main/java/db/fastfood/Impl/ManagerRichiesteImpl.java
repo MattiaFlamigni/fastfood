@@ -26,6 +26,9 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
         this.conn = conn;
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public void inserisciRichiesta() {
         //un addetto puo effettuare una richiesta di riposo, di ferie o di malattia
@@ -59,6 +62,9 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
         
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public void visualizzaRifiutaRichieste() {
         //visualizza tutte le richieste di riposo, ferie o malattia e permette di rifiutarle

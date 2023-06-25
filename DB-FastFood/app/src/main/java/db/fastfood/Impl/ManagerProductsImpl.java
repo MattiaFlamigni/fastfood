@@ -24,6 +24,9 @@ public class ManagerProductsImpl implements ManagerProducts {
         this.conn = conn;
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public void visualizzaProdottiDisponibili() {
         try {
@@ -61,6 +64,9 @@ public class ManagerProductsImpl implements ManagerProducts {
         }
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public void aggiungiProdotto() {
         String codice = JOptionPane.showInputDialog(null, "Inserisci il codice del prodotto:");
