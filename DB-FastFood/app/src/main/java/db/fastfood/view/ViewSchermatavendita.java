@@ -7,13 +7,13 @@ import db.fastfood.api.Vendita;
 
 import java.sql.*;
 
-public class ViewSchermatavendite2 extends JFrame {
+public class ViewSchermatavendita extends JFrame {
     private Connection conn;
     private JPanel panel;
 
     boolean flag = false;
 
-    public ViewSchermatavendite2(Connection conn) {
+    public ViewSchermatavendita(Connection conn) {
         this.conn = conn;
         panel = new JPanel();
         add(panel);
