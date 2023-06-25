@@ -24,9 +24,6 @@ public class ViewSchermataManager extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-
-
-
         // Creazione dei pulsanti per la sezione "Prodotti"
         JButton btnVisualizzaProdotti = new JButton("Visualizza Prodotti Disponibili");
         JButton btnAggiungiProdotto = new JButton("Aggiungi Prodotto");
@@ -50,9 +47,6 @@ public class ViewSchermataManager extends JFrame {
         JButton btnFatturatoMensile = new JButton("Visualizza Fatturato Mensile");
         JButton btnCreaFidelity = new JButton("Crea Fidelity");
 
-        
-
-
         // Creazione del layout
         Container container = getContentPane();
         container.setLayout(new GridLayout(4, 0)); // 4 righe per suddividere in sezioni
@@ -74,7 +68,7 @@ public class ViewSchermataManager extends JFrame {
         richiestePanel.setLayout(new FlowLayout());
         richiestePanel.add(btnInserisciRichiesta);
         richiestePanel.add(btnVisualizzaRifiuta);
-        //richiestePanel.add(richiesteTitle);
+        // richiestePanel.add(richiesteTitle);
         container.add(richiestePanel);
 
         // Aggiunta dei pulsanti alla sezione "Dipendenti"
@@ -97,7 +91,7 @@ public class ViewSchermataManager extends JFrame {
         container.add(altroPanel);
 
         // Aggiunta delle azioni ai pulsanti
-        btnVisualizzaProdotti.addActionListener(e->{
+        btnVisualizzaProdotti.addActionListener(e -> {
             ManagerProducts managerProducts = new ManagerProductsImpl(conn);
             managerProducts.visualizzaProdottiDisponibili();
         });
@@ -105,19 +99,19 @@ public class ViewSchermataManager extends JFrame {
             ManagerProducts managerProducts = new ManagerProductsImpl(conn);
             managerProducts.aggiungiProdotto();
         });
-        btnAggiungiIngredienti.addActionListener(e ->{
+        btnAggiungiIngredienti.addActionListener(e -> {
             ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
             managerIngredienti.aggiungiIngredienteAProdotto();
         });
-        btnAggiungiIngrediente.addActionListener(e ->{
+        btnAggiungiIngrediente.addActionListener(e -> {
             ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
             managerIngredienti.aggiungiIngrediente();
         });
-        btnVisualizzaIngredienti.addActionListener(e ->{ 
+        btnVisualizzaIngredienti.addActionListener(e -> {
             ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
             managerIngredienti.visualizzaIngredientiProdotto();
         });
-        btnInserisciRichiesta.addActionListener(e ->{ 
+        btnInserisciRichiesta.addActionListener(e -> {
             ManagerRichieste managerRichieste = new ManagerRichiesteImpl(conn);
             managerRichieste.inserisciRichiesta();
         });
@@ -148,7 +142,7 @@ public class ViewSchermataManager extends JFrame {
         btnFatturatoMensile.addActionListener(e -> {
             Manager logic = new ManagerImpl(conn);
             logic.visualizzaFatturatoMensile();
-        }); 
+        });
         btnCreaFidelity.addActionListener(e -> {
             Manager logic = new ManagerImpl(conn);
             logic.creaFidelty();
@@ -157,6 +151,5 @@ public class ViewSchermataManager extends JFrame {
             ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
             managerIngredienti.visualizzaMagazzino();
         });
-    } 
+    }
 }
-

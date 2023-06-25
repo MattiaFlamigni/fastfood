@@ -13,12 +13,9 @@ import javax.swing.table.DefaultTableModel;
 
 import db.fastfood.api.ManagerProducts;
 
-
-
 public class ManagerProductsImpl implements ManagerProducts {
 
     private final Connection conn;
-    
 
     public ManagerProductsImpl(Connection conn) {
         this.conn = conn;
@@ -44,7 +41,7 @@ public class ManagerProductsImpl implements ManagerProducts {
                 String descrizione = resultSet.getString("descrizione");
                 double prezzoVendita = resultSet.getDouble("prezzovendita");
 
-                tableModel.addRow(new Object[]{codice, descrizione, prezzoVendita});
+                tableModel.addRow(new Object[] { codice, descrizione, prezzoVendita });
             }
 
             JTable table = new JTable(tableModel);
@@ -60,7 +57,8 @@ public class ManagerProductsImpl implements ManagerProducts {
             statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante il caricamento dei prodotti disponibili", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Errore durante il caricamento dei prodotti disponibili", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -71,24 +69,28 @@ public class ManagerProductsImpl implements ManagerProducts {
     public void aggiungiProdotto() {
         String codice = JOptionPane.showInputDialog(null, "Inserisci il codice del prodotto:");
         String descrizione = JOptionPane.showInputDialog(null, "Inserisci la descrizione del prodotto:");
-        double prezzoVendita = Double.parseDouble(JOptionPane.showInputDialog(null, "Inserisci il prezzo di vendita del prodotto:"));
+        double prezzoVendita = Double
+                .parseDouble(JOptionPane.showInputDialog(null, "Inserisci il prezzo di vendita del prodotto:"));
 
         try {
             Statement statement = conn.createStatement();
-            String query = "INSERT INTO Prodotti (codice, descrizione, prezzovendita) VALUES ('" + codice + "', '" + descrizione + "', " + prezzoVendita + ")";
+            String query = "INSERT INTO Prodotti (codice, descrizione, prezzovendita) VALUES ('" + codice + "', '"
+                    + descrizione + "', " + prezzoVendita + ")";
             int rowsAffected = statement.executeUpdate(query);
             statement.close();
 
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Prodotto aggiunto con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Prodotto aggiunto con successo.", "Successo",
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Impossibile aggiungere il prodotto.", "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Impossibile aggiungere il prodotto.", "Errore",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'aggiunta del prodotto.", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Errore durante l'aggiunta del prodotto.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    
 }

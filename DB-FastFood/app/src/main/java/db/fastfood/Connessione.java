@@ -7,13 +7,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
 public class Connessione {
-    final String root="root";
-    final String password="Mattiaflamigni2002";
-    final String dbName="fastfood";
+    final String root = "root";
+    final String password = "Mattiaflamigni2002";
+    final String dbName = "fastfood";
 
     final String dbUri = "jdbc:mysql://localhost:3306/" + dbName;
+
     public void doConnessione() {
         try {
             // Thanks to the JDBC DriverManager we can get a connection to the database

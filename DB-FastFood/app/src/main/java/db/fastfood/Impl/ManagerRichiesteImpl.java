@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import db.fastfood.api.ManagerRichieste;
 
-public class ManagerRichiesteImpl implements ManagerRichieste{
+public class ManagerRichiesteImpl implements ManagerRichieste {
 
     private Connection conn;
 
@@ -31,14 +31,15 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
      */
     @Override
     public void inserisciRichiesta() {
-        //un addetto puo effettuare una richiesta di riposo, di ferie o di malattia
-        String tipoRichiesta = JOptionPane.showInputDialog(null, "Inserisci il tipo di richiesta (riposo, ferie, malattia):");
+        // un addetto puo effettuare una richiesta di riposo, di ferie o di malattia
+        String tipoRichiesta = JOptionPane.showInputDialog(null,
+                "Inserisci il tipo di richiesta (riposo, ferie, malattia):");
         String dataInizio = JOptionPane.showInputDialog(null, "Inserisci la data di inizio (YYYY-MM-DD):");
         String dataFine = JOptionPane.showInputDialog(null, "Inserisci la data di fine (YYYY-MM-DD):");
         String idAddetto = JOptionPane.showInputDialog(null, "Inserisci CF dell'addetto:");
 
         try {
-            //Statement statement = conn.createStatement();
+            // Statement statement = conn.createStatement();
             String query = "INSERT INTO richieste (tipo, datainizio, datafine, CF_addetto, dataRichiesta) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, tipoRichiesta);
@@ -49,17 +50,19 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
             int rowsAffected = preparedStatement.executeUpdate();
             preparedStatement.close();
 
-
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Richiesta aggiunta con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Richiesta aggiunta con successo.", "Successo",
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Impossibile aggiungere la richiesta.", "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Impossibile aggiungere la richiesta.", "Errore",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'aggiunta della richiesta.", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Errore durante l'aggiunta della richiesta.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }
 
     /**
@@ -67,10 +70,11 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
      */
     @Override
     public void visualizzaRifiutaRichieste() {
-        //visualizza tutte le richieste di riposo, ferie o malattia e permette di rifiutarle
-        //se una richiesta viene rifiutata, viene eliminata dalla tabella richieste
+        // visualizza tutte le richieste di riposo, ferie o malattia e permette di
+        // rifiutarle
+        // se una richiesta viene rifiutata, viene eliminata dalla tabella richieste
 
-        try{
+        try {
             Statement statement = conn.createStatement();
             String query = "SELECT * FROM richieste";
             ResultSet resultSet = statement.executeQuery(query);
@@ -87,7 +91,7 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
                 String datafine = resultSet.getString("datafine");
                 String CF_addetto = resultSet.getString("CF_addetto");
                 String dataRichiesta = resultSet.getString("dataRichiesta");
-                tableModel.addRow(new Object[]{tipo, datainizio, datafine, CF_addetto, dataRichiesta});
+                tableModel.addRow(new Object[] { tipo, datainizio, datafine, CF_addetto, dataRichiesta });
             }
             JTable table = new JTable(tableModel);
             JFrame tableFrame = new JFrame("Tabella Richieste");
@@ -99,8 +103,9 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
             resultSet.close();
             statement.close();
 
-            //l'utente seleziona la richiesta da rifiutare selezionando la riga della tabella
-            //e cliccando sul pulsante "Rifiuta"
+            // l'utente seleziona la richiesta da rifiutare selezionando la riga della
+            // tabella
+            // e cliccando sul pulsante "Rifiuta"
 
             JButton rifiutaButton = new JButton("Rifiuta");
             tableFrame.getContentPane().add(rifiutaButton, BorderLayout.SOUTH);
@@ -108,26 +113,27 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    //solo un direttore puo rifiutare una richiesta
-                    //l'utente deve inserire il proprio CF per rifiutare la richiesta
+                    // solo un direttore puo rifiutare una richiesta
+                    // l'utente deve inserire il proprio CF per rifiutare la richiesta
 
                     String CF_manager = JOptionPane.showInputDialog(tableFrame, "Inserisci il tuo CF:");
-                    //se è presente nella tabella direttori allora è un direttore
+                    // se è presente nella tabella direttori allora è un direttore
 
                     try {
-                        //Statement statement = conn.createStatement();
+                        // Statement statement = conn.createStatement();
                         String query = "SELECT * FROM direttori WHERE CF = ?";
                         PreparedStatement preparedStatement = conn.prepareStatement(query);
                         preparedStatement.setString(1, CF_manager);
                         ResultSet resultSet = preparedStatement.executeQuery();
                         if (!resultSet.next()) {
-                            JOptionPane.showMessageDialog(tableFrame, "Non sei un direttore.", "Errore", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(tableFrame, "Non sei un direttore.", "Errore",
+                                    JOptionPane.ERROR_MESSAGE);
                         } else {
-
 
                             int selectedRow = table.getSelectedRow();
                             if (selectedRow == -1) {
-                                JOptionPane.showMessageDialog(tableFrame, "Seleziona una riga.", "Errore", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(tableFrame, "Seleziona una riga.", "Errore",
+                                        JOptionPane.ERROR_MESSAGE);
                             } else {
                                 String tipo = (String) table.getValueAt(selectedRow, 0);
                                 String datainizio = (String) table.getValueAt(selectedRow, 1);
@@ -135,7 +141,7 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
                                 String CF_addetto = (String) table.getValueAt(selectedRow, 3);
                                 String dataRichiesta = (String) table.getValueAt(selectedRow, 4);
                                 try {
-                                    //Statement statementdelete = conn.createStatement();
+                                    // Statement statementdelete = conn.createStatement();
                                     String querydelete = "DELETE FROM richieste WHERE tipo = ? AND datainizio = ? AND datafine = ? AND CF_addetto = ? AND dataRichiesta = ?";
                                     PreparedStatement preparedStatementdelete = conn.prepareStatement(querydelete);
                                     preparedStatementdelete.setString(1, tipo);
@@ -146,35 +152,38 @@ public class ManagerRichiesteImpl implements ManagerRichieste{
                                     int rowsAffected = preparedStatementdelete.executeUpdate();
                                     preparedStatementdelete.close();
                                     if (rowsAffected > 0) {
-                                        JOptionPane.showMessageDialog(tableFrame, "Richiesta rifiutata con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
-                                        //aggirona la tabella richieste
+                                        JOptionPane.showMessageDialog(tableFrame, "Richiesta rifiutata con successo.",
+                                                "Successo", JOptionPane.INFORMATION_MESSAGE);
+                                        // aggirona la tabella richieste
                                         tableModel.removeRow(selectedRow);
                                     } else {
-                                        JOptionPane.showMessageDialog(tableFrame, "Impossibile rifiutare la richiesta.", "Errore", JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog(tableFrame, "Impossibile rifiutare la richiesta.",
+                                                "Errore", JOptionPane.ERROR_MESSAGE);
+                                    }
+                                } catch (SQLException ex) {
+                                    ex.printStackTrace();
+                                    JOptionPane.showMessageDialog(tableFrame,
+                                            "Errore durante l'esecuzione della query.", "Errore",
+                                            JOptionPane.ERROR_MESSAGE);
                                 }
-                            } catch (SQLException ex) {
-                                ex.printStackTrace();
-                                JOptionPane.showMessageDialog(tableFrame, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
                             }
+
                         }
-
-
-                    }
                         resultSet.close();
                         preparedStatement.close();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
-                        JOptionPane.showMessageDialog(tableFrame, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(tableFrame, "Errore durante l'esecuzione della query.", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
 
-
-
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
 }

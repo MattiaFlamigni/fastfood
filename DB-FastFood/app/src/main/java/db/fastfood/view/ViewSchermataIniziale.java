@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class ViewSchermataIniziale extends JFrame {
 
     public ViewSchermataIniziale(Connection conn) {
@@ -33,36 +32,30 @@ public class ViewSchermataIniziale extends JFrame {
             ViewSchermatavendita vendita = new ViewSchermatavendita(conn);
             vendita.setVisible(true);
 
-            //aggiunge un cliente alla tabella clienti
+            // aggiunge un cliente alla tabella clienti
 
-            try{
-                int idcliente=generaprogressivo(conn);
+            try {
+                int idcliente = generaprogressivo(conn);
                 String query = "INSERT INTO cliente(ID) VALUES (?) ";
 
                 PreparedStatement statement = conn.prepareStatement(query);
                 statement.setInt(1, idcliente);
                 statement.executeUpdate();
-                System.out.println("ID cliente: "+idcliente);
+                System.out.println("ID cliente: " + idcliente);
 
-
-                //associo id cliente alla tabella ordine
-                int idordine=generaprogressivoordine(conn);
+                // associo id cliente alla tabella ordine
+                int idordine = generaprogressivoordine(conn);
 
                 String query2 = "INSERT INTO ordine(ID, ID_cliente) VALUES (?, ?) ";
                 PreparedStatement statement2 = conn.prepareStatement(query2);
                 statement2.setInt(1, idordine);
                 statement2.setInt(2, idcliente);
                 statement2.executeUpdate();
-                System.out.println("ID ordine: "+idordine);
-
-
+                System.out.println("ID ordine: " + idordine);
 
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-
-
-
 
         });
 
@@ -74,10 +67,7 @@ public class ViewSchermataIniziale extends JFrame {
 
     }
 
-
-
-
-    private int generaprogressivo (Connection conn) throws SQLException{
+    private int generaprogressivo(Connection conn) throws SQLException {
         String sql = "SELECT MAX(ID) FROM CLIENTE";
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
@@ -89,7 +79,7 @@ public class ViewSchermataIniziale extends JFrame {
         return maxId + 1;
     }
 
-    private int generaprogressivoordine (Connection conn) throws SQLException{
+    private int generaprogressivoordine(Connection conn) throws SQLException {
         String sql = "SELECT MAX(ID) FROM ORDINE";
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
@@ -102,6 +92,3 @@ public class ViewSchermataIniziale extends JFrame {
         return maxId + 1;
     }
 }
-
-
-

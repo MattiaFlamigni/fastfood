@@ -20,5 +20,5 @@ public interface ManagerIngredienti {
      * Method that allow to show all ingredients into the warehouse
      */
     public void visualizzaMagazzino();
-    
+
 }

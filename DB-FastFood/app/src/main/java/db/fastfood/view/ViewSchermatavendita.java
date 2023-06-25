@@ -23,7 +23,6 @@ public class ViewSchermatavendita extends JFrame {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setSize(400, 150);
 
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -37,17 +36,17 @@ public class ViewSchermatavendita extends JFrame {
                 String nomeprodotto = result.getString("descrizione");
                 JButton button = new JButton(nomeprodotto);
                 button.addActionListener(e -> {
-                    //attribuisce al cliente corrente l'id del prodotto selezionato
+                    // attribuisce al cliente corrente l'id del prodotto selezionato
                     Vendita vendita = new VenditaImpl(conn);
                     vendita.vendita(nomeprodotto);
                 });
                 panel.add(button);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        //in basso a destra un bottone "nuovo cliente"
+        // in basso a destra un bottone "nuovo cliente"
         JButton button = new JButton("Nuovo Cliente");
         panel.add(button);
         button.addActionListener(e -> {
@@ -62,7 +61,7 @@ public class ViewSchermatavendita extends JFrame {
             vendita.assegna_fidelty();
         });
 
-        //in basso a destra sotto il precedente bottone un bottone "inserisci offerta"
+        // in basso a destra sotto il precedente bottone un bottone "inserisci offerta"
         JButton button2 = new JButton("Inserisci Offerta");
         panel.add(button2);
         button2.addActionListener(e -> {
@@ -70,30 +69,5 @@ public class ViewSchermatavendita extends JFrame {
             vendita.inserisci_offerta();
         });
     }
-
-    
-
-    
-
-    
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-    
 
 }

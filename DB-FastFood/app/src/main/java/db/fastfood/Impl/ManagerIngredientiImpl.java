@@ -2,7 +2,6 @@ package db.fastfood.Impl;
 
 import db.fastfood.api.ManagerIngredienti;
 
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,10 +16,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
-
-public class ManagerIngredientiImpl  implements ManagerIngredienti{
+public class ManagerIngredientiImpl implements ManagerIngredienti {
 
     private final Connection conn;
+
     public ManagerIngredientiImpl(Connection conn) {
         this.conn = conn;
     }
@@ -35,22 +34,24 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
         String idIngrediente = JOptionPane.showInputDialog(null, "Inserisci l'ID dell'ingrediente:");
         String prezzounitario = JOptionPane.showInputDialog(null, "Inserisci il costo di acquisto:");
 
-
-
         try {
             Statement statement = conn.createStatement();
-            String query = "INSERT INTO Ingredienti (ID, prezzoUnitario, nome_commerciale, quantita) VALUES ('" + idIngrediente + "', '" + prezzounitario + "', '" + nome + "', " + quantita + ")";
+            String query = "INSERT INTO Ingredienti (ID, prezzoUnitario, nome_commerciale, quantita) VALUES ('"
+                    + idIngrediente + "', '" + prezzounitario + "', '" + nome + "', " + quantita + ")";
             int rowsAffected = statement.executeUpdate(query);
             statement.close();
 
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Ingrediente aggiunto con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ingrediente aggiunto con successo.", "Successo",
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Impossibile aggiungere l'ingrediente.", "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Impossibile aggiungere l'ingrediente.", "Errore",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'aggiunta dell'ingrediente.", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Errore durante l'aggiunta dell'ingrediente.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -63,8 +64,8 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
 
         try {
             Statement statement = conn.createStatement();
-            String query = "SELECT * FROM Ingredienti I, ingredienti_prodotti IP, Prodotti P WHERE  I.ID = IP.ID_ingrediente AND IP.codice_prodotto = P.codice AND P.descrizione = '" + nome_prodotto + "'";
-
+            String query = "SELECT * FROM Ingredienti I, ingredienti_prodotti IP, Prodotti P WHERE  I.ID = IP.ID_ingrediente AND IP.codice_prodotto = P.codice AND P.descrizione = '"
+                    + nome_prodotto + "'";
 
             ResultSet resultSet = statement.executeQuery(query);
 
@@ -73,7 +74,7 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
 
             while (resultSet.next()) {
                 String ingrediente = resultSet.getString("nome_commerciale");
-                tableModel.addRow(new Object[]{ingrediente});
+                tableModel.addRow(new Object[] { ingrediente });
             }
 
             JTable table = new JTable(tableModel);
@@ -89,7 +90,8 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
             statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -121,7 +123,8 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
             statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -131,11 +134,11 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
     @Override
     public void visualizzaMagazzino() {
         String query = "SELECT * FROM ingredienti";
-        
+
         try {
             Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            String[] columnNames = {"ID", "Nome", "Quantità", "Prezzo unitario"};
+            String[] columnNames = { "ID", "Nome", "Quantità", "Prezzo unitario" };
             DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
             while (resultSet.next()) {
@@ -144,7 +147,7 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
                 String nome = resultSet.getString("nome_commerciale");
                 double quantita = resultSet.getDouble("quantita");
 
-                Object[] row = {ID, nome, quantita, prezzoUnitario};
+                Object[] row = { ID, nome, quantita, prezzoUnitario };
                 tableModel.addRow(row);
 
             }
@@ -157,10 +160,10 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
 
             frame.setVisible(true);
 
-            
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -169,7 +172,8 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
      */
     private void aggiungiIngredienteAProdotto(String nomeIngrediente) {
         String nomeProdotto = JOptionPane.showInputDialog(null, "Inserisci il nome del prodotto:");
-        String quantita = JOptionPane.showInputDialog(null, "Inserisci la quantità di " + nomeIngrediente + " da aggiungere al prodotto:");
+        String quantita = JOptionPane.showInputDialog(null,
+                "Inserisci la quantità di " + nomeIngrediente + " da aggiungere al prodotto:");
         String idIngrediente = "";
 
         try {
@@ -182,7 +186,8 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
             statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
         try {
@@ -191,18 +196,22 @@ public class ManagerIngredientiImpl  implements ManagerIngredienti{
             ResultSet resultSet = statement.executeQuery(query);
             resultSet.next();
             String codice = resultSet.getString("codice");
-            String query2 = "INSERT INTO ingredienti_prodotti (codice_prodotto, ID_ingrediente, quantita_utilizzata) VALUES ('" + codice + "', '" + idIngrediente + "', " + quantita + ")";
+            String query2 = "INSERT INTO ingredienti_prodotti (codice_prodotto, ID_ingrediente, quantita_utilizzata) VALUES ('"
+                    + codice + "', '" + idIngrediente + "', " + quantita + ")";
             int rowsAffected = statement.executeUpdate(query2);
             statement.close();
 
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Ingrediente aggiunto con successo.", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ingrediente aggiunto con successo.", "Successo",
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Impossibile aggiungere l'ingrediente.", "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Impossibile aggiungere l'ingrediente.", "Errore",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante l'aggiunta dell'ingrediente.", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Errore durante l'aggiunta dell'ingrediente.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -7,7 +7,7 @@ public interface ManagerRichieste {
     public void inserisciRichiesta();
 
     /**
-     * Method that allow to show and decline requests. 
+     * Method that allow to show and decline requests.
      * 
      */
     public void visualizzaRifiutaRichieste();

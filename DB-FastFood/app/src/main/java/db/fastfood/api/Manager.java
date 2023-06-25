@@ -1,6 +1,6 @@
 package db.fastfood.api;
 
-public interface Manager  {
+public interface Manager {
 
     /**
      * Method that allow to add a new employee
@@ -19,7 +19,8 @@ public interface Manager  {
 
     /**
      * Method that allow to show all contracts
-     * @param cfDipendenteDaCercare 
+     * 
+     * @param cfDipendenteDaCercare
      */
     public void visualizzaContratti(String cfDipendenteDaCercare);
 
@@ -37,6 +38,5 @@ public interface Manager  {
      * Method that allow to create a fidelity card
      */
     public void creaFidelty();
-
 
 }

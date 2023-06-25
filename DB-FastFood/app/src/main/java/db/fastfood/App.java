@@ -3,35 +3,32 @@
  */
 package db.fastfood;
 
-
 import javax.swing.SwingUtilities;
 
 import db.fastfood.view.ViewSchermataIniziale;
 
-
 public class App {
-
-
-
 
     public static void main(String[] args) {
 
-        /*final String root="root";
-        final String password="Mattiaflamigni2002";
-        final String dbName="fastfood";
-
-
-        final String dbUri = "jdbc:mysql://localhost:3306/" + dbName;
-        try {
-            // Thanks to the JDBC DriverManager we can get a connection to the database
-            DriverManager.getConnection(dbUri, root, password);
-        } catch (final SQLException e) {
-            throw new IllegalStateException("Could not establish a connection with db", e);
-        }*/
+        /*
+         * final String root="root";
+         * final String password="Mattiaflamigni2002";
+         * final String dbName="fastfood";
+         * 
+         * 
+         * final String dbUri = "jdbc:mysql://localhost:3306/" + dbName;
+         * try {
+         * // Thanks to the JDBC DriverManager we can get a connection to the database
+         * DriverManager.getConnection(dbUri, root, password);
+         * } catch (final SQLException e) {
+         * throw new IllegalStateException("Could not establish a connection with db",
+         * e);
+         * }
+         */
 
         Connessione connection = new Connessione();
         connection.doConnessione();
-
 
         // Avvia la schermata iniziale
         SwingUtilities.invokeLater(new Runnable() {
