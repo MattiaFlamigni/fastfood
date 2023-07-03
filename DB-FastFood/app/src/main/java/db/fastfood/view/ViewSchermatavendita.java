@@ -43,6 +43,12 @@ public class ViewSchermatavendita extends JFrame {
         model.addColumn("Prezzo");
 
         table = new JTable(model);
+        table.setBackground(new Color(240, 240, 240));
+        //i bordi delle righe li voglio invisibili
+        table.setShowHorizontalLines(false);
+        table.setShowVerticalLines(false);
+        //aggiungi spazio tra le righe
+        table.setIntercellSpacing(new Dimension(0, 1));
         scrollPane = new JScrollPane(table);
         //JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.EAST);
