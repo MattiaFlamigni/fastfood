@@ -2,8 +2,10 @@ package db.fastfood.view;
 
 import javax.swing.*;
 
+import db.fastfood.Impl.VenditaFideltyImpl;
 import db.fastfood.Impl.VenditaImpl;
 import db.fastfood.api.Vendita;
+import db.fastfood.api.VenditaFidelty;
 
 import java.awt.Color;
 //import java.awt.FlowLayout;
@@ -66,8 +68,8 @@ public class ViewSchermatavendita extends JFrame {
         JButton fidelty = new JButton("Assegna a fidelty");
         panel.add(fidelty);
         fidelty.addActionListener(e -> {
-            Vendita vendita = new VenditaImpl(conn);
-            vendita.assegna_fidelty();
+            VenditaFidelty venditaFidelty = new VenditaFideltyImpl(conn);
+            venditaFidelty.assegna_fidelty();
         });
 
         
@@ -81,8 +83,8 @@ public class ViewSchermatavendita extends JFrame {
         JButton utilizzaFidelty = new JButton("Inserisci Fidelty");
         panel.add(utilizzaFidelty);
         utilizzaFidelty.addActionListener(e -> {
-            Vendita vendita = new VenditaImpl(conn);
-            vendita.utilizza_fidelty();
+            VenditaFidelty venditaFidelty = new VenditaFideltyImpl(conn);
+            venditaFidelty.utilizza_fidelty();
         });
     }
 
