@@ -150,4 +150,40 @@ public class ViewSchermatavendita extends JFrame {
         model.setRowCount(0);
     }
 
+    public void deleteRow(String nomeprodotto) {
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 1).equals(nomeprodotto)) {
+                model.removeRow(i);
+                break;
+            }
+        }
+    }
+
+    public int getQuantita(String nomeprodotto) {
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 1).equals(nomeprodotto)) {
+                return (int) model.getValueAt(i, 0);
+            }
+        }
+        return 0;
+    }
+
+    public double getPrezzo(String nomeprodotto) {
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 1).equals(nomeprodotto)) {
+                return (double)model.getValueAt(i, 2);
+            }
+        }
+        return 0;
+    }
+
+    public void updateRow(String nomeprodotto) {
+        double prezzoVecchio = getPrezzo(nomeprodotto);
+        int quantitaVecchia = getQuantita(nomeprodotto);
+
+        deleteRow(nomeprodotto);
+
+        updateTable(nomeprodotto, quantitaVecchia + 1, prezzoVecchio + prezzoVecchio);
+    }
+
 }

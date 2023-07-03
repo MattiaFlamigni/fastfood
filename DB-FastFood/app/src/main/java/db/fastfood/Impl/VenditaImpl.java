@@ -172,6 +172,10 @@ public class VenditaImpl implements Vendita {
                     // !!!!!
                     updateQuantity(nomeprodotto, idProdotto);
 
+                    //aggiorno la tabella della view
+                    
+                    view.updateRow(nomeprodotto);
+
                     flag = true;
                 }
             }
