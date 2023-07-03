@@ -8,4 +8,6 @@ public interface Vendita {
     public void vendita(String nomeprodotto);
 
     public void assegna_fidelty();
+
+    public void utilizza_fidelty();
 }
