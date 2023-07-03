@@ -8,7 +8,6 @@ import java.sql.Statement;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.text.View;
 
 import db.fastfood.api.Util;
 
