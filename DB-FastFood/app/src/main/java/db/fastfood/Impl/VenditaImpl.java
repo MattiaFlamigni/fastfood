@@ -9,6 +9,8 @@ import java.sql.Statement;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import db.fastfood.api.Util;
+
 //import com.mysql.cj.xdevapi.PreparableStatement;
 
 import db.fastfood.api.Vendita;
@@ -21,15 +23,18 @@ public class VenditaImpl implements Vendita {
     }
 
     public void nuovo_cliente() {
+
+        Util util = new UtilImpl(conn);
+
         try {
-            int idcliente = getCurrentcliente();
+            int idcliente =util.getCurrentcliente();
             String query = "INSERT INTO cliente(ID) VALUES (?) ";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, idcliente + 1);
             statement.executeUpdate();
 
             // associo id cliente alla tabella ordine
-            int idordine = getCurrentordine() + 1;
+            int idordine = util.getCurrentordine() + 1;
 
             String query2 = "INSERT INTO ordine(ID, data, ID_cliente) VALUES (?, ?, ?) ";
             PreparedStatement statement2 = conn.prepareStatement(query2);
@@ -44,15 +49,16 @@ public class VenditaImpl implements Vendita {
 
         // aggiorno i correnti
 
-        getCurrentcliente();
-        getCurrentordine();
+        util.getCurrentcliente();
+        util.getCurrentordine();
 
     }
 
     public void inserisci_offerta() {
+        Util util = new UtilImpl(conn);
         try {
             // int idcliente=getCurrentcliente();
-            int idordine = getCurrentordine();
+            int idordine = util.getCurrentordine();
             // textbox che chiede il numero di offerta
             JDialog dialog = new JDialog();
             dialog.setAlwaysOnTop(true);
@@ -91,19 +97,21 @@ public class VenditaImpl implements Vendita {
 
         // aggiorno i correnti
 
-        getCurrentcliente();
-        getCurrentordine();
+        util.getCurrentcliente();
+        util.getCurrentordine();
     }
 
     public void vendita(String nomeprodotto) {
+        Util util = new UtilImpl(conn);
+
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         boolean flag = false;
 
         try {
             @SuppressWarnings("unused")
-            int idcliente = getCurrentcliente();
-            int idordine = getCurrentordine();
+            int idcliente = util.getCurrentcliente();
+            int idordine = util.getCurrentordine();
             int idProdotto = 0;
 
             // Ottieni il codice del prodotto selezionato
@@ -167,8 +175,8 @@ public class VenditaImpl implements Vendita {
                 updateQuantity(nomeprodotto, idProdotto);
 
                 // Inserisci la vendita nel database del cliente corrente
-                idcliente = getCurrentcliente();
-                idordine = getCurrentordine();
+                idcliente = util.getCurrentcliente();
+                idordine = util.getCurrentordine();
                 String query2 = "INSERT INTO dettaglio_ordini (ID_ordine, codice_prodotto, quantita) VALUES (?,?,?)";
                 statement = conn.prepareStatement(query2);
                 statement.setInt(1, idordine);
@@ -205,35 +213,7 @@ public class VenditaImpl implements Vendita {
         flag = false;
     }
 
-    public int getCurrentcliente() {
-        int idcliente = 0;
-        try {
-            Statement statement = conn.createStatement();
-            String query = "SELECT ID FROM cliente";
-            ResultSet result = statement.executeQuery(query);
-            while (result.next()) {
-                idcliente = result.getInt("ID");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return idcliente;
-    }
-
-    public int getCurrentordine() {
-        int idordine = 0;
-        try {
-            Statement statement = conn.createStatement();
-            String query2 = "SELECT ID FROM ordine";
-            ResultSet result2 = statement.executeQuery(query2);
-            while (result2.next()) {
-                idordine = result2.getInt("ID");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return idordine;
-    }
+    
 
     private void updateQuantity(String nomeprodotto, int idProdotto) throws SQLException {
         // decrementa la quantita di ingredienti

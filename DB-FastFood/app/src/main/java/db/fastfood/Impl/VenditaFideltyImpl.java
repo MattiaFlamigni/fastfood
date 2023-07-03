@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
+import db.fastfood.api.Util;
 import db.fastfood.api.Vendita;
 import db.fastfood.api.VenditaFidelty;
 
@@ -77,7 +78,7 @@ public class VenditaFideltyImpl implements VenditaFidelty {
 
 
     public void utilizza_fidelty(){
-        Vendita vendita = new VenditaImpl(conn);
+        Util util = new UtilImpl(conn);
 
         //VenditaFidelty vendita = new VenditaFideltyImpl(conn);
 
@@ -110,7 +111,7 @@ public class VenditaFideltyImpl implements VenditaFidelty {
                 String query2 = "UPDATE dettaglio_ordini SET totale = ? WHERE ID_ordine = ?";
                 PreparedStatement statement3 = conn.prepareStatement(query2);
                 statement3.setDouble(1, 0);
-                statement3.setInt(2, vendita.getCurrentordine());
+                statement3.setInt(2, util.getCurrentordine());
                 statement3.executeUpdate();
             }
             

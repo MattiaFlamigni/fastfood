@@ -7,5 +7,4 @@ public interface Vendita {
 
     public void vendita(String nomeprodotto);
 
-    public int getCurrentordine();
 }
