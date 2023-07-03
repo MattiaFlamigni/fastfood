@@ -6,9 +6,9 @@ import db.fastfood.Impl.VenditaImpl;
 import db.fastfood.api.Vendita;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
+//import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
+//import java.awt.GridLayout;
 import java.sql.*;
 
 public class ViewSchermatavendita extends JFrame {
