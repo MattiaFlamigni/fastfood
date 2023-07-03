@@ -8,18 +8,24 @@ import java.sql.Statement;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.text.View;
 
 import db.fastfood.api.Util;
 
 //import com.mysql.cj.xdevapi.PreparableStatement;
 
 import db.fastfood.api.Vendita;
+import db.fastfood.view.ViewSchermatavendita;
 
 public class VenditaImpl implements Vendita {
     private final Connection conn;
+    ViewSchermatavendita view;
+
+
 
     public VenditaImpl(Connection conn) {
         this.conn = conn;
+        view = new ViewSchermatavendita(conn);
     }
 
     public void nuovo_cliente() {
@@ -190,6 +196,12 @@ public class VenditaImpl implements Vendita {
                 updatePrezzoStatement.setDouble(1, prezzo);
                 updatePrezzoStatement.setInt(2, idordine);
                 updatePrezzoStatement.executeUpdate();
+
+                //controller.updateTable(nomeprodotto, 1, prezzo);
+
+                //ViewSchermatavendita view = new ViewSchermatavendita(conn);
+                view.updateTable(nomeprodotto, 1, prezzo);
+
             }
 
         } catch (Exception e) {
