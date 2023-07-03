@@ -70,12 +70,19 @@ public class ViewSchermatavendita extends JFrame {
             vendita.assegna_fidelty();
         });
 
-        // in basso a destra sotto il precedente bottone un bottone "inserisci offerta"
+        
         JButton button2 = new JButton("Inserisci Offerta");
         panel.add(button2);
         button2.addActionListener(e -> {
             Vendita vendita = new VenditaImpl(conn);
             vendita.inserisci_offerta();
+        });
+
+        JButton utilizzaFidelty = new JButton("Inserisci Offerta");
+        panel.add(utilizzaFidelty);
+        button2.addActionListener(e -> {
+            Vendita vendita = new VenditaImpl(conn);
+            vendita.utilizzaFidelty();
         });
     }
 
