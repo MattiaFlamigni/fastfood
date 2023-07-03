@@ -59,6 +59,7 @@ public class VenditaImpl implements Vendita {
 
         util.getCurrentcliente();
         util.getCurrentordine();
+        view.clearTable();
 
     }
 

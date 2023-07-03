@@ -146,4 +146,8 @@ public class ViewSchermatavendita extends JFrame {
         return this;
     }
 
+    public void clearTable() {
+        model.setRowCount(0);
+    }
+
 }
