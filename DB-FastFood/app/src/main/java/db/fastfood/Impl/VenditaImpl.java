@@ -9,7 +9,7 @@ import java.sql.Statement;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-import com.mysql.cj.xdevapi.PreparableStatement;
+//import com.mysql.cj.xdevapi.PreparableStatement;
 
 import db.fastfood.api.Vendita;
 
@@ -114,6 +114,8 @@ public class VenditaImpl implements Vendita {
             while (resultSet.next()) {
                 idProdotto = resultSet.getInt("codice");
             }
+            statement.close();
+            resultSet.close();
             // ottieni il prezzo del prodotto selezionato
             String queryprezzo = "SELECT prezzovendita FROM prodotti WHERE descrizione = ?";
             statement = conn.prepareStatement(queryprezzo);
