@@ -72,7 +72,7 @@ public class ViewSchermatavendita extends JFrame {
                 //button.setBorder(BorderFactory.createBevelBorder(5));
                 button.addActionListener(e -> {
                     // attribuisce al cliente corrente l'id del prodotto selezionato
-                    Vendita vendita = new VenditaImpl(conn);
+                    Vendita vendita = new VenditaImpl(getView(), conn);
                     vendita.vendita(nomeprodotto);
                 });
                 panel.add(button);
@@ -107,7 +107,7 @@ public class ViewSchermatavendita extends JFrame {
         JButton button = new JButton("Nuovo Cliente");
         panel.add(button);
         button.addActionListener(e -> {
-            Vendita vendita = new VenditaImpl(conn);
+            Vendita vendita = new VenditaImpl(getView(), conn);
             vendita.nuovo_cliente();
         });
 
@@ -122,7 +122,7 @@ public class ViewSchermatavendita extends JFrame {
         JButton button2 = new JButton("Inserisci Offerta");
         panel.add(button2);
         button2.addActionListener(e -> {
-            Vendita vendita = new VenditaImpl(conn);
+            Vendita vendita = new VenditaImpl(getView(), conn);
             vendita.inserisci_offerta();
         });
 
@@ -139,6 +139,11 @@ public class ViewSchermatavendita extends JFrame {
 
     public void updateTable(String nomeprodotto, int quantita, double prezzo) {
         model.addRow(new Object[]{quantita, nomeprodotto, prezzo});
+    }
+
+    //ritorna questa view
+    public ViewSchermatavendita getView() {
+        return this;
     }
 
 }

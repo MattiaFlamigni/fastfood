@@ -19,13 +19,16 @@ import db.fastfood.view.ViewSchermatavendita;
 
 public class VenditaImpl implements Vendita {
     private final Connection conn;
+    
+    //non devo creare una nuova view ma devo aggiornare quella esistente
     ViewSchermatavendita view;
 
 
 
-    public VenditaImpl(Connection conn) {
+
+    public VenditaImpl(ViewSchermatavendita view, Connection conn) {
         this.conn = conn;
-        view = new ViewSchermatavendita(conn);
+        this.view = view;
     }
 
     public void nuovo_cliente() {
