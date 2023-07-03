@@ -5,6 +5,10 @@ import javax.swing.*;
 import db.fastfood.Impl.VenditaImpl;
 import db.fastfood.api.Vendita;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.sql.*;
 
 public class ViewSchermatavendita extends JFrame {
@@ -21,6 +25,7 @@ public class ViewSchermatavendita extends JFrame {
 
         setTitle("Schermata Vendite");
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        //setLayout(new FlowLayout());
         setSize(400, 150);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,6 +40,10 @@ public class ViewSchermatavendita extends JFrame {
             while (result.next()) {
                 String nomeprodotto = result.getString("descrizione");
                 JButton button = new JButton(nomeprodotto);
+                button.setFont(new Font("Arial", Font.PLAIN, 12));
+                button.setBackground(new Color(240, 240, 240));
+                button.setFocusPainted(false);
+                //button.setBorder(BorderFactory.createBevelBorder(5));
                 button.addActionListener(e -> {
                     // attribuisce al cliente corrente l'id del prodotto selezionato
                     Vendita vendita = new VenditaImpl(conn);
