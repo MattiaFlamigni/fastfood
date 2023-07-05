@@ -46,6 +46,7 @@ public class ViewSchermataManager extends JFrame {
         // Creazione del pulsante per la sezione "Altro"
         JButton btnFatturatoMensile = new JButton("Visualizza Fatturato Mensile");
         JButton btnCreaFidelity = new JButton("Crea Fidelity");
+        JButton btnVenditeGiornaliere = new JButton("Visualizza Vendite Giornaliere");
 
         // Creazione del layout
         Container container = getContentPane();
@@ -88,7 +89,9 @@ public class ViewSchermataManager extends JFrame {
         altroPanel.setLayout(new FlowLayout());
         altroPanel.add(btnFatturatoMensile);
         altroPanel.add(btnCreaFidelity);
+        altroPanel.add(btnVenditeGiornaliere);
         container.add(altroPanel);
+
 
         // Aggiunta delle azioni ai pulsanti
         btnVisualizzaProdotti.addActionListener(e -> {
@@ -150,6 +153,10 @@ public class ViewSchermataManager extends JFrame {
         btnMagazzino.addActionListener(e -> {
             ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
             managerIngredienti.visualizzaMagazzino();
+        });
+        btnVenditeGiornaliere.addActionListener(e -> {
+            Manager logic = new ManagerImpl(conn);
+            logic.visualizzaVenditeGiornaliere();
         });
     }
 }

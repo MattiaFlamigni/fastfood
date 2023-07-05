@@ -39,4 +39,6 @@ public interface Manager {
      */
     public void creaFidelty();
 
+    public void visualizzaVenditeGiornaliere();
+
 }

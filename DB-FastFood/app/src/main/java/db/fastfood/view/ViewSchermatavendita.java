@@ -49,6 +49,7 @@ public class ViewSchermatavendita extends JFrame {
         table.setShowVerticalLines(false);
         //aggiungi spazio tra le righe
         table.setIntercellSpacing(new Dimension(0, 1));
+        
         scrollPane = new JScrollPane(table);
         //JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.EAST);
@@ -58,7 +59,7 @@ public class ViewSchermatavendita extends JFrame {
         setTitle("Schermata Vendite");
         //setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setLayout(new FlowLayout(FlowLayout.CENTER));
-        setSize(400, 150);
+        setSize(800, 600);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);

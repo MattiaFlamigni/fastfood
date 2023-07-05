@@ -1,6 +1,9 @@
 package db.fastfood.Impl;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -8,14 +11,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import db.fastfood.api.Manager;
@@ -23,6 +30,7 @@ import db.fastfood.api.Manager;
 public class ManagerImpl implements Manager {
 
     private final Connection conn;
+    CustomTable prova = new CustomTable();
 
     public ManagerImpl(Connection conn) {
         this.conn = conn;
@@ -421,6 +429,80 @@ public class ManagerImpl implements Manager {
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Errore durante la creazione della fidelity.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void visualizzaVenditeGiornaliere(){
+        List<String> prodotti = new ArrayList<String>();
+        //visualizza una tabella con le vendite giornaliere
+        try {
+            Statement statement = conn.createStatement();
+            String query = """
+                    select p.descrizione, p.prezzovendita, SUM(d.quantita) as venduto
+                    from prodotti p, ordine o, dettaglio_ordini d
+                    where 	d.ID_ordine = o.ID and d.codice_prodotto = p.codice and
+		                    o.data = current_date() and o.data is not null 
+                    group by p.descrizione, p.prezzovendita;""";
+                    
+            ResultSet resultSet = statement.executeQuery(query);
+            String[] columnNames = { "descrizione", "prezzovendita", "venduto" };
+            DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+
+            while (resultSet.next()) {
+                String nome = resultSet.getString("descrizione");
+                //prodotti.add(nome);
+                double prezzo = resultSet.getDouble("prezzovendita");
+                int venduto = resultSet.getInt("venduto");
+                //int quantita = resultSet.getInt("quantita");
+                //String data = resultSet.getString("data");
+                Object[] row = { nome, prezzo, venduto, /*data*/ };
+
+                tableModel.addRow(row);
+            }
+
+            //aggiunge alla tabella il fatturato totale
+            query = """
+                    select SUM(p.prezzovendita * d.quantita) as fatturato
+                    from prodotti p, ordine o, dettaglio_ordini d
+                    where 	d.ID_ordine = o.ID and d.codice_prodotto = p.codice and
+                            o.data = current_date() and o.data is not null;""";
+            resultSet = statement.executeQuery(query);
+            resultSet.next();
+            double fatturato = resultSet.getDouble("fatturato");
+            Object[] row2 = { "Fatturato totale", fatturato };
+            tableModel.addRow(row2);
+            
+
+            
+
+
+            resultSet.close();
+            statement.close();
+
+
+            
+
+
+
+            JTable table = new JTable(tableModel);
+            JScrollPane scrollPane = new JScrollPane(table);
+            JFrame frame = new JFrame("Vendite giornaliere");
+            //rendi la tabella non modificabile
+            table.setDefaultEditor(Object.class, null);
+            
+            prova.doGraphic(table);
+
+            frame.add(scrollPane, BorderLayout.CENTER);
+            frame.setSize(800, 600);
+            //evidenzia l'ultimo elemento della tabella
+            table.changeSelection(table.getRowCount() - 1, 0, false, false);
+            table.setFont(new Font("Arial", Font.PLAIN, 15));
+
+            frame.setVisible(true);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
