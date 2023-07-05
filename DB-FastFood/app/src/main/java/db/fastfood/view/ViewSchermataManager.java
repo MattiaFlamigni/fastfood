@@ -2,11 +2,13 @@ package db.fastfood.view;
 
 import javax.swing.*;
 
+import db.fastfood.Impl.ManagerContrattiImpl;
 import db.fastfood.Impl.ManagerImpl;
 import db.fastfood.Impl.ManagerIngredientiImpl;
 import db.fastfood.Impl.ManagerProductsImpl;
 import db.fastfood.Impl.ManagerRichiesteImpl;
 import db.fastfood.api.Manager.Manager;
+import db.fastfood.api.Manager.ManagerContratti;
 import db.fastfood.api.Manager.ManagerProducts;
 import db.fastfood.api.Manager.ManagerRichieste;
 
@@ -131,15 +133,15 @@ public class ViewSchermataManager extends JFrame {
             logic.visualizzaAddetti();
         });
         btnContratti.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
+            ManagerContratti logic = new ManagerContrattiImpl(conn);
             logic.inserisciContratto();
         });
         btnVisualizzaContratti.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
+            ManagerContratti logic = new ManagerContrattiImpl(conn);
             logic.visualizzaContratti("");
         });
         btnRicercaContratto.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
+            ManagerContratti logic = new ManagerContrattiImpl(conn);
             logic.ricercaContratti();
         });
         btnFatturatoMensile.addActionListener(e -> {
