@@ -23,7 +23,7 @@ import db.fastfood.api.Manager;
 public class ManagerImpl implements Manager {
 
     private final Connection conn;
-    CustomTable prova = new CustomTable();
+    CustomTable customizeTable = new CustomTable();
 
     public ManagerImpl(Connection conn) {
         this.conn = conn;
@@ -135,6 +135,7 @@ public class ManagerImpl implements Manager {
             statement.close();
             JTable table = new JTable(tableModel);
             JFrame tableFrame = new JFrame(tabella);
+            customizeTable.doGraphic(table);
             tableFrame.setSize(400, 300);
             tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             tableFrame.setLocationRelativeTo(null);
@@ -308,9 +309,10 @@ public class ManagerImpl implements Manager {
 
             JTable table = new JTable(tableModel);
             JScrollPane scrollPane = new JScrollPane(table);
+            customizeTable.doGraphic(table);
             JFrame frame = new JFrame("Contratti");
             frame.add(scrollPane, BorderLayout.CENTER);
-            frame.setSize(800, 600);
+            frame.setSize(800, 800);
 
             JButton eliminaButton = new JButton("Elimina");
             eliminaButton.addActionListener(new ActionListener() {
@@ -480,9 +482,10 @@ public class ManagerImpl implements Manager {
             JTable table = new JTable(tableModel);
             JScrollPane scrollPane = new JScrollPane(table);
             JFrame frame = new JFrame("Vendite giornaliere");
-            //rendi la tabella non modificabile
-            prova.notEditable(table);
-            prova.doGraphic(table);
+            
+
+            customizeTable.notEditable(table);
+            customizeTable.doGraphic(table);
             frame.add(scrollPane, BorderLayout.CENTER);
             frame.setSize(800, 600);
             //evidenzia l'ultimo elemento della tabella
