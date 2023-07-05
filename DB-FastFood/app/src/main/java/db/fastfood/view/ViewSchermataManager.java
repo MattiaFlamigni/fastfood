@@ -49,6 +49,7 @@ public class ViewSchermataManager extends JFrame {
 
         //creazione dei pulsanti per la sezione "ordini ai fornitori"
         JButton btnInserisciFornitore = new JButton("Inserisci Fornitore");
+        JButton btnVisualizzaFornitori = new JButton("Visualizza Fornitori");
 
         // Creazione del pulsante per la sezione "Altro"
         JButton btnFatturatoMensile = new JButton("Visualizza Fatturato Mensile");
@@ -105,7 +106,9 @@ public class ViewSchermataManager extends JFrame {
         JPanel ordiniFornitoriPanel = new JPanel();
         ordiniFornitoriPanel.setLayout(new FlowLayout());
         ordiniFornitoriPanel.add(btnInserisciFornitore);
+        ordiniFornitoriPanel.add(btnVisualizzaFornitori);
         container.add(ordiniFornitoriPanel);
+
 
 
         // Aggiunta delle azioni ai pulsanti
@@ -176,6 +179,10 @@ public class ViewSchermataManager extends JFrame {
         btnInserisciFornitore.addActionListener(e -> {
             ManagerFornitori logic = new ManagerFornitoriImpl(conn);
             logic.inserisciFornitore();
+        });
+        btnVisualizzaFornitori.addActionListener(e -> {
+            ManagerFornitori logic = new ManagerFornitoriImpl(conn);
+            logic.visualizzaFornitori();
         });
     }
 }
