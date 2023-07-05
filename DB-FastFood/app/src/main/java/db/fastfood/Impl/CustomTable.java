@@ -32,5 +32,9 @@ public class CustomTable extends DefaultTableModel {
         table.setShowVerticalLines(true);
 
     }
+
+    public void notEditable(JTable table) {
+        table.setDefaultEditor(Object.class, null);
+    }
     
 }

@@ -489,7 +489,7 @@ public class ManagerImpl implements Manager {
             JScrollPane scrollPane = new JScrollPane(table);
             JFrame frame = new JFrame("Vendite giornaliere");
             //rendi la tabella non modificabile
-            table.setDefaultEditor(Object.class, null);
+            prova.notEditable(table);
             
             prova.doGraphic(table);
 
@@ -497,7 +497,6 @@ public class ManagerImpl implements Manager {
             frame.setSize(800, 600);
             //evidenzia l'ultimo elemento della tabella
             table.changeSelection(table.getRowCount() - 1, 0, false, false);
-            table.setFont(new Font("Arial", Font.PLAIN, 15));
 
             frame.setVisible(true);
         } catch (SQLException ex) {
