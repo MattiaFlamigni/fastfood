@@ -129,7 +129,7 @@ public class ManagerContrattiImpl implements ManagerContratti {
                             if (rowsAffected > 0) {
                                 JOptionPane.showMessageDialog(frame, "Record modificato con successo.", "Modifica",
                                         JOptionPane.INFORMATION_MESSAGE);
-                                        //chiudi la schermata
+                                        
                                 frame.dispose();
                                 visualizzaContratti(cfDipendenteDaCercare); // Aggiorna la visualizzazione dei contratti
                             } else {

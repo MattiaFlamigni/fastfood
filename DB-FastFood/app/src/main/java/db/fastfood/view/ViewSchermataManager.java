@@ -3,12 +3,14 @@ package db.fastfood.view;
 import javax.swing.*;
 
 import db.fastfood.Impl.Manager.ManagerContrattiImpl;
+import db.fastfood.Impl.Manager.ManagerFornitoriImpl;
 import db.fastfood.Impl.Manager.ManagerImpl;
 import db.fastfood.Impl.Manager.ManagerIngredientiImpl;
 import db.fastfood.Impl.Manager.ManagerProductsImpl;
 import db.fastfood.Impl.Manager.ManagerRichiesteImpl;
 import db.fastfood.api.Manager.Manager;
 import db.fastfood.api.Manager.ManagerContratti;
+import db.fastfood.api.Manager.ManagerFornitori;
 import db.fastfood.api.Manager.ManagerProducts;
 import db.fastfood.api.Manager.ManagerRichieste;
 
@@ -44,6 +46,9 @@ public class ViewSchermataManager extends JFrame {
         JButton btnContratti = new JButton("Crea contratto");
         JButton btnVisualizzaContratti = new JButton("Visualizza contratti");
         JButton btnRicercaContratto = new JButton("Ricerca contratto");
+
+        //creazione dei pulsanti per la sezione "ordini ai fornitori"
+        JButton btnInserisciFornitore = new JButton("Inserisci Fornitore");
 
         // Creazione del pulsante per la sezione "Altro"
         JButton btnFatturatoMensile = new JButton("Visualizza Fatturato Mensile");
@@ -85,6 +90,7 @@ public class ViewSchermataManager extends JFrame {
         dipendentiPanel.add(btnRicercaContratto);
         container.add(dipendentiPanel);
 
+
         // Aggiunta dei pulsanti alla sezione "Altro"
         JPanel altroPanel = new JPanel();
 
@@ -93,6 +99,13 @@ public class ViewSchermataManager extends JFrame {
         altroPanel.add(btnCreaFidelity);
         altroPanel.add(btnVenditeGiornaliere);
         container.add(altroPanel);
+
+
+        //aggiunta dei pulsanti per la sezione "ordini ai fornitori"
+        JPanel ordiniFornitoriPanel = new JPanel();
+        ordiniFornitoriPanel.setLayout(new FlowLayout());
+        ordiniFornitoriPanel.add(btnInserisciFornitore);
+        container.add(ordiniFornitoriPanel);
 
 
         // Aggiunta delle azioni ai pulsanti
@@ -159,6 +172,10 @@ public class ViewSchermataManager extends JFrame {
         btnVenditeGiornaliere.addActionListener(e -> {
             Manager logic = new ManagerImpl(conn);
             logic.visualizzaVenditeGiornaliere();
+        });
+        btnInserisciFornitore.addActionListener(e -> {
+            ManagerFornitori logic = new ManagerFornitoriImpl(conn);
+            logic.inserisciFornitore();
         });
     }
 }
