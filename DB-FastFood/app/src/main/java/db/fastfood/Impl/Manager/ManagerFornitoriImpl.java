@@ -13,8 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.plaf.nimbus.State;
-import javax.swing.table.DefaultTableModel;
 
 import db.fastfood.api.Manager.ManagerFornitori;
 import db.fastfood.util.CustomTable;

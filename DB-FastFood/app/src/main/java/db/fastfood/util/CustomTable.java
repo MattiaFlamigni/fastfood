@@ -3,7 +3,6 @@ package db.fastfood.util;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.sql.ResultSet;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
