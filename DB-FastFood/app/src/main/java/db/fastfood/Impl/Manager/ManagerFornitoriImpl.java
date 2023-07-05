@@ -140,5 +140,164 @@ public class ManagerFornitoriImpl implements ManagerFornitori {
             JOptionPane.showMessageDialog(null, "Errore nel caricamento dei fornitori", "Visualizza fornitori", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    public void makeOrder(){
+        //double totale=0;
+        String piva = "";
+
+        /*autenticazione manager */
+        String username = JOptionPane.showInputDialog(null, "Inserisci il tuo username", "Inserisci fornitura", JOptionPane.INFORMATION_MESSAGE);
+        if(username == null) return;
+        try{
+            Statement stmt = conn.createStatement();
+            String query = "SELECT * FROM Manager WHERE CF = '" + username + "'";
+            ResultSet rs = stmt.executeQuery(query);
+            if(!rs.next()){
+                JOptionPane.showMessageDialog(null, "Username non valido", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Errore nell'autenticazione", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+        //chiede all'utente di selezionare un fornitore tramite una combobox
+        String[] fornitori = new String[0];
+        try{
+            Statement stmt = conn.createStatement();
+            String query = "SELECT COUNT(*) FROM Fornitori";
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            fornitori = new String[rs.getInt(1)];
+            query = "SELECT azienda, Piva FROM Fornitori";
+            rs = stmt.executeQuery(query);
+            int i=0;
+            while(rs.next()){
+                piva = rs.getString("Piva");
+                fornitori[i] = rs.getString("azienda");
+                
+                i++;
+            }
+
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Errore nel caricamento dei fornitori", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String fornitore = (String) JOptionPane.showInputDialog(null, "Seleziona il fornitore", "Inserisci fornitura", JOptionPane.INFORMATION_MESSAGE, null, fornitori, fornitori[0]);
+        if(fornitore == null) return;
+
+
+        //si apre una nuova schermata con la tabella degli ngredienti. L'utente seleziona gli ingredienti e inserisce la quantità
+
+        //creo la tabella.
+        JTable table = new JTable(customtable);
+        customtable.doGraphic(table);
+        customtable.addColumn("Ingrediente");
+        customtable.addColumn("Quantità");
+
+        //aggiungo i dati alla tabella
+        try{
+            String query = "SELECT * FROM Ingredienti";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                customtable.addRow(new Object[]{rs.getString("nome_commerciale"), 0});
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Errore nel caricamento degli ingredienti", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //creo la schermata
+        JFrame frame = new JFrame("Inserisci fornitura");
+        frame.add(new JScrollPane(table));
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setSize(800, 600);
+        
+        JButton inserisciButton = new JButton("Inserisci");
+        inserisciButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                double totale = 0;
+                //per ogni riga della tabella seleziono il prodotto e la quantita
+        int rows = table.getRowCount();
+        for(int i = 0; i<rows; i++){
+            //prendo il prodotto e la quantità
+            String ingrediente = (String) table.getValueAt(i, 0);
+            int quantita = Integer.parseInt(table.getValueAt(i, 1).toString());
+
+
+            //calcolo il prezzo del prodotto
+            try{
+                String query = "SELECT prezzoUnitario FROM Ingredienti WHERE nome_commerciale = '" + ingrediente + "'";
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                if(!rs.next()){
+                    JOptionPane.showMessageDialog(null, "Errore nel calcolo del prezzo", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                double prezzo = rs.getFloat("prezzoUnitario");
+                totale = totale + prezzo * quantita;
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Errore nel calcolo del prezzo", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        //ottengo il massimo id e lo incremento di 1
+        int id;    
+        try{
+            String query = "SELECT MAX(ID) FROM ordineapprovigionamento";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(!rs.next()){
+                JOptionPane.showMessageDialog(null, "Errore generico", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            id = rs.getInt("MAX(ID)");
+            id++;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Errore nel calcolo del prezzo", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+        
+        //inserisco la fornitura
+        try{
+            String query = "INSERT INTO ordineapprovigionamento (ID, prezzo, data, CF_manager) VALUES ('" +  id + "', '" + totale + "', '" + java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "', '" +username +"')";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+            JOptionPane.showMessageDialog(null, "Fornitura inserita correttamente", "Inserisci fornitura", JOptionPane.INFORMATION_MESSAGE);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Errore nell'inserimento della fornitura", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+            }
+            
+        });
+
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(inserisciButton);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+
+
+
+
+
+
+        
+
+
+
+
+    }
     
 }
