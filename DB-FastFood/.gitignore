@@ -2,8 +2,7 @@
 .gradle
 .idea
 .vscode/*
-/*.class
-
+*.class
 
 # Ignore Gradle build output directory
 build
