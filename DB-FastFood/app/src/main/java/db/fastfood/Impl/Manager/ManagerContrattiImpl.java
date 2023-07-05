@@ -100,8 +100,60 @@ public class ManagerContrattiImpl implements ManagerContratti {
                 }
             });
 
+            JButton modificaButton = new JButton("conferma modifica");
+
+            modificaButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        int idContratto = (int) table.getValueAt(selectedRow, 0);
+                        String stipendio = (String) table.getValueAt(selectedRow, 1);
+                        String dataFine = (String) table.getValueAt(selectedRow, 2);
+                        String ore = (String) table.getValueAt(selectedRow, 3);
+                        String dataInizio = (String) table.getValueAt(selectedRow, 4);
+                        String CF = (String) table.getValueAt(selectedRow, 5);
+                        String nome = (String) table.getValueAt(selectedRow, 6);
+                        String cognome = (String) table.getValueAt(selectedRow, 7);
+
+                        try {
+                            Statement updateStatement = conn.createStatement();
+                            String updateQuery = "UPDATE CONTRATTO SET stipendio = ?, data_fine = ?, ore_previste_settimanali = ?, data_inizio = ?, CF_addetto = ? WHERE ID = ?";
+                            PreparedStatement preparedStatement = conn.prepareStatement(updateQuery);
+                            preparedStatement.setString(1, stipendio);
+                            preparedStatement.setString(2, dataFine);
+                            preparedStatement.setString(3, ore);
+                            preparedStatement.setString(4, dataInizio);
+                            preparedStatement.setString(5, CF);
+                            preparedStatement.setInt(6, idContratto);
+                            int rowsAffected = preparedStatement.executeUpdate();
+
+                            if (rowsAffected > 0) {
+                                JOptionPane.showMessageDialog(frame, "Record modificato con successo.", "Modifica",
+                                        JOptionPane.INFORMATION_MESSAGE);
+                                visualizzaContratti(cfDipendenteDaCercare); // Aggiorna la visualizzazione dei contratti
+                            } else {
+                                JOptionPane.showMessageDialog(frame, "Nessun record modificato.", "Modifica",
+                                        JOptionPane.WARNING_MESSAGE);
+                            }
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(frame, "Errore durante la modifica del record.", "Errore",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Seleziona un record da modificare.", "Modifica",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+                
+            });
+
+
             JPanel buttonPanel = new JPanel();
             buttonPanel.add(eliminaButton);
+            buttonPanel.add(modificaButton);
             frame.add(buttonPanel, BorderLayout.SOUTH);
 
             frame.setVisible(true);
