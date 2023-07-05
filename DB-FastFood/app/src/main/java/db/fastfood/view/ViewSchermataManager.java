@@ -6,9 +6,9 @@ import db.fastfood.Impl.ManagerImpl;
 import db.fastfood.Impl.ManagerIngredientiImpl;
 import db.fastfood.Impl.ManagerProductsImpl;
 import db.fastfood.Impl.ManagerRichiesteImpl;
-import db.fastfood.api.Manager;
-import db.fastfood.api.ManagerProducts;
-import db.fastfood.api.ManagerRichieste;
+import db.fastfood.api.Manager.Manager;
+import db.fastfood.api.Manager.ManagerProducts;
+import db.fastfood.api.Manager.ManagerRichieste;
 
 import java.awt.*;
 import java.sql.*;

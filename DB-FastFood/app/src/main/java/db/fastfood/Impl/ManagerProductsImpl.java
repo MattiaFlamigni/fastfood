@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import db.fastfood.api.ManagerProducts;
+import db.fastfood.api.Manager.ManagerProducts;
 
 public class ManagerProductsImpl implements ManagerProducts {
 

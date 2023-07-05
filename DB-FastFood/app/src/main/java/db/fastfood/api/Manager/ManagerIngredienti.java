@@ -1,4 +1,4 @@
-package db.fastfood.api;
+package db.fastfood.api.Manager;
 
 public interface ManagerIngredienti {
     /**

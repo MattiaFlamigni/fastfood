@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import db.fastfood.api.ManagerRichieste;
+import db.fastfood.api.Manager.ManagerRichieste;
 
 public class ManagerRichiesteImpl implements ManagerRichieste {
 

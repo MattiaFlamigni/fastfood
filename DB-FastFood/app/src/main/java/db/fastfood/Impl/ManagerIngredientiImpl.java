@@ -1,7 +1,5 @@
 package db.fastfood.Impl;
 
-import db.fastfood.api.ManagerIngredienti;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import db.fastfood.api.Manager.ManagerIngredienti;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
