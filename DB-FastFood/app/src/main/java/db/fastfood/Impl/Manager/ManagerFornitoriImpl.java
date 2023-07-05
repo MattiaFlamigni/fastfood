@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -144,6 +146,7 @@ public class ManagerFornitoriImpl implements ManagerFornitori {
     public void makeOrder(){
         //double totale=0;
         String piva = "";
+        Map <String, Integer> ingredientiquantita = new HashMap<String, Integer>();
 
         /*autenticazione manager */
         String username = JOptionPane.showInputDialog(null, "Inserisci il tuo username", "Inserisci fornitura", JOptionPane.INFORMATION_MESSAGE);
@@ -219,7 +222,7 @@ public class ManagerFornitoriImpl implements ManagerFornitori {
         
         JButton inserisciButton = new JButton("Inserisci");
         inserisciButton.addActionListener(new ActionListener() {
-
+            
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 double totale = 0;
@@ -229,6 +232,8 @@ public class ManagerFornitoriImpl implements ManagerFornitori {
             //prendo il prodotto e la quantità
             String ingrediente = (String) table.getValueAt(i, 0);
             int quantita = Integer.parseInt(table.getValueAt(i, 1).toString());
+            
+           ingredientiquantita.put(ingrediente, quantita);
 
 
             //calcolo il prezzo del prodotto
@@ -265,6 +270,7 @@ public class ManagerFornitoriImpl implements ManagerFornitori {
             return;
         }
 
+        System.out.println(ingredientiquantita);
 
         
         //inserisco la fornitura
@@ -278,9 +284,29 @@ public class ManagerFornitoriImpl implements ManagerFornitori {
             JOptionPane.showMessageDialog(null, "Errore nell'inserimento della fornitura", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
             return;
         }
-            }
             
-        });
+
+        System.out.println("DEVE"+ingredientiquantita);
+        //incremento la quantita degli ingredienti
+        try{
+            for(String ingrediente : ingredientiquantita.keySet()){
+                String query = "UPDATE Ingredienti SET quantita = quantita + " + ingredientiquantita.get(ingrediente) + " WHERE nome_commerciale = '" + ingrediente + "'";
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(query);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Errore nell'inserimento della fornitura", "Inserisci fornitura", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+
+
+            
+    }});
+
+        
+        
 
 
         JPanel buttonPanel = new JPanel();
