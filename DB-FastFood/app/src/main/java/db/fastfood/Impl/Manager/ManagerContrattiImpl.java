@@ -114,11 +114,8 @@ public class ManagerContrattiImpl implements ManagerContratti {
                         String ore = (String) table.getValueAt(selectedRow, 3);
                         String dataInizio = (String) table.getValueAt(selectedRow, 4);
                         String CF = (String) table.getValueAt(selectedRow, 5);
-                        String nome = (String) table.getValueAt(selectedRow, 6);
-                        String cognome = (String) table.getValueAt(selectedRow, 7);
 
                         try {
-                            Statement updateStatement = conn.createStatement();
                             String updateQuery = "UPDATE CONTRATTO SET stipendio = ?, data_fine = ?, ore_previste_settimanali = ?, data_inizio = ?, CF_addetto = ? WHERE ID = ?";
                             PreparedStatement preparedStatement = conn.prepareStatement(updateQuery);
                             preparedStatement.setString(1, stipendio);
@@ -132,6 +129,8 @@ public class ManagerContrattiImpl implements ManagerContratti {
                             if (rowsAffected > 0) {
                                 JOptionPane.showMessageDialog(frame, "Record modificato con successo.", "Modifica",
                                         JOptionPane.INFORMATION_MESSAGE);
+                                        //chiudi la schermata
+                                frame.dispose();
                                 visualizzaContratti(cfDipendenteDaCercare); // Aggiorna la visualizzazione dei contratti
                             } else {
                                 JOptionPane.showMessageDialog(frame, "Nessun record modificato.", "Modifica",
