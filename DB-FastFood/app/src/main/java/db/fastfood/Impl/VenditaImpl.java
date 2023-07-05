@@ -9,11 +9,11 @@ import java.sql.Statement;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-import db.fastfood.api.Util;
-
 //import com.mysql.cj.xdevapi.PreparableStatement;
 
 import db.fastfood.api.Vendita;
+import db.fastfood.util.Util;
+import db.fastfood.util.UtilImpl;
 import db.fastfood.view.ViewSchermatavendita;
 
 public class VenditaImpl implements Vendita {

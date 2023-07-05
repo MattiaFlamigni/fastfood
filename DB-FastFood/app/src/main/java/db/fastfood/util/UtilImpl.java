@@ -1,10 +1,8 @@
-package db.fastfood.Impl;
+package db.fastfood.util;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
-import db.fastfood.api.Util;
 
 public class UtilImpl implements Util {
     private final Connection conn;

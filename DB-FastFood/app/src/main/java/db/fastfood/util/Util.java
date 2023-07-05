@@ -1,4 +1,4 @@
-package db.fastfood.api;
+package db.fastfood.util;
 
 public interface Util {
     

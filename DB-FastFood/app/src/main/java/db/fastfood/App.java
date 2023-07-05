@@ -5,6 +5,7 @@ package db.fastfood;
 
 import javax.swing.SwingUtilities;
 
+import db.fastfood.Connection.Connessione;
 import db.fastfood.view.ViewSchermataIniziale;
 
 public class App {

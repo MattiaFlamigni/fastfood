@@ -1,4 +1,4 @@
-package db.fastfood.Impl;
+package db.fastfood.util;
 
 import java.awt.Color;
 import java.awt.Dimension;

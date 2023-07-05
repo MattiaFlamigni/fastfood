@@ -8,8 +8,9 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
-import db.fastfood.api.Util;
 import db.fastfood.api.VenditaFidelty;
+import db.fastfood.util.Util;
+import db.fastfood.util.UtilImpl;
 
 public class VenditaFideltyImpl implements VenditaFidelty {
     

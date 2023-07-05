@@ -1,4 +1,4 @@
-package db.fastfood.Impl;
+package db.fastfood.Impl.Manager;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

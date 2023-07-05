@@ -1,4 +1,4 @@
-package db.fastfood.Impl;
+package db.fastfood.Impl.Manager;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import db.fastfood.api.Manager.ManagerContratti;
+import db.fastfood.util.CustomTable;
 
 public class ManagerContrattiImpl implements ManagerContratti {
 

@@ -2,11 +2,11 @@ package db.fastfood.view;
 
 import javax.swing.*;
 
-import db.fastfood.Impl.ManagerContrattiImpl;
-import db.fastfood.Impl.ManagerImpl;
-import db.fastfood.Impl.ManagerIngredientiImpl;
-import db.fastfood.Impl.ManagerProductsImpl;
-import db.fastfood.Impl.ManagerRichiesteImpl;
+import db.fastfood.Impl.Manager.ManagerContrattiImpl;
+import db.fastfood.Impl.Manager.ManagerImpl;
+import db.fastfood.Impl.Manager.ManagerIngredientiImpl;
+import db.fastfood.Impl.Manager.ManagerProductsImpl;
+import db.fastfood.Impl.Manager.ManagerRichiesteImpl;
 import db.fastfood.api.Manager.Manager;
 import db.fastfood.api.Manager.ManagerContratti;
 import db.fastfood.api.Manager.ManagerProducts;
