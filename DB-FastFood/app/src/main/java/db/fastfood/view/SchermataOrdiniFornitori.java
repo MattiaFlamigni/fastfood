@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class SchermataOrdiniFornitori extends JFrame {
+    @SuppressWarnings("unused")
     private Connection connection;
     ButtonClickListenerFornitori listener;
 
@@ -43,7 +44,7 @@ public class SchermataOrdiniFornitori extends JFrame {
         btnInserisciFornitore.addActionListener(new ButtonClickListenerFornitori(connection));
         btnVisualizzaFornitori.addActionListener(new ButtonClickListenerFornitori(connection));
         btnInserisciOrdine.addActionListener(new ButtonClickListenerFornitori(connection));
-        
+
     }
     
 }

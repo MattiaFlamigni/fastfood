@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
 import db.fastfood.Impl.Manager.ManagerContrattiImpl;
 import db.fastfood.Impl.Manager.ManagerImpl;

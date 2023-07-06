@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class SchermataRichieste extends JFrame {
+    @SuppressWarnings("unused")
     private final Connection conn;
 
     public SchermataRichieste(Connection conn){

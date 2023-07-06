@@ -1,10 +1,9 @@
 package db.fastfood.view;
 
-import java.awt.Button;
+
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 
 import javax.swing.JButton;
@@ -12,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class SchermataDipendenti extends JFrame {
+    @SuppressWarnings("unused")
     private final Connection conn;
     //ButtonClickListenerDipendenti listener;
 

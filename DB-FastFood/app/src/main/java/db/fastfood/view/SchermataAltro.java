@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class SchermataAltro extends JFrame {
+    @SuppressWarnings("unused")
     private Connection connection;
 
     public SchermataAltro(Connection connection){

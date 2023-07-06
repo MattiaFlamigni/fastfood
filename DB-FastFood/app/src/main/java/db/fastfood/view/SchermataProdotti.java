@@ -1,6 +1,5 @@
 package db.fastfood.view;
 
-import java.awt.Button;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -11,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class SchermataProdotti extends JFrame {
+    @SuppressWarnings("unused")
     private final Connection conn;
     ButtonClickListenerProducts listener;
 
