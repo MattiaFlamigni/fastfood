@@ -75,7 +75,8 @@ public class SchermataInizialeFinale extends JFrame {
     }
 
     private void openAltroSection() {
-        // Aggiungi qui la logica per aprire la sezione "Altro"
+        SchermataAltro schermataAltro = new SchermataAltro(conn);
+        schermataAltro.setVisible(true);
     }
 
     private void openOrdiniFornitoriSection() {
