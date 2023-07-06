@@ -14,7 +14,7 @@ public class SchermataAltro extends JFrame {
 
     public SchermataAltro(Connection connection){
         this.connection = connection;
-        setTitle("Schermata Prodotti");
+        setTitle("Schermata Altro");
         setSize(400, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -45,6 +45,6 @@ public class SchermataAltro extends JFrame {
         btnFatturatoMensile.addActionListener(new ButtonClickListenerAltro(connection));
         btnCreaFidelity.addActionListener(new ButtonClickListenerAltro(connection));
         btnVenditeGiornaliere.addActionListener(new ButtonClickListenerAltro(connection));
-        
+
     }
 }

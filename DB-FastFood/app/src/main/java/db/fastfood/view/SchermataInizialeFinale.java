@@ -80,6 +80,7 @@ public class SchermataInizialeFinale extends JFrame {
     }
 
     private void openOrdiniFornitoriSection() {
-        // Aggiungi qui la logica per aprire la sezione "Ordini ai Fornitori"
+        SchermataOrdiniFornitori schermataOrdiniFornitori = new SchermataOrdiniFornitori(conn);
+        schermataOrdiniFornitori.setVisible(true);
     }
 }
