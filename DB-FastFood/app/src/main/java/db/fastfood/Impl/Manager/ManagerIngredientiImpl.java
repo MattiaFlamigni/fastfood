@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import db.fastfood.api.Manager.ManagerIngredienti;
+import db.fastfood.util.CustomTable;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -19,6 +20,7 @@ import java.awt.GridLayout;
 public class ManagerIngredientiImpl implements ManagerIngredienti {
 
     private final Connection conn;
+    CustomTable customTable = new CustomTable();
 
     public ManagerIngredientiImpl(Connection conn) {
         this.conn = conn;
@@ -78,6 +80,8 @@ public class ManagerIngredientiImpl implements ManagerIngredienti {
             }
 
             JTable table = new JTable(tableModel);
+            customTable.doGraphic(table);
+            customTable.notEditable(table);
 
             JFrame tableFrame = new JFrame("Tabella Ingredienti per Prodotto");
             tableFrame.setSize(400, 300);

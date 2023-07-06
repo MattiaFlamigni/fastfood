@@ -12,10 +12,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import db.fastfood.api.Manager.ManagerProducts;
+import db.fastfood.util.CustomTable;
 
 public class ManagerProductsImpl implements ManagerProducts {
 
     private final Connection conn;
+    CustomTable customTable = new CustomTable();
 
     public ManagerProductsImpl(Connection conn) {
         this.conn = conn;
@@ -45,6 +47,8 @@ public class ManagerProductsImpl implements ManagerProducts {
             }
 
             JTable table = new JTable(tableModel);
+            customTable.doGraphic(table);
+            customTable.notEditable(table);
 
             JFrame tableFrame = new JFrame("Tabella Prodotti Disponibili");
             tableFrame.setSize(600, 400);

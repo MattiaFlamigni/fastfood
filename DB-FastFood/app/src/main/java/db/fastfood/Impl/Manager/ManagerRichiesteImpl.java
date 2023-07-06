@@ -17,9 +17,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import db.fastfood.api.Manager.ManagerRichieste;
+import db.fastfood.util.CustomTable;
 
 public class ManagerRichiesteImpl implements ManagerRichieste {
-
+    CustomTable customTable = new CustomTable();
     private Connection conn;
 
     public ManagerRichiesteImpl(Connection conn) {
@@ -94,6 +95,7 @@ public class ManagerRichiesteImpl implements ManagerRichieste {
                 tableModel.addRow(new Object[] { tipo, datainizio, datafine, CF_addetto, dataRichiesta });
             }
             JTable table = new JTable(tableModel);
+            customTable.doGraphic(table);
             JFrame tableFrame = new JFrame("Tabella Richieste");
             tableFrame.setSize(400, 300);
             tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
