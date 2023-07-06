@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import db.fastfood.ActionListener.ButtonClickListenerRichieste;
+
 public class SchermataRichieste extends JFrame {
     @SuppressWarnings("unused")
     private final Connection conn;
