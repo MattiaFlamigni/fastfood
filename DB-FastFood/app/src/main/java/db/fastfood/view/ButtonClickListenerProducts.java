@@ -11,11 +11,11 @@ import db.fastfood.Impl.Manager.ManagerProductsImpl;
 import db.fastfood.api.Manager.ManagerIngredienti;
 import db.fastfood.api.Manager.ManagerProducts;
 
-public class ButtonClickListener implements ActionListener {
+public class ButtonClickListenerProducts implements ActionListener {
     ManagerProducts products;
     ManagerIngredienti ingredienti;
 
-    public ButtonClickListener(Connection conn) {
+    public ButtonClickListenerProducts(Connection conn) {
         products = new ManagerProductsImpl(conn);
         ingredienti = new ManagerIngredientiImpl(conn);
     }

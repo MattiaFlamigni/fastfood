@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 
 public class SchermataProdotti extends JFrame {
     private final Connection conn;
-    ButtonClickListener listener;
+    ButtonClickListenerProducts listener;
 
     public SchermataProdotti(Connection conn){
         this.conn = conn;
-        listener = new ButtonClickListener(conn);
+        listener = new ButtonClickListenerProducts(conn);
         setTitle("Schermata Prodotti");
         setSize(400, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -65,7 +65,8 @@ public class SchermataInizialeFinale extends JFrame {
     }
 
     private void openRichiesteSection() {
-        // Aggiungi qui la logica per aprire la sezione "Richieste"
+        SchermataRichieste schermataRichieste = new SchermataRichieste(conn);
+        schermataRichieste.setVisible(true);
     }
 
     private void openDipendentiSection() {
