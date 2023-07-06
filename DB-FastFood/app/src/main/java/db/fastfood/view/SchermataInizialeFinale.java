@@ -70,7 +70,8 @@ public class SchermataInizialeFinale extends JFrame {
     }
 
     private void openDipendentiSection() {
-        // Aggiungi qui la logica per aprire la sezione "Dipendenti"
+        SchermataDipendenti schermataDipendenti = new SchermataDipendenti(conn);
+        schermataDipendenti.setVisible(true);
     }
 
     private void openAltroSection() {

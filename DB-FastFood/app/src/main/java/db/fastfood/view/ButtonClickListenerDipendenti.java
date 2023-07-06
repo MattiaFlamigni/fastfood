@@ -1,0 +1,53 @@
+package db.fastfood.view;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
+import db.fastfood.Impl.Manager.ManagerContrattiImpl;
+import db.fastfood.Impl.Manager.ManagerImpl;
+import db.fastfood.api.Manager.Manager;
+import db.fastfood.api.Manager.ManagerContratti;
+
+public class ButtonClickListenerDipendenti implements ActionListener {
+    ManagerContratti contratti;
+    Manager manager;
+
+    public ButtonClickListenerDipendenti(Connection conn) {
+        contratti = new ManagerContrattiImpl(conn);
+        manager = new ManagerImpl(conn);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JButton button = (JButton) e.getSource();
+        String buttonName = button.getText();
+
+        switch (buttonName) {
+            case "Visualizza Dipendenti":
+            manager.visualizzaAddetti();
+                break;
+            case "Inserisci Dipendente":
+                manager.inserisciDipendente();
+                break;
+
+            case "Visualizza contratti":
+                System.out.println("Visualizza Contratti");
+                contratti.visualizzaContratti("");
+                break;
+            case "Crea contratto":
+                contratti.inserisciContratto();
+                break;
+            case "Ricerca contratto":
+                //String cf = JOptionPane.showInputDialog("Inserisci il codice fiscale del dipendente");
+                contratti.ricercaContratti();
+                break;
+            default:
+                break;
+        }
+    }
+    
+}
