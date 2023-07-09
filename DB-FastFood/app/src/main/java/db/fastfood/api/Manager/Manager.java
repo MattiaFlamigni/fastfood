@@ -27,4 +27,6 @@ public interface Manager {
 
     public void visualizzaVenditeGiornaliere();
 
+    public void registraScarti();
+
 }
