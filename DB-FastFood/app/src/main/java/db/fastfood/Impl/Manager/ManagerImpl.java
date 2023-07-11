@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,16 +28,22 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+
+
 import db.fastfood.api.Manager.Manager;
 import db.fastfood.util.CustomTable;
+import db.fastfood.util.Util;
+import db.fastfood.util.UtilImpl;
 
 public class ManagerImpl implements Manager {
 
     private final Connection conn;
     CustomTable customizeTable = new CustomTable();
+    Util util;
 
     public ManagerImpl(Connection conn) {
         this.conn = conn;
+        util = new UtilImpl(conn);
     }
 
     /**
@@ -390,19 +398,21 @@ public class ManagerImpl implements Manager {
         // codice per la creazione del bottone
 
         JButton registra = new JButton("Registra");
-
+        //var codiceee = 0;
         registra.addActionListener(new ActionListener() {
-
+            
             @Override
             public void actionPerformed(ActionEvent arg0) {
+                Map <String, Double> prodottiIngredienti = new HashMap<String, Double>();
+                
+                int codice = 0;
                 try {
                     String query = "SELECT codice FROM prodotti WHERE descrizione = ?";
                     PreparedStatement statement = conn.prepareStatement(query);
                     statement.setString(1, prodotti.getSelectedItem().toString());
                     ResultSet resultSet = statement.executeQuery();
                     if (resultSet.next()) {
-                        int codice = resultSet.getInt("codice");
-
+                        codice = resultSet.getInt("codice");
                         // Ottieni la data corrente come java.sql.Date
                         java.sql.Date dataCorrente = java.sql.Date.valueOf(java.time.LocalDate.now());
 
@@ -449,6 +459,50 @@ public class ManagerImpl implements Manager {
                     frame.add(scrollPane, BorderLayout.CENTER);
                     frame.setSize(400, 300);
                     frame.setVisible(true);
+
+
+                    //ottengo gli ingredienti del prodotto e la quantita che serve per ogni ingrediente
+
+                    query = """
+                            select i.nome_commerciale, r.quantita_utilizzata
+                            from ingredienti i, ingredienti_prodotti r
+                            where r.codice_prodotto = ? and r.ID_ingrediente = i.ID
+                            """;
+
+                    statement = conn.prepareStatement(query);
+                    statement.setInt(1, codice);
+                    resultSet = statement.executeQuery();
+
+                    while (resultSet.next()) {
+                        String nome = resultSet.getString("nome_commerciale");
+                        double quantita = resultSet.getDouble("quantita_utilizzata");
+                        System.out.println(nome + " " + quantita);
+                        prodottiIngredienti.put(nome, quantita);
+                    }   
+
+                    //aggiorno la quantita degli ingredienti
+                    for (Map.Entry<String, Double> entry : prodottiIngredienti.entrySet()) {
+                        String key = entry.getKey();
+                        Double value = entry.getValue();
+                        //System.out.println(key + " " + value);
+                        query = """
+                                update ingredienti
+                                set quantita = quantita - ?
+                                where nome_commerciale = ?
+                                """;
+                        statement = conn.prepareStatement(query);
+                        statement.setDouble(1, value);
+                        statement.setString(2, key);
+                        statement.executeUpdate();
+                    }
+
+                    
+
+
+
+
+
+
 
 
                     
