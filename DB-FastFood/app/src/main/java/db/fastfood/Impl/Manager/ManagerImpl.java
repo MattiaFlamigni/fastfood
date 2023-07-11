@@ -399,6 +399,7 @@ public class ManagerImpl implements Manager {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 Map <String, Double> prodottiIngredienti = new HashMap<String, Double>();
+                int quantitaScarti = Integer.parseInt(quantita.getText());
                 
                 int codice = 0;
                 try {
@@ -472,7 +473,7 @@ public class ManagerImpl implements Manager {
                         String nome = resultSet.getString("nome_commerciale");
                         double quantita = resultSet.getDouble("quantita_utilizzata");
                         System.out.println(nome + " " + quantita);
-                        prodottiIngredienti.put(nome, quantita);
+                        prodottiIngredienti.put(nome, quantita*quantitaScarti);
                     }   
 
                     //aggiorno la quantita degli ingredienti
