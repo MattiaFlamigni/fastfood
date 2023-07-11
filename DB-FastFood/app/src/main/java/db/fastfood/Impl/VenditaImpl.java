@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -43,12 +44,16 @@ public class VenditaImpl implements Vendita {
 
             // associo id cliente alla tabella ordine
             int idordine = util.getCurrentordine() + 1;
+            //salva l'orario in cui è stato effettuato l'ordine in formato sql
+            java.util.Date currentTime = new java.util.Date();
+            Time ora = new java.sql.Time(currentTime.getTime());
 
-            String query2 = "INSERT INTO ordine(ID, data, ID_cliente) VALUES (?, ?, ?) ";
+            String query2 = "INSERT INTO ordine(ora, ID, data, ID_cliente) VALUES (?, ?, ?, ?) "; 
             PreparedStatement statement2 = conn.prepareStatement(query2);
-            statement2.setInt(1, idordine);
-            statement2.setDate(2, java.sql.Date.valueOf(java.time.LocalDate.now()));
-            statement2.setInt(3, idcliente);
+            statement2.setTime(1, ora);
+            statement2.setInt(2, idordine);
+            statement2.setDate(3, java.sql.Date.valueOf(java.time.LocalDate.now()));
+            statement2.setInt(4, idcliente);
             statement2.executeUpdate();
 
         } catch (SQLException throwables) {
