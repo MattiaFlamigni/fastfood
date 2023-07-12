@@ -40,4 +40,9 @@ public interface Manager {
      */
     public void registraScarti();
 
+    /**
+     * Method that allow to show the receipt by date
+     */
+    public void visualizzaScontriniPerData();
+
 }

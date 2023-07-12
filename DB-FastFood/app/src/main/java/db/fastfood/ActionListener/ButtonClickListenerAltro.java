@@ -38,6 +38,9 @@ public class ButtonClickListenerAltro implements ActionListener {
             case "Scontrino Medio":
                 manager.scontrinoMedio();
                 break; 
+            case "Visualizza scontrini per data":
+                manager.visualizzaScontriniPerData();
+                break;
         }
 
     }

@@ -3,6 +3,7 @@ package db.fastfood.Impl.Manager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -18,11 +19,13 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
 
 
 
@@ -556,5 +559,99 @@ public class ManagerImpl implements Manager {
             JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    @Override
+    public void visualizzaScontriniPerData(){
+        //visualizza una tabella con gli scontrini emessi in un determinato intervallo di tempo con dataPiker
+
+
+
+        
+
+
+        //l'utente seleziona da un calendario la data di inizio e la data di fine periodo
+        JFrame frame = new JFrame("Visualizza scontrini per data");
+        frame.setSize(400, 300);
+        frame.setLayout(new GridLayout(3, 2));
+
+
+        JLabel dataInizioLabel = new JLabel("Data inizio (aaaa-mm-gg): ");
+        dataInizioLabel.setSize(100, 100);
+        JTextField dataInizio = new JTextField();
+        JLabel dataFineLabel = new JLabel("Data fine (aaaa-mm-gg): ");
+        JTextField dataFine = new JTextField();
+
+        
+
+        JButton visualizza = new JButton("Visualizza");
+        //posizione sotto la tabella
+        visualizza.setBounds(100, 100, 140, 40);
+
+
+
+        visualizza.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(dataInizio.getText().equals("") || dataFine.getText().equals("")){
+                    JOptionPane.showMessageDialog(null, "Inserire entrambe le date.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                try {
+                    Statement statement = conn.createStatement();
+                    String query = """
+                            select ID, data, totale
+                            from ordine o, dettaglio_ordini d
+                            where o.ID = d.ID_ordine and data between ? and ?
+                            """;
+                    PreparedStatement preparedStatement = conn.prepareStatement(query);
+                    preparedStatement.setDate(1, java.sql.Date.valueOf(dataInizio.getText()));
+                    preparedStatement.setDate(2, java.sql.Date.valueOf(dataFine.getText()));
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    String[] columnNames = { "ID", "data", "totale" };
+
+                    DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+                    
+                    while (resultSet.next()) {
+                        int ID = resultSet.getInt("ID");
+                        String data = resultSet.getString("data");
+                        String totale = df.format(resultSet.getFloat("totale"));
+                        Object[] row = { ID, data, totale };
+                        tableModel.addRow(row);
+                    }
+
+                    JTable table = new JTable(tableModel);
+                    JScrollPane scrollPane = new JScrollPane(table);
+                    JFrame frame = new JFrame("Scontrini");
+                    
+                    customizeTable.notEditable(table);
+                    customizeTable.doGraphic(table);
+
+                    frame.add(scrollPane, BorderLayout.CENTER);
+                    frame.setSize(400, 300);
+                    frame.setVisible(true);
+
+                    resultSet.close();
+                    statement.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        frame.add(dataInizioLabel);
+        frame.add(dataInizio);
+        frame.add(dataFineLabel);
+
+        frame.add(dataFine);
+        frame.add(visualizza);
+
+        frame.setVisible(true);
+
+        
     }
 }
