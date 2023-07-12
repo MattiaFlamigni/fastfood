@@ -25,8 +25,19 @@ public interface Manager {
      */
     public void creaFidelty();
 
+    /**
+     * Method that allow to show the daily sales
+     */
     public void visualizzaVenditeGiornaliere();
 
+    /**
+     * Method that allow to show the average receipt
+     */
+    public void scontrinoMedio();
+
+    /**
+     * Method that allow to register the waste
+     */
     public void registraScarti();
 
 }

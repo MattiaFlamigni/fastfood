@@ -34,7 +34,12 @@ public class ButtonClickListenerAltro implements ActionListener {
             case "Registra Scarti":
                 manager.registraScarti();
                 break;
+
+            case "Scontrino Medio":
+                manager.scontrinoMedio();
+                break; 
         }
+
     }
     
 }

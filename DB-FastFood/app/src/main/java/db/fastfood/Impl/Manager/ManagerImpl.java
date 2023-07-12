@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class ManagerImpl implements Manager {
     private final Connection conn;
     CustomTable customizeTable = new CustomTable();
     Util util;
+    DecimalFormat  df = new DecimalFormat("#.##");
 
     public ManagerImpl(Connection conn) {
         this.conn = conn;
@@ -492,18 +494,6 @@ public class ManagerImpl implements Manager {
                         statement.executeUpdate();
                     }
 
-                    
-
-
-
-
-
-
-
-
-                    
-
-
                     resultSet.close();
                     statement.close();
                 } catch (SQLException ex) {
@@ -523,5 +513,48 @@ public class ManagerImpl implements Manager {
 
         frame.setVisible(true);
 
+    }
+
+    @Override
+    public void scontrinoMedio() {
+        //visualizza una tabella con lo scontrino medio di ogni mese
+        try {
+            Statement statement = conn.createStatement();
+            String query = """
+                    select extract(month from data) as mese, avg(totale) as scontrino_medio
+                    from dettaglio_ordini, ordine
+                    where dettaglio_ordini.ID_ordine = ordine.ID and ordine.data is not null
+                    group by mese
+                    """;
+            ResultSet resultSet = statement.executeQuery(query);
+            String[] columnNames = { "mese", "scontrino_medio" };
+
+            DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+            
+            while (resultSet.next()) {
+                int mese = resultSet.getInt("mese");
+                String scontrino_medio = df.format(resultSet.getFloat("scontrino_medio"));
+                Object[] row = { mese, scontrino_medio };
+                tableModel.addRow(row);
+            }
+
+            JTable table = new JTable(tableModel);
+            JScrollPane scrollPane = new JScrollPane(table);
+            JFrame frame = new JFrame("Scontrino medio");
+            
+            customizeTable.notEditable(table);
+            customizeTable.doGraphic(table);
+
+            frame.add(scrollPane, BorderLayout.CENTER);
+            frame.setSize(400, 300);
+            frame.setVisible(true);
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
