@@ -45,4 +45,9 @@ public interface Manager {
      */
     public void visualizzaScontriniPerData();
 
+    /**
+     * Method that allow to show the waste
+     */
+    public void visualizzaScarti();
+
 }

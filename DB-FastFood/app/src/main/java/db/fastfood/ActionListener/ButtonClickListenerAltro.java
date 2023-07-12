@@ -41,6 +41,9 @@ public class ButtonClickListenerAltro implements ActionListener {
             case "Visualizza scontrini per data":
                 manager.visualizzaScontriniPerData();
                 break;
+            case "Visualizza Scarti":
+                manager.visualizzaScarti();
+                break;
         }
 
     }

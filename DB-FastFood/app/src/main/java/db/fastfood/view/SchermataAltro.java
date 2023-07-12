@@ -28,6 +28,7 @@ public class SchermataAltro extends JFrame {
         JButton btnCreaFidelity = new JButton("Crea Fidelity");
         JButton btnVenditeGiornaliere = new JButton("Visualizza Vendite Giornaliere");
         JButton btnScarti = new JButton("Registra Scarti");
+        JButton btnVisualizzaScarti = new JButton("Visualizza Scarti");
 
         Container container = getContentPane();
         container.setLayout(new GridLayout(3,1));
@@ -35,6 +36,7 @@ public class SchermataAltro extends JFrame {
         JPanel altroPanel = new JPanel();
         altroPanel.setLayout(new FlowLayout());
         altroPanel.add(btnFatturatoMensile);
+        altroPanel.add(btnVenditeGiornaliere);
         altroPanel.add(btnscontrinoMedio);
         altroPanel.add(btnScontrini);
         container.add(altroPanel);
@@ -44,7 +46,7 @@ public class SchermataAltro extends JFrame {
         container.add(altroPanel);
 
         altroPanel=new JPanel();
-        altroPanel.add(btnVenditeGiornaliere);
+        altroPanel.add(btnVisualizzaScarti);
         altroPanel.add(btnScarti);
         container.add(altroPanel);
 
@@ -57,7 +59,8 @@ public class SchermataAltro extends JFrame {
         btnScarti.addActionListener(new ButtonClickListenerAltro(connection));
         btnscontrinoMedio.addActionListener(new ButtonClickListenerAltro(connection));
         btnScontrini.addActionListener(new ButtonClickListenerAltro(connection));
-        
+        btnVisualizzaScarti.addActionListener(new ButtonClickListenerAltro(connection));
+
 
     }
 }
