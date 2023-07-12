@@ -7,13 +7,17 @@ import java.sql.Connection;
 import javax.swing.JButton;
 
 import db.fastfood.Impl.Manager.ManagerImpl;
+import db.fastfood.Impl.Manager.VenditeImpl;
 import db.fastfood.api.Manager.Manager;
+import db.fastfood.api.Manager.Vendite;
 
 public class ButtonClickListenerAltro implements ActionListener {
     Manager manager;
+    Vendite vendita;
 
     public ButtonClickListenerAltro(Connection conn) {
         manager = new ManagerImpl(conn);
+        vendita = new VenditeImpl(conn);
     }
 
     @Override
@@ -23,23 +27,23 @@ public class ButtonClickListenerAltro implements ActionListener {
 
         switch (buttonName){
             case "Visualizza Fatturato Mensile":
-                manager.visualizzaFatturatoMensile();
+                vendita.visualizzaFatturatoMensile();
                 break;
             case "Crea Fidelty":
                 manager.creaFidelty();
                 break;
             case "Visualizza Vendite Giornaliere":
-                manager.visualizzaVenditeGiornaliere();
+                vendita.visualizzaVenditeGiornaliere();
                 break;
             case "Registra Scarti":
                 manager.registraScarti();
                 break;
 
             case "Scontrino Medio":
-                manager.scontrinoMedio();
+                vendita.scontrinoMedio();
                 break; 
             case "Visualizza scontrini per data":
-                manager.visualizzaScontriniPerData();
+                vendita.visualizzaScontriniPerData();
                 break;
             case "Visualizza Scarti":
                 manager.visualizzaScarti();
