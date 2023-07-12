@@ -10,4 +10,9 @@ public interface ManagerProducts {
      * Method that allow to add a new product
      */
     public void aggiungiProdotto();
+
+    /**
+     * show the top 10 products sold
+     */
+    public void visualizzaTop10();
 }

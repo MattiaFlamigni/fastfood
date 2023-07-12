@@ -97,4 +97,54 @@ public class ManagerProductsImpl implements ManagerProducts {
         }
     }
 
+    /**
+     * @{inheritDoc}
+     */
+    @Override
+    public void visualizzaTop10(){
+        //apre una finestra con una tabella che mostra i primi 10 prodotti più venduti
+
+        try {
+            Statement statement = conn.createStatement();
+            String query = "select p.descrizione, p.prezzovendita, count(codice_prodotto) as vendite\n" + //
+                    "from prodotti p, dettaglio_ordini d\n" + //
+                    "where p.codice=d.codice_prodotto \n" + //
+                    "group by codice_prodotto\n" + //
+                    "order by vendite DESC limit 10";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            DefaultTableModel tableModel = new DefaultTableModel();
+            tableModel.addColumn("Descrizione");
+            tableModel.addColumn("Prezzo di Vendita");
+            tableModel.addColumn("Vendite");
+
+            while (resultSet.next()) {
+                String descrizione = resultSet.getString("descrizione");
+                double prezzoVendita = resultSet.getDouble("prezzovendita");
+                int vendite = resultSet.getInt("vendite");
+                //int vendite = resultSet.getInt("vendite");
+
+                tableModel.addRow(new Object[] {descrizione, prezzoVendita, vendite });
+            }
+
+            JTable table = new JTable(tableModel);
+            customTable.doGraphic(table);
+            customTable.notEditable(table);
+
+            JFrame tableFrame = new JFrame("Tabella Prodotti Disponibili");
+            tableFrame.setSize(600, 400);
+            tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            tableFrame.setLocationRelativeTo(null);
+            tableFrame.getContentPane().add(new JScrollPane(table));
+            tableFrame.setVisible(true);
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Errore durante il caricamento dei prodotti disponibili", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }

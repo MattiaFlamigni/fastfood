@@ -31,6 +31,7 @@ public class SchermataProdotti extends JFrame {
         JButton btnAggiungiIngrediente = new JButton("Aggiungi Ingrediente");
         JButton btnVisualizzaIngredienti = new JButton("Visualizza Ingredienti di un Prodotto");
         JButton btnMagazzino = new JButton("Situazione magazzino");
+        JButton btnTop10 = new JButton("Top 10 Prodotti");
 
         // Creazione del layout
         Container container = getContentPane();
@@ -40,6 +41,7 @@ public class SchermataProdotti extends JFrame {
         JPanel prodottiPanel = new JPanel();
         prodottiPanel.setLayout(new FlowLayout());
         prodottiPanel.add(btnVisualizzaProdotti);
+        prodottiPanel.add(btnTop10);
         prodottiPanel.add(btnAggiungiProdotto);
         container.add(prodottiPanel);
 
@@ -66,6 +68,7 @@ public class SchermataProdotti extends JFrame {
         btnAggiungiIngrediente.addActionListener(listener);
         btnVisualizzaIngredienti.addActionListener(listener);
         btnMagazzino.addActionListener(listener);
+        btnTop10.addActionListener(listener);
 
         
     }

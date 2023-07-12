@@ -46,6 +46,9 @@ public class ButtonClickListenerProducts implements ActionListener {
             case "Situazione magazzino":
                 ingredienti.visualizzaMagazzino();
                 break;
+            case "Top 10 Prodotti":
+                products.visualizzaTop10();
+                break;
             default:
                 break;
         }
