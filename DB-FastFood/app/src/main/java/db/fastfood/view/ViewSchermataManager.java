@@ -2,17 +2,21 @@ package db.fastfood.view;
 
 import javax.swing.*;
 
+import db.fastfood.Impl.Manager.ManagerAddettiImpl;
 import db.fastfood.Impl.Manager.ManagerContrattiImpl;
 import db.fastfood.Impl.Manager.ManagerFornitoriImpl;
 import db.fastfood.Impl.Manager.ManagerImpl;
 import db.fastfood.Impl.Manager.ManagerIngredientiImpl;
 import db.fastfood.Impl.Manager.ManagerProductsImpl;
 import db.fastfood.Impl.Manager.ManagerRichiesteImpl;
+import db.fastfood.Impl.Manager.VenditeImpl;
 import db.fastfood.api.Manager.Manager;
+import db.fastfood.api.Manager.ManagerAddetti;
 import db.fastfood.api.Manager.ManagerContratti;
 import db.fastfood.api.Manager.ManagerFornitori;
 import db.fastfood.api.Manager.ManagerProducts;
 import db.fastfood.api.Manager.ManagerRichieste;
+import db.fastfood.api.Manager.Vendite;
 
 import java.awt.*;
 import java.sql.*;
@@ -114,6 +118,7 @@ public class ViewSchermataManager extends JFrame {
 
 
         // Aggiunta delle azioni ai pulsanti
+        /*
         btnVisualizzaProdotti.addActionListener(e -> {
             ManagerProducts managerProducts = new ManagerProductsImpl(conn);
             managerProducts.visualizzaProdottiDisponibili();
@@ -143,11 +148,11 @@ public class ViewSchermataManager extends JFrame {
             managerRichieste.visualizzaRifiutaRichieste();
         });
         btnInserisciAddetto.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
+            ManagerAddetti logic = new ManagerAddettiImpl(conn);
             logic.inserisciDipendente();
         });
         btnVisualizzaAddetti.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
+            ManagerAddetti logic = new ManagerAddettiImpl(conn);
             logic.visualizzaAddetti();
         });
         btnContratti.addActionListener(e -> {
@@ -163,7 +168,7 @@ public class ViewSchermataManager extends JFrame {
             logic.ricercaContratti();
         });
         btnFatturatoMensile.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
+            Vendite logic = new VenditeImpl(conn);
             logic.visualizzaFatturatoMensile();
         });
         btnCreaFidelity.addActionListener(e -> {
@@ -175,7 +180,7 @@ public class ViewSchermataManager extends JFrame {
             managerIngredienti.visualizzaMagazzino();
         });
         btnVenditeGiornaliere.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
+            Vendite logic = new VenditeImpl(conn);
             logic.visualizzaVenditeGiornaliere();
         });
         btnInserisciFornitore.addActionListener(e -> {
@@ -189,6 +194,6 @@ public class ViewSchermataManager extends JFrame {
         btnInserisciOrdine.addActionListener(e -> {
             ManagerFornitori logic = new ManagerFornitoriImpl(conn);
             logic.makeOrder();
-        });
+        });*/
     }
 }

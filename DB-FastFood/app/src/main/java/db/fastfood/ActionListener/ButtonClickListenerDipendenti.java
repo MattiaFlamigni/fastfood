@@ -6,18 +6,20 @@ import java.sql.Connection;
 
 import javax.swing.JButton;
 
+import db.fastfood.Impl.Manager.ManagerAddettiImpl;
 import db.fastfood.Impl.Manager.ManagerContrattiImpl;
 import db.fastfood.Impl.Manager.ManagerImpl;
 import db.fastfood.api.Manager.Manager;
+import db.fastfood.api.Manager.ManagerAddetti;
 import db.fastfood.api.Manager.ManagerContratti;
 
 public class ButtonClickListenerDipendenti implements ActionListener {
     ManagerContratti contratti;
-    Manager manager;
+    ManagerAddetti addetti;
 
     public ButtonClickListenerDipendenti(Connection conn) {
         contratti = new ManagerContrattiImpl(conn);
-        manager = new ManagerImpl(conn);
+        addetti = new ManagerAddettiImpl(conn);
     }
 
     @Override
@@ -27,10 +29,10 @@ public class ButtonClickListenerDipendenti implements ActionListener {
 
         switch (buttonName) {
             case "Visualizza Dipendenti":
-            manager.visualizzaAddetti();
+                addetti.visualizzaAddetti();
                 break;
             case "Inserisci Dipendente":
-                manager.inserisciDipendente();
+                addetti.inserisciDipendente();
                 break;
 
             case "Visualizza contratti":
