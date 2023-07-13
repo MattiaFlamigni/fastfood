@@ -97,6 +97,15 @@ select * from scarti_giornalieri;
 
 
 select avg(d.totale) as scontrino_medio
+
+
+
+
+select SUM(s.quantita * p.prezzounitario)
+from scarti_giornaliri s, prodotti p
+where s.codice_prodotto = p.codice and MONTH(s.data)=7 and YEAR(s.data)=2023;
+
+
 from dettaglio_ordini d;
 
 

@@ -52,6 +52,7 @@ public class VenditeImpl implements Vendite{
             double totaleIncassoLordo = resultSet.getInt("TotIncassoLordo");
             double totaleMateriePrime = resultSet.getInt("MateriePrime");
             double totaleNetto = resultSet.getInt("TotNetto");
+            //double totaleScarti = resultSet.getInt("TotScarti");
             resultSet.close();
             statement.close();
             JOptionPane
@@ -59,6 +60,7 @@ public class VenditeImpl implements Vendite{
                             "Fatturato Lordo: " + totaleIncassoLordo + "\nMaterie prime: " + totaleMateriePrime
                                     + "\nFatturato netto: " + totaleNetto,
                             "Fatturato", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
@@ -274,4 +276,131 @@ public class VenditeImpl implements Vendite{
         
     }
     
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void report(){
+        //l'utente seleziona un mese e un anno
+
+        JFrame frame = new JFrame("Report");
+        frame.setSize(400, 300);
+        frame.setLayout(new GridLayout(3, 2));
+
+
+        JLabel meseLabel = new JLabel("Mese (1-12): ");
+        meseLabel.setSize(100, 100);
+        JTextField mese = new JTextField();
+        JLabel annoLabel = new JLabel("Anno (aaaa): ");
+        JTextField anno = new JTextField();
+        JButton visualizza = new JButton("Visualizza");
+        //posizione sotto la tabella
+        visualizza.setBounds(100, 100, 140, 40);
+        frame.add(meseLabel);
+        frame.add(mese);
+        frame.add(annoLabel);
+        frame.add(anno);
+        frame.add(visualizza);
+        frame.setVisible(true);
+
+
+        visualizza.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                //visualizza tabella con tot vendite, tot scarti, tot materie prime
+                if(mese.getText().equals("") || anno.getText().equals("")){
+                    JOptionPane.showMessageDialog(null, "Inserire entrambi i campi.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                try{
+                    //ottengo gli scarti totali 
+                    Statement statement = conn.createStatement();
+                    String query = """
+                        select SUM(s.quantita * p.prezzounitario)
+                        from scarti_giornalieri s, prodotti p
+                        where s.codice_prodotto = p.codice and MONTH(s.data)=? and YEAR(s.data)=?;
+                            """;
+
+                    PreparedStatement preparedStatement = conn.prepareStatement(query);
+                    preparedStatement.setInt(1, Integer.parseInt(mese.getText()));
+                    preparedStatement.setInt(2, Integer.parseInt(anno.getText()));
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    resultSet.next();
+                    String totScarti = df.format(resultSet.getFloat(1));
+                    resultSet.close();
+
+                    //ottengo il totale delle vendite
+                    query = """
+                            select SUM(d.quantita * p.prezzovendita)
+                            from dettaglio_ordini d, prodotti p, ordine o
+                            where d.codice_prodotto = p.codice and d.ID_ordine = o.ID and MONTH(o.data)=? and YEAR(o.data)=?;
+                        """;
+
+                    preparedStatement = conn.prepareStatement(query);
+                    preparedStatement.setInt(1, Integer.parseInt(mese.getText()));
+                    preparedStatement.setInt(2, Integer.parseInt(anno.getText()));
+                    resultSet = preparedStatement.executeQuery();
+                    resultSet.next();
+                    String totVendite = df.format(resultSet.getFloat(1));
+                    resultSet.close();
+
+                    //ottengo il totale delle materie prime
+                    query = """
+                    SELECT SUM(P.prezzounitario*D.quantita) as MateriePrime
+                    FROM prodotti P, dettaglio_ordini D, ordine O
+                    WHERE D.codice_prodotto = P.codice and D.ID_ordine = O.ID
+                    AND MONTH(O.data) = ? AND YEAR(O.data) = ?;""";
+
+                    preparedStatement = conn.prepareStatement(query);
+                    preparedStatement.setInt(1, Integer.parseInt(mese.getText()));
+                    preparedStatement.setInt(2, Integer.parseInt(anno.getText()));
+                    resultSet = preparedStatement.executeQuery();
+                    resultSet.next();
+                    String totMateriePrime = df.format(resultSet.getFloat(1));
+                    resultSet.close();
+
+
+                    //ottengo il totale netto
+                    float totaleNetto = Float.parseFloat(totVendite) - Float.parseFloat(totScarti) - Float.parseFloat(totMateriePrime);
+                    
+
+
+                    //costruisco la tabella
+                    String[] columnNames = { "Totale vendite", "Totale scarti", "Totale materie prime", "Totale netto" };
+                    Object[][] data = { { totVendite, totScarti, totMateriePrime, totaleNetto} };
+                    JTable table = new JTable(data, columnNames);
+                    customizeTable.doGraphic(table);
+                    JScrollPane scrollPane = new JScrollPane(table);
+                    JFrame frame = new JFrame("Report");
+                    frame.add(scrollPane, BorderLayout.CENTER);
+                    frame.setSize(800, 400);
+                    frame.setVisible(true);
+
+                    resultSet.close();
+                    statement.close();
+                }catch(SQLException ex){
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
+
+
+
+
+
+
+                }
+            }
+            
+        });
+
+        
+
+
+    }
+
+
 }

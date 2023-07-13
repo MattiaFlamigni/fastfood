@@ -48,6 +48,9 @@ public class ButtonClickListenerAltro implements ActionListener {
             case "Visualizza Scarti":
                 manager.visualizzaScarti();
                 break;
+            case "Report":
+                vendita.report();
+                break;
         }
 
     }

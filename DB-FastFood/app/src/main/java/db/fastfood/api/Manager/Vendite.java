@@ -20,4 +20,9 @@ public interface Vendite {
      * Method that allow to show the receipt by date
      */
     public void visualizzaScontriniPerData();
+
+    /**
+     * Method that allow to show the report
+     */
+    public void report();
 }
