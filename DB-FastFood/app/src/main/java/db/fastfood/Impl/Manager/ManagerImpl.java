@@ -448,7 +448,7 @@ public class ManagerImpl implements Manager {
         frame.add(visualizza);
 
         frame.setVisible(true);
-        
+
 
 
 

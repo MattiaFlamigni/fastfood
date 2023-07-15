@@ -1,6 +1,7 @@
 package db.fastfood.view;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.sql.Connection;
 
@@ -20,6 +21,7 @@ public class SchermataInizialeFinale extends JFrame {
         JButton btnDipendenti = new JButton("Dipendenti");
         JButton btnAltro = new JButton("Altro");
         JButton btnOrdiniFornitori = new JButton("Ordini ai Fornitori");
+        JButton btnPrenotazioni = new JButton("Prenotazioni");
 
         // Creazione del layout
         Container container = getContentPane();
@@ -31,12 +33,14 @@ public class SchermataInizialeFinale extends JFrame {
         JPanel dipendentiPanel = createSectionPanel(btnDipendenti);
         JPanel altroPanel = createSectionPanel(btnAltro);
         JPanel ordiniFornitoriPanel = createSectionPanel(btnOrdiniFornitori);
+        JPanel prenotazioni = createSectionPanel(btnPrenotazioni);
 
         container.add(prodottiPanel);
         container.add(richiestePanel);
         container.add(dipendentiPanel);
         container.add(altroPanel);
         container.add(ordiniFornitoriPanel);
+        container.add(prenotazioni);
 
         // Aggiunta delle azioni ai pulsanti
         btnProdotti.addActionListener(e -> openProdottiSection());
@@ -44,6 +48,7 @@ public class SchermataInizialeFinale extends JFrame {
         btnDipendenti.addActionListener(e -> openDipendentiSection());
         btnAltro.addActionListener(e -> openAltroSection());
         btnOrdiniFornitori.addActionListener(e -> openOrdiniFornitoriSection());
+        btnPrenotazioni.addActionListener(e -> openPrenotazioniSection());
     }
 
     // Metodo di utilità per creare un pannello per una sezione con il titolo e il pulsante
@@ -82,5 +87,10 @@ public class SchermataInizialeFinale extends JFrame {
     private void openOrdiniFornitoriSection() {
         SchermataOrdiniFornitori schermataOrdiniFornitori = new SchermataOrdiniFornitori(conn);
         schermataOrdiniFornitori.setVisible(true);
+    }
+
+    private void openPrenotazioniSection() {
+        SchermataPrenotazioni schermataPrenotazioni = new SchermataPrenotazioni(conn);
+        schermataPrenotazioni.setVisible(true);
     }
 }
