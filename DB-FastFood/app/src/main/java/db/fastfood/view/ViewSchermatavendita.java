@@ -7,6 +7,7 @@ import db.fastfood.Impl.VenditaFideltyImpl;
 import db.fastfood.Impl.VenditaImpl;
 import db.fastfood.api.Vendita;
 import db.fastfood.api.VenditaFidelty;
+import db.fastfood.util.CustomTable;
 import db.fastfood.util.Util;
 import db.fastfood.util.UtilImpl;
 
@@ -31,6 +32,7 @@ public class ViewSchermatavendita extends JFrame {
 
     public ViewSchermatavendita(Connection conn) {
         this.conn = conn;
+
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(300, 300));
         //panel.setAlignmentX(0);
