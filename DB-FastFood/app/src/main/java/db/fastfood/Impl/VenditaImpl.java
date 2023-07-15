@@ -253,19 +253,14 @@ public class VenditaImpl implements Vendita {
         ResultSet resultSet = statement1.executeQuery(query1);
 
         while (resultSet.next()) {
-            // String nomeIngrediente = resultSet.getString("nome_commerciale");
             int idIngrediente = resultSet.getInt("ID");
             double quantitaIngrediente = resultSet.getDouble("quantita");
             double quantitaUtilizzata = resultSet.getDouble("quantita_utilizzata");
-            // System.out.println(quantitaUtilizzata);
-            /* int */
+            
             idProdotto = resultSet.getInt("codice");
 
-            // Calcolo della nuova quantità dell'ingrediente dopo la vendita
             double nuovaQuantita = quantitaIngrediente - quantitaUtilizzata;
-            // System.out.println(nuovaQuantita);
 
-            // Aggiornamento della quantità dell'ingrediente nel database
             String updateQuery = "UPDATE Ingredienti SET Quantita = ? WHERE ID = ?";
             PreparedStatement updateStatement2 = conn.prepareStatement(updateQuery);
             updateStatement2.setDouble(1, nuovaQuantita);
@@ -275,9 +270,7 @@ public class VenditaImpl implements Vendita {
 
     }
 
-    public void delivery(){
-        //sposta i record con l'id dell'ordine nella tabella dttaglio_consegne
-        //cancella i record con l'id dell'ordine dalla tabella dettaglio_ordini
+        public void delivery(){
         Util util = new UtilImpl(conn);
 
         int idordine = util.getCurrentordine();
@@ -295,7 +288,7 @@ public class VenditaImpl implements Vendita {
                 PreparedStatement deleteStatement = conn.prepareStatement(delete);
                 deleteStatement.setInt(1, idordine);
                 deleteStatement.executeUpdate();
-                
+
                 break;
             } catch (SQLException e) {
                 e.printStackTrace();
