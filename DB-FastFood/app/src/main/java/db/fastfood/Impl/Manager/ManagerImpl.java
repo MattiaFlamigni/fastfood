@@ -370,6 +370,87 @@ public class ManagerImpl implements Manager {
 
     @Override
     public void visualizzaSpeseExtra(){
-        //TODO: visualizza una tabella con le spese extra effettuate in un determinato intervallo di tempo    
+        //visualizza una tabella con le spese extra effettuate in un determinato intervallo di tempo 
+        
+        JFrame frame = new JFrame("Visualizza spese extra");
+        frame.setSize(400, 300);
+        frame.setLayout(new GridLayout(3, 2));
+        
+        JLabel dataInizioLabel = new JLabel("Data inizio (aaaa-mm-gg): ");
+        dataInizioLabel.setSize(100, 100);
+        JTextField dataInizio = new JTextField();
+        JLabel dataFineLabel = new JLabel("Data fine (aaaa-mm-gg): ");
+        JTextField dataFine = new JTextField();
+
+
+        JButton visualizza = new JButton("Visualizza");
+        //posizione sotto la tabella
+        visualizza.setBounds(100, 100, 140, 40);
+
+        visualizza.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(dataInizio.getText().equals("") || dataFine.getText().equals("")){
+                    JOptionPane.showMessageDialog(null, "Inserire entrambe le date.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                try {
+                    Statement statement = conn.createStatement();
+                    String query = """
+                            select data, descrizione, totale
+                            from speseextra
+                            where data between ? and ?
+                            """;
+                    PreparedStatement preparedStatement = conn.prepareStatement(query);
+                    preparedStatement.setDate(1, java.sql.Date.valueOf(dataInizio.getText()));
+                    preparedStatement.setDate(2, java.sql.Date.valueOf(dataFine.getText()));
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    String[] columnNames = {"data", "descrizione", "totale" };
+
+                    DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+                    
+                    while (resultSet.next()) {
+                        //int ID = resultSet.getInt("ID");
+                        String data = resultSet.getString("data");
+                        String descrizione = resultSet.getString("descrizione");
+                        String totale = df.format(resultSet.getFloat("totale"));
+                        Object[] row = {data, descrizione, totale };
+                        tableModel.addRow(row);
+                    }
+
+                    JTable table = new JTable(tableModel);
+                    JScrollPane scrollPane = new JScrollPane(table);
+                    JFrame frame = new JFrame("Spese extra");
+                    
+                    customizeTable.notEditable(table);
+                    customizeTable.doGraphic(table);
+
+                    frame.add(scrollPane, BorderLayout.CENTER);
+                    frame.setSize(400, 300);
+                    frame.setVisible(true);
+
+                    resultSet.close();
+                    statement.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        frame.add(dataInizioLabel);
+        frame.add(dataInizio);
+        frame.add(dataFineLabel);
+        frame.add(dataFine);
+        frame.add(visualizza);
+
+        frame.setVisible(true);
+        
+
+
+
     }
 }

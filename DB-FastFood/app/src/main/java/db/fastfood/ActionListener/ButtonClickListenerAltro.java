@@ -54,6 +54,9 @@ public class ButtonClickListenerAltro implements ActionListener {
             case "Spese Extra":
                 manager.speseExtra();
                 break;
+            case "Visualizza Spese Extra":
+                manager.visualizzaSpeseExtra();
+                break;
         }
 
     }
