@@ -10,7 +10,7 @@ import db.fastfood.Impl.Manager.ManagerPrenotazioniImpl;
 import db.fastfood.api.Manager.ManagerPrenotazioni;
 
 public class ButtonClickListenerPrenotazioni implements ActionListener{
-    private final Connection conn;
+    Connection conn;
     ManagerPrenotazioni prenotazioni;
     public ButtonClickListenerPrenotazioni(Connection conn) {
         this.conn = conn;
