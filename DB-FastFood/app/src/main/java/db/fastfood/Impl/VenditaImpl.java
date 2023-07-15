@@ -162,6 +162,7 @@ public class VenditaImpl implements Vendita {
                 int codice = result2.getInt("codice_prodotto");
                 if (codice == idProdotto) {
                     // Se il cliente ha già quel prodotto nel suo ordine, aggiorna la quantità
+                    
                     String update = "UPDATE dettaglio_ordini SET quantita = quantita + 1 WHERE ID_ordine = ? AND codice_prodotto = ?";
                     PreparedStatement updateStatement = conn.prepareStatement(update);
                     updateStatement.setInt(1, idordine);
@@ -169,10 +170,15 @@ public class VenditaImpl implements Vendita {
                     updateStatement.executeUpdate();
 
                     // Aggiorna il prezzo totale dell'ordine
-                    String updatePrezzo = "UPDATE dettaglio_ordini SET totale = totale + ? WHERE ID = ?";
+                    //System.out.println("Il cliente ha già quel prodotto nel suo ordine");
+                    //System.out.println(prezzo);
+                    
+
+                    String updatePrezzo = "UPDATE dettaglio_ordini SET totale = totale + ? WHERE ID_ordine = ?";
                     PreparedStatement updatePrezzoStatement = conn.prepareStatement(updatePrezzo);
                     updatePrezzoStatement.setDouble(1, prezzo);
                     updatePrezzoStatement.setInt(2, idordine);
+                    updatePrezzoStatement.executeUpdate();
 
                     // !!!!!
                     updateQuantity(nomeprodotto, idProdotto);
@@ -265,6 +271,35 @@ public class VenditaImpl implements Vendita {
             updateStatement2.setDouble(1, nuovaQuantita);
             updateStatement2.setInt(2, idIngrediente);
             updateStatement2.executeUpdate();
+        }
+
+    }
+
+    public void delivery(){
+        //sposta i record con l'id dell'ordine nella tabella dttaglio_consegne
+        //cancella i record con l'id dell'ordine dalla tabella dettaglio_ordini
+        Util util = new UtilImpl(conn);
+
+        int idordine = util.getCurrentordine();
+        
+        //prende tutti i record con l'id dell'ordine dalla tabella dettaglio_ordini e li sposta nella tabella dettaglio_consegne
+        while (true) {
+            try {
+                String query = "INSERT INTO dettaglio_consegna (ID_ordine, codice_prodotto, quantita, totale) SELECT ID_ordine, codice_prodotto, quantita, totale FROM dettaglio_ordini WHERE ID_ordine = ?";
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setInt(1, idordine);
+                statement.executeUpdate();
+
+                //cancella i record con l'id dell'ordine dalla tabella dettaglio_ordini
+                String delete = "DELETE FROM dettaglio_ordini WHERE ID_ordine = ?";
+                PreparedStatement deleteStatement = conn.prepareStatement(delete);
+                deleteStatement.setInt(1, idordine);
+                deleteStatement.executeUpdate();
+                
+                break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
     }
