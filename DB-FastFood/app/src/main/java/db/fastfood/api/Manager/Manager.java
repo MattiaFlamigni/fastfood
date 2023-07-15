@@ -32,4 +32,9 @@ public interface Manager {
      */
     public void speseExtra();
 
+    /**
+     * Method that allow to show the extra expenses
+     */
+    public void visualizzaSpeseExtra();
+
 }

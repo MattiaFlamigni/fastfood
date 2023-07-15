@@ -367,4 +367,9 @@ public class ManagerImpl implements Manager {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    @Override
+    public void visualizzaSpeseExtra(){
+        //TODO: visualizza una tabella con le spese extra effettuate in un determinato intervallo di tempo    
+    }
 }
