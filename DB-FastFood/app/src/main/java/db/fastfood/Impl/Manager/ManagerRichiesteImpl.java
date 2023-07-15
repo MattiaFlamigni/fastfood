@@ -35,9 +35,13 @@ public class ManagerRichiesteImpl implements ManagerRichieste {
         // un addetto puo effettuare una richiesta di riposo, di ferie o di malattia
         String tipoRichiesta = JOptionPane.showInputDialog(null,
                 "Inserisci il tipo di richiesta (riposo, ferie, malattia):");
+                if(tipoRichiesta == null) return;
         String dataInizio = JOptionPane.showInputDialog(null, "Inserisci la data di inizio (YYYY-MM-DD):");
+        if(dataInizio == null) return;
         String dataFine = JOptionPane.showInputDialog(null, "Inserisci la data di fine (YYYY-MM-DD):");
+        if(dataFine == null) return;
         String idAddetto = JOptionPane.showInputDialog(null, "Inserisci CF dell'addetto:");
+        if(idAddetto == null) return;
 
         try {
             // Statement statement = conn.createStatement();
