@@ -72,9 +72,12 @@ public class ManagerProductsImpl implements ManagerProducts {
     @Override
     public void aggiungiProdotto() {
         String codice = JOptionPane.showInputDialog(null, "Inserisci il codice del prodotto:");
+        if(codice == null) return;
         String descrizione = JOptionPane.showInputDialog(null, "Inserisci la descrizione del prodotto:");
+        if(descrizione == null) return;
         double prezzoVendita = Double
                 .parseDouble(JOptionPane.showInputDialog(null, "Inserisci il prezzo di vendita del prodotto:"));
+        if(prezzoVendita == 0) return;
 
         try {
             Statement statement = conn.createStatement();
