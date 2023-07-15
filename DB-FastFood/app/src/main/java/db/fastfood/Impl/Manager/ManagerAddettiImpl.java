@@ -41,9 +41,13 @@ public class ManagerAddettiImpl implements ManagerAddetti {
         if (choice == 1) {
             try {
                 String CF = JOptionPane.showInputDialog(null, "Inserisci il CF:");
+                if(CF == null) return;
                 String nome = JOptionPane.showInputDialog(null, "Inserisci il nome:");
+                if(nome == null) return;
                 String cognome = JOptionPane.showInputDialog(null, "Inserisci il cognome:");
+                if(cognome == null) return;
                 String direttore = JOptionPane.showInputDialog(null, "Inserisci il CF del direttore:");
+                if(direttore == null) return;
                 Statement statement = conn.createStatement();
                 String query = "INSERT INTO MANAGER VALUES(?,?,?,?)";
                 PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -70,8 +74,11 @@ public class ManagerAddettiImpl implements ManagerAddetti {
         } else if (choice == 0) {
             try {
                 String CF = JOptionPane.showInputDialog(null, "Inserisci il CF:");
+                if(CF == null) return;
                 String nome = JOptionPane.showInputDialog(null, "Inserisci il nome:");
+                if(nome == null) return;
                 String cognome = JOptionPane.showInputDialog(null, "Inserisci il cognome:");
+                if(cognome == null) return;
                 Statement statement = conn.createStatement();
                 String query = "INSERT INTO ADDETTO VALUES(?,?,?)";
                 PreparedStatement preparedStatement = conn.prepareStatement(query);
