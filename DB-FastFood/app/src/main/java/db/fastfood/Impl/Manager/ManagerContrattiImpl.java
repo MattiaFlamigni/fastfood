@@ -188,7 +188,7 @@ public class ManagerContrattiImpl implements ManagerContratti {
 
             if (resultSet.next()) {
                 count = resultSet.getInt(1);
-                System.out.println("Numero di righe: " + count);
+                //System.out.println("Numero di righe: " + count);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -196,10 +196,15 @@ public class ManagerContrattiImpl implements ManagerContratti {
 
         // inserisce il contratto
         String CF = JOptionPane.showInputDialog(null, "CF del dipendente:");
+        if(CF == null) return;
         String stipendio = JOptionPane.showInputDialog(null, "Stipendio:");
+        if(stipendio == null) return;
         String dataInizio = JOptionPane.showInputDialog(null, "Data di inizio (YYYY-MM-DD):");
+        if(dataInizio == null) return;
         String dataFine = JOptionPane.showInputDialog(null, "Data di fine (YYYY-MM-DD):");
+        if(dataFine == null) return;
         String ore = JOptionPane.showInputDialog(null, "Ore settimanali:");
+        if(ore == null) return;
 
         try {
             Statement statement = conn.createStatement();
