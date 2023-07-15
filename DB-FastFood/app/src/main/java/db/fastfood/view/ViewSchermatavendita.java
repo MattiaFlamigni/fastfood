@@ -7,9 +7,6 @@ import db.fastfood.Impl.VenditaFideltyImpl;
 import db.fastfood.Impl.VenditaImpl;
 import db.fastfood.api.Vendita;
 import db.fastfood.api.VenditaFidelty;
-import db.fastfood.util.CustomTable;
-import db.fastfood.util.Util;
-import db.fastfood.util.UtilImpl;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
