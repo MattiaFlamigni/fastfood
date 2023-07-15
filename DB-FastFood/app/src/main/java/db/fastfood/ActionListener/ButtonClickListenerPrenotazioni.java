@@ -31,6 +31,10 @@ public class ButtonClickListenerPrenotazioni implements ActionListener{
 
                 prenotazioni.visualizzaTavoli();
                 break;  
+            
+            case "Inserisci prenotazione":
+                prenotazioni.inserisciPrenotazione();
+                break;
         }
     }
 

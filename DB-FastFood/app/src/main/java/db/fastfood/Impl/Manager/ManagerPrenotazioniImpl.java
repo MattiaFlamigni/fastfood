@@ -128,8 +128,27 @@ public class ManagerPrenotazioniImpl implements ManagerPrenotazioni {
 
     @Override
     public void inserisciPrenotazione() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'inserisciPrenotazione'");
+        try{
+
+            String nominativo = JOptionPane.showInputDialog("Inserisci nominativo");
+            String data = JOptionPane.showInputDialog("Inserisci data");
+            String ora = JOptionPane.showInputDialog("Inserisci ora");
+            String numeroPersone = JOptionPane.showInputDialog("Inserisci numero persone");
+            String numeroTavolo = JOptionPane.showInputDialog("Inserisci numero tavolo");
+
+            String query = "INSERT INTO prenotazione_tavolo (nominativo, data, n_persone, ora, numeroTavolo) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, nominativo);
+            statement.setString(2, data);
+            statement.setString(3, numeroPersone);
+            statement.setString(4, ora);
+            statement.setString(5, numeroTavolo);
+            statement.executeUpdate();
+            statement.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
 }
