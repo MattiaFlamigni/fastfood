@@ -326,8 +326,45 @@ public class ManagerImpl implements Manager {
 
         frame.setVisible(true);
 
-        
 
+    }
 
+    @Override
+    public void speseExtra(){
+        String cfDirettore = JOptionPane.showInputDialog(null, "CF direttore: ", "Spese extra", JOptionPane.QUESTION_MESSAGE);
+        if(cfDirettore == null) return;
+
+        String data = JOptionPane.showInputDialog(null, "Data (aaaa-mm-gg): ", "Spese extra", JOptionPane.QUESTION_MESSAGE);
+        if(data == null) return;
+
+        String descrizione = JOptionPane.showInputDialog(null, "Descrizione: ", "Spese extra", JOptionPane.QUESTION_MESSAGE);
+        if(descrizione == null) return;
+
+        double importo = Double.parseDouble(JOptionPane.showInputDialog(null, "Importo: ", "Spese extra", JOptionPane.QUESTION_MESSAGE));
+        if(importo == 0) return;
+
+        try {
+            Statement statement = conn.createStatement();
+            String query = """
+                    insert into speseextra (data, descrizione, totale, CF_direttori)
+                    values (?, ?, ?, ?)
+                    """;
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            
+            preparedStatement.setString(1, data);
+            preparedStatement.setString(4, cfDirettore);
+            preparedStatement.setString(2, descrizione);
+            preparedStatement.setDouble(3, importo);
+            preparedStatement.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Spesa extra registrata.", "Spese extra",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

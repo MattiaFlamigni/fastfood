@@ -27,4 +27,9 @@ public interface Manager {
      */
     public void visualizzaScarti();
 
+    /**
+     * Method that allow to show the extra expenses
+     */
+    public void speseExtra();
+
 }

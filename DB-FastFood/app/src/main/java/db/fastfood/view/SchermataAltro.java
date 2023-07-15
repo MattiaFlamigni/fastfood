@@ -30,6 +30,7 @@ public class SchermataAltro extends JFrame {
         JButton btnScarti = new JButton("Registra Scarti");
         JButton btnVisualizzaScarti = new JButton("Visualizza Scarti");
         JButton btnReport = new JButton("Report");
+        JButton btnSpeseExtra = new JButton("Spese Extra");
 
         Container container = getContentPane();
         container.setLayout(new GridLayout(3,1));
@@ -50,6 +51,7 @@ public class SchermataAltro extends JFrame {
         altroPanel=new JPanel();
         altroPanel.add(btnVisualizzaScarti);
         altroPanel.add(btnScarti);
+        altroPanel.add(btnSpeseExtra);
         container.add(altroPanel);
 
         setVisible(true);
@@ -63,6 +65,7 @@ public class SchermataAltro extends JFrame {
         btnScontrini.addActionListener(new ButtonClickListenerAltro(connection));
         btnVisualizzaScarti.addActionListener(new ButtonClickListenerAltro(connection));
         btnReport.addActionListener(new ButtonClickListenerAltro(connection));
+        btnSpeseExtra.addActionListener(new ButtonClickListenerAltro(connection));
 
 
     }
