@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,7 +59,7 @@ public class ManagerPrenotazioniImpl implements ManagerPrenotazioni {
         frame.setVisible(true);
 
             JButton btnElimina = new JButton("Elimina");
-            JButton btnModifica = new JButton("Modifica");
+            //JButton btnModifica = new JButton("Modifica");
 
             JTable table = new JTable();
             customTable.doGraphic(table);

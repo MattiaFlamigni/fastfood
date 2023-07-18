@@ -1,33 +1,20 @@
 package db.fastfood.Impl.Manager;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
+
 import java.text.DecimalFormat;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
+
 import javax.swing.table.DefaultTableModel;
-
-
-
 
 import db.fastfood.api.Manager.Manager;
 import db.fastfood.util.CustomTable;
@@ -39,16 +26,12 @@ public class ManagerImpl implements Manager {
     private final Connection conn;
     CustomTable customizeTable = new CustomTable();
     Util util;
-    DecimalFormat  df = new DecimalFormat("#.##");
+    DecimalFormat df = new DecimalFormat("#.##");
 
     public ManagerImpl(Connection conn) {
         this.conn = conn;
         util = new UtilImpl(conn);
     }
-
-
-
-    
 
     /**
      * {@inheritDoc}
@@ -79,7 +62,6 @@ public class ManagerImpl implements Manager {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     public void registraScarti() {
         // apertura di una nuova finestra con una conmbobox per la scelta del prodotto e
@@ -122,14 +104,14 @@ public class ManagerImpl implements Manager {
         // codice per la creazione del bottone
 
         JButton registra = new JButton("Registra");
-        //var codiceee = 0;
+        // var codiceee = 0;
         registra.addActionListener(new ActionListener() {
-            
+
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                Map <String, Double> prodottiIngredienti = new HashMap<String, Double>();
+                Map<String, Double> prodottiIngredienti = new HashMap<String, Double>();
                 int quantitaScarti = Integer.parseInt(quantita.getText());
-                
+
                 int codice = 0;
                 try {
                     String query = "SELECT codice FROM prodotti WHERE descrizione = ?";
@@ -157,7 +139,7 @@ public class ManagerImpl implements Manager {
                                 JOptionPane.ERROR_MESSAGE);
                     }
 
-                    //popolo la tabella di collegamento tra prodotti e scarti
+                    // popolo la tabella di collegamento tra prodotti e scarti
                     query = """
                             select p.descrizione, s.quantita
                             from prodotti p, scarti_giornalieri s
@@ -167,7 +149,7 @@ public class ManagerImpl implements Manager {
                     String[] columnNames = { "descrizione", "quantita" };
 
                     DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-                    
+
                     while (resultSet.next()) {
                         String nome = resultSet.getString("descrizione");
                         int quantita = resultSet.getInt("quantita");
@@ -178,7 +160,7 @@ public class ManagerImpl implements Manager {
                     JTable table = new JTable(tableModel);
                     JScrollPane scrollPane = new JScrollPane(table);
                     JFrame frame = new JFrame("Scarti giornalieri");
-                    
+
                     customizeTable.notEditable(table);
                     customizeTable.doGraphic(table);
 
@@ -186,8 +168,8 @@ public class ManagerImpl implements Manager {
                     frame.setSize(400, 300);
                     frame.setVisible(true);
 
-
-                    //ottengo gli ingredienti del prodotto e la quantita che serve per ogni ingrediente
+                    // ottengo gli ingredienti del prodotto e la quantita che serve per ogni
+                    // ingrediente
 
                     query = """
                             select i.nome_commerciale, r.quantita_utilizzata
@@ -203,14 +185,14 @@ public class ManagerImpl implements Manager {
                         String nome = resultSet.getString("nome_commerciale");
                         double quantita = resultSet.getDouble("quantita_utilizzata");
                         System.out.println(nome + " " + quantita);
-                        prodottiIngredienti.put(nome, quantita*quantitaScarti);
-                    }   
+                        prodottiIngredienti.put(nome, quantita * quantitaScarti);
+                    }
 
-                    //aggiorno la quantita degli ingredienti
+                    // aggiorno la quantita degli ingredienti
                     for (Map.Entry<String, Double> entry : prodottiIngredienti.entrySet()) {
                         String key = entry.getKey();
                         Double value = entry.getValue();
-                        //System.out.println(key + " " + value);
+                        // System.out.println(key + " " + value);
                         query = """
                                 update ingredienti
                                 set quantita = quantita - ?
@@ -230,8 +212,6 @@ public class ManagerImpl implements Manager {
                             JOptionPane.ERROR_MESSAGE);
                 }
 
-            
-                
             }
         });
 
@@ -244,13 +224,13 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public void visualizzaScarti(){
-        //visualizza una tabella con gli ingredienti che sono stati scartati in un determinato intervallo di 
+    public void visualizzaScarti() {
+        // visualizza una tabella con gli ingredienti che sono stati scartati in un
+        // determinato intervallo di
 
         JFrame frame = new JFrame("Visualizza scarti");
         frame.setSize(400, 300);
         frame.setLayout(new GridLayout(3, 2));
-
 
         JLabel dataInizioLabel = new JLabel("Data inizio (aaaa-mm-gg): ");
         dataInizioLabel.setSize(100, 100);
@@ -258,20 +238,17 @@ public class ManagerImpl implements Manager {
         JLabel dataFineLabel = new JLabel("Data fine (aaaa-mm-gg): ");
         JTextField dataFine = new JTextField();
 
-
         JButton visualizza = new JButton("Visualizza");
-        //posizione sotto la tabella
+        // posizione sotto la tabella
         visualizza.setBounds(100, 100, 140, 40);
-
-
 
         visualizza.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(dataInizio.getText().equals("") || dataFine.getText().equals("")){
+                if (dataInizio.getText().equals("") || dataFine.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Inserire entrambe le date.", "Errore",
-                    JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 try {
@@ -285,23 +262,23 @@ public class ManagerImpl implements Manager {
                     preparedStatement.setDate(1, java.sql.Date.valueOf(dataInizio.getText()));
                     preparedStatement.setDate(2, java.sql.Date.valueOf(dataFine.getText()));
                     ResultSet resultSet = preparedStatement.executeQuery();
-                    String[] columnNames = {"data", "prodotto", "quantita" };
+                    String[] columnNames = { "data", "prodotto", "quantita" };
 
                     DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-                    
+
                     while (resultSet.next()) {
-                        //int ID = resultSet.getInt("ID");
+                        // int ID = resultSet.getInt("ID");
                         String data = resultSet.getString("data");
                         String prodotto = resultSet.getString("prodotto");
                         String quantita = df.format(resultSet.getFloat("quantita"));
-                        Object[] row = {data, prodotto, quantita };
+                        Object[] row = { data, prodotto, quantita };
                         tableModel.addRow(row);
                     }
 
                     JTable table = new JTable(tableModel);
                     JScrollPane scrollPane = new JScrollPane(table);
                     JFrame frame = new JFrame("Scarti");
-                    
+
                     customizeTable.notEditable(table);
                     customizeTable.doGraphic(table);
 
@@ -329,22 +306,29 @@ public class ManagerImpl implements Manager {
 
         frame.setVisible(true);
 
-
     }
 
     @Override
-    public void speseExtra(){
-        String cfDirettore = JOptionPane.showInputDialog(null, "CF direttore: ", "Spese extra", JOptionPane.QUESTION_MESSAGE);
-        if(cfDirettore == null) return;
+    public void speseExtra() {
+        String cfDirettore = JOptionPane.showInputDialog(null, "CF direttore: ", "Spese extra",
+                JOptionPane.QUESTION_MESSAGE);
+        if (cfDirettore == null)
+            return;
 
-        String data = JOptionPane.showInputDialog(null, "Data (aaaa-mm-gg): ", "Spese extra", JOptionPane.QUESTION_MESSAGE);
-        if(data == null) return;
+        String data = JOptionPane.showInputDialog(null, "Data (aaaa-mm-gg): ", "Spese extra",
+                JOptionPane.QUESTION_MESSAGE);
+        if (data == null)
+            return;
 
-        String descrizione = JOptionPane.showInputDialog(null, "Descrizione: ", "Spese extra", JOptionPane.QUESTION_MESSAGE);
-        if(descrizione == null) return;
+        String descrizione = JOptionPane.showInputDialog(null, "Descrizione: ", "Spese extra",
+                JOptionPane.QUESTION_MESSAGE);
+        if (descrizione == null)
+            return;
 
-        double importo = Double.parseDouble(JOptionPane.showInputDialog(null, "Importo: ", "Spese extra", JOptionPane.QUESTION_MESSAGE));
-        if(importo == 0) return;
+        double importo = Double.parseDouble(
+                JOptionPane.showInputDialog(null, "Importo: ", "Spese extra", JOptionPane.QUESTION_MESSAGE));
+        if (importo == 0)
+            return;
 
         try {
             Statement statement = conn.createStatement();
@@ -353,7 +337,7 @@ public class ManagerImpl implements Manager {
                     values (?, ?, ?, ?)
                     """;
             PreparedStatement preparedStatement = conn.prepareStatement(query);
-            
+
             preparedStatement.setString(1, data);
             preparedStatement.setString(4, cfDirettore);
             preparedStatement.setString(2, descrizione);
@@ -372,31 +356,31 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public void visualizzaSpeseExtra(){
-        //visualizza una tabella con le spese extra effettuate in un determinato intervallo di tempo 
-        
+    public void visualizzaSpeseExtra() {
+        // visualizza una tabella con le spese extra effettuate in un determinato
+        // intervallo di tempo
+
         JFrame frame = new JFrame("Visualizza spese extra");
         frame.setSize(400, 300);
         frame.setLayout(new GridLayout(3, 2));
-        
+
         JLabel dataInizioLabel = new JLabel("Data inizio (aaaa-mm-gg): ");
         dataInizioLabel.setSize(100, 100);
         JTextField dataInizio = new JTextField();
         JLabel dataFineLabel = new JLabel("Data fine (aaaa-mm-gg): ");
         JTextField dataFine = new JTextField();
 
-
         JButton visualizza = new JButton("Visualizza");
-        //posizione sotto la tabella
+        // posizione sotto la tabella
         visualizza.setBounds(100, 100, 140, 40);
 
         visualizza.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(dataInizio.getText().equals("") || dataFine.getText().equals("")){
+                if (dataInizio.getText().equals("") || dataFine.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Inserire entrambe le date.", "Errore",
-                    JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 try {
@@ -410,23 +394,23 @@ public class ManagerImpl implements Manager {
                     preparedStatement.setDate(1, java.sql.Date.valueOf(dataInizio.getText()));
                     preparedStatement.setDate(2, java.sql.Date.valueOf(dataFine.getText()));
                     ResultSet resultSet = preparedStatement.executeQuery();
-                    String[] columnNames = {"data", "descrizione", "totale" };
+                    String[] columnNames = { "data", "descrizione", "totale" };
 
                     DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-                    
+
                     while (resultSet.next()) {
-                        //int ID = resultSet.getInt("ID");
+                        // int ID = resultSet.getInt("ID");
                         String data = resultSet.getString("data");
                         String descrizione = resultSet.getString("descrizione");
                         String totale = df.format(resultSet.getFloat("totale"));
-                        Object[] row = {data, descrizione, totale };
+                        Object[] row = { data, descrizione, totale };
                         tableModel.addRow(row);
                     }
 
                     JTable table = new JTable(tableModel);
                     JScrollPane scrollPane = new JScrollPane(table);
                     JFrame frame = new JFrame("Spese extra");
-                    
+
                     customizeTable.notEditable(table);
                     customizeTable.doGraphic(table);
 
@@ -451,9 +435,6 @@ public class ManagerImpl implements Manager {
         frame.add(visualizza);
 
         frame.setVisible(true);
-
-
-
 
     }
 }
