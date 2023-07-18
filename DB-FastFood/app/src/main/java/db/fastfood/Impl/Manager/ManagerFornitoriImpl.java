@@ -164,6 +164,7 @@ public class ManagerFornitoriImpl implements ManagerFornitori {
 
     public void makeOrder() {
         // double totale=0;
+        @SuppressWarnings("unused")
         String piva = "";
         Map<String, Integer> ingredientiquantita = new HashMap<String, Integer>();
 
