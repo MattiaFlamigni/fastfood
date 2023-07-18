@@ -312,6 +312,11 @@ public class VenditaImpl implements Vendita {
 
 
         String CFAddetto = JOptionPane.showInputDialog("Inserisci il codice fiscale del dipendente");
+
+        //se non esiste quel codice fiscale
+
+
+
         //controllo se è gia stato inserito un buono pasto per quell'addetto nella data odierna
 
         try{
@@ -365,13 +370,11 @@ public class VenditaImpl implements Vendita {
 
                 
                 break;  
-            
-            } catch (SQLException e) {
+            }catch (SQLException e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Errore");
+                return;
             }
-
-
-            
         }
 
 

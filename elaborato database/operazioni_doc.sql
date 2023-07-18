@@ -76,13 +76,21 @@ FROM OFFERTA
 JOIN POSSEDIMENTO_OFFERTA ON OFFERTA.codice = POSSEDIMENTO_OFFERTA.codice_offerta
 JOIN CLIENTE ON CLIENTE.ID = 'ID_CLIENTE';
 
+select * from dettaglio_consegna;
 select * from dettaglio_ordini;
+select * from speseextra;
 
-select * from ordine;
+select * from lavoro;
 
-select * from fidelty;
+select * from buonopasto;	
 
+select * from contenuto_buoni;
 
+SELECT * FROM slot_orario;
+
+select * from buonopasto;
+
+select * from assegnamento_buoni;
 
 select p.descrizione, p.prezzovendita, o.ID, COUNT(p.codice) as conteggio
 from prodotti p, ordine o, dettaglio_ordini d
@@ -96,21 +104,13 @@ select * from ordine where data="2023-07-11";
 select * from scarti_giornalieri;
 
 
-select avg(d.totale) as scontrino_medio
+select avg(d.totale) as scontrino_medio;
 
 
 
 
 select SUM(s.quantita * p.prezzounitario)
-from scarti_giornaliri s, prodotti p
+from scarti_giornalieri s, prodotti p
 where s.codice_prodotto = p.codice and MONTH(s.data)=7 and YEAR(s.data)=2023;
-
-
-from dettaglio_ordini d;
-
-
-
-
-
 
 

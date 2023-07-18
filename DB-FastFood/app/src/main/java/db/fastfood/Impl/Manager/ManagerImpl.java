@@ -91,6 +91,8 @@ public class ManagerImpl implements Manager {
         frame.setLayout(new FlowLayout());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        String manager = JOptionPane.showInputDialog(null, "CF manager:");
+
         // codice per la creazione della combobox
         JComboBox<String> prodotti = new JComboBox<String>();
 
@@ -139,12 +141,13 @@ public class ManagerImpl implements Manager {
                         // Ottieni la data corrente come java.sql.Date
                         java.sql.Date dataCorrente = java.sql.Date.valueOf(java.time.LocalDate.now());
 
-                        query = "INSERT INTO scarti_giornalieri (data, prodotto, quantita, codice_prodotto) VALUES (?, ?, ?, ?)";
+                        query = "INSERT INTO scarti_giornalieri (data, prodotto, quantita, codice_prodotto, manager) VALUES (?, ?, ?, ?, ?)";
                         statement = conn.prepareStatement(query);
                         statement.setDate(1, dataCorrente);
                         statement.setString(2, prodotti.getSelectedItem().toString());
                         statement.setInt(3, Integer.parseInt(quantita.getText()));
                         statement.setInt(4, codice);
+                        statement.setString(5, manager);
                         statement.executeUpdate();
 
                         JOptionPane.showMessageDialog(null, "Scarto registrato con successo.", "Registrazione",
