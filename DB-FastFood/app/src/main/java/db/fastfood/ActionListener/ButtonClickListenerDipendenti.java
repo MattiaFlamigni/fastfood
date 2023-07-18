@@ -8,11 +8,8 @@ import javax.swing.JButton;
 
 import db.fastfood.Impl.Manager.ManagerAddettiImpl;
 import db.fastfood.Impl.Manager.ManagerContrattiImpl;
-import db.fastfood.Impl.Manager.ManagerImpl;
-import db.fastfood.api.Manager.Manager;
 import db.fastfood.api.Manager.ManagerAddetti;
 import db.fastfood.api.Manager.ManagerContratti;
-import db.fastfood.view.SchermataInizialeFinale;
 
 public class ButtonClickListenerDipendenti implements ActionListener {
     ManagerContratti contratti;
