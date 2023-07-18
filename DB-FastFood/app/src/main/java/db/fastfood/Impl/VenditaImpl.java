@@ -21,12 +21,9 @@ import db.fastfood.view.ViewSchermatavendita;
 
 public class VenditaImpl implements Vendita {
     private final Connection conn;
-    
-    //non devo creare una nuova view ma devo aggiornare quella esistente
+
+    // non devo creare una nuova view ma devo aggiornare quella esistente
     ViewSchermatavendita view;
-
-
-
 
     public VenditaImpl(ViewSchermatavendita view, Connection conn) {
         this.conn = conn;
@@ -38,7 +35,7 @@ public class VenditaImpl implements Vendita {
         Util util = new UtilImpl(conn);
 
         try {
-            int idcliente =util.getCurrentcliente();
+            int idcliente = util.getCurrentcliente();
             String query = "INSERT INTO cliente(ID) VALUES (?) ";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, idcliente + 1);
@@ -46,11 +43,11 @@ public class VenditaImpl implements Vendita {
 
             // associo id cliente alla tabella ordine
             int idordine = util.getCurrentordine() + 1;
-            //salva l'orario in cui è stato effettuato l'ordine in formato sql
+            // salva l'orario in cui è stato effettuato l'ordine in formato sql
             java.util.Date currentTime = new java.util.Date();
             Time ora = new java.sql.Time(currentTime.getTime());
 
-            String query2 = "INSERT INTO ordine(ora, ID, data, ID_cliente) VALUES (?, ?, ?, ?) "; 
+            String query2 = "INSERT INTO ordine(ora, ID, data, ID_cliente) VALUES (?, ?, ?, ?) ";
             PreparedStatement statement2 = conn.prepareStatement(query2);
             statement2.setTime(1, ora);
             statement2.setInt(2, idordine);
@@ -164,7 +161,7 @@ public class VenditaImpl implements Vendita {
                 int codice = result2.getInt("codice_prodotto");
                 if (codice == idProdotto) {
                     // Se il cliente ha già quel prodotto nel suo ordine, aggiorna la quantità
-                    
+
                     String update = "UPDATE dettaglio_ordini SET quantita = quantita + 1 WHERE ID_ordine = ? AND codice_prodotto = ?";
                     PreparedStatement updateStatement = conn.prepareStatement(update);
                     updateStatement.setInt(1, idordine);
@@ -172,9 +169,8 @@ public class VenditaImpl implements Vendita {
                     updateStatement.executeUpdate();
 
                     // Aggiorna il prezzo totale dell'ordine
-                    //System.out.println("Il cliente ha già quel prodotto nel suo ordine");
-                    //System.out.println(prezzo);
-                    
+                    // System.out.println("Il cliente ha già quel prodotto nel suo ordine");
+                    // System.out.println(prezzo);
 
                     String updatePrezzo = "UPDATE dettaglio_ordini SET totale = totale + ? WHERE ID_ordine = ?";
                     PreparedStatement updatePrezzoStatement = conn.prepareStatement(updatePrezzo);
@@ -185,8 +181,8 @@ public class VenditaImpl implements Vendita {
                     // !!!!!
                     updateQuantity(nomeprodotto, idProdotto);
 
-                    //aggiorno la tabella della view
-                    
+                    // aggiorno la tabella della view
+
                     view.updateRow(nomeprodotto);
 
                     flag = true;
@@ -217,9 +213,9 @@ public class VenditaImpl implements Vendita {
                 updatePrezzoStatement.setInt(2, idordine);
                 updatePrezzoStatement.executeUpdate();
 
-                //controller.updateTable(nomeprodotto, 1, prezzo);
+                // controller.updateTable(nomeprodotto, 1, prezzo);
 
-                //ViewSchermatavendita view = new ViewSchermatavendita(conn);
+                // ViewSchermatavendita view = new ViewSchermatavendita(conn);
                 view.updateTable(nomeprodotto, 1, prezzo);
 
             }
@@ -245,8 +241,6 @@ public class VenditaImpl implements Vendita {
         flag = false;
     }
 
-    
-
     private void updateQuantity(String nomeprodotto, int idProdotto) throws SQLException {
         // decrementa la quantita di ingredienti
         String query1 = "SELECT P.codice, I.ID, I.quantita, P.descrizione, I.nome_commerciale, PI.quantita_utilizzata  FROM PRODOTTI P JOIN INGREDIENTI_PRODOTTI PI ON P.codice = PI.codice_prodotto JOIN INGREDIENTI I ON PI.ID_ingrediente = I.ID where P.descrizione = '"
@@ -258,7 +252,7 @@ public class VenditaImpl implements Vendita {
             int idIngrediente = resultSet.getInt("ID");
             double quantitaIngrediente = resultSet.getDouble("quantita");
             double quantitaUtilizzata = resultSet.getDouble("quantita_utilizzata");
-            
+
             idProdotto = resultSet.getInt("codice");
 
             double nuovaQuantita = quantitaIngrediente - quantitaUtilizzata;
@@ -272,12 +266,13 @@ public class VenditaImpl implements Vendita {
 
     }
 
-        public void delivery(){
+    public void delivery() {
         Util util = new UtilImpl(conn);
 
         int idordine = util.getCurrentordine();
-        
-        //prende tutti i record con l'id dell'ordine dalla tabella dettaglio_ordini e li sposta nella tabella dettaglio_consegne
+
+        // prende tutti i record con l'id dell'ordine dalla tabella dettaglio_ordini e
+        // li sposta nella tabella dettaglio_consegne
         while (true) {
             try {
                 String query = "INSERT INTO dettaglio_consegna (ID_ordine, codice_prodotto, quantita, totale) SELECT ID_ordine, codice_prodotto, quantita, totale FROM dettaglio_ordini WHERE ID_ordine = ?";
@@ -285,7 +280,7 @@ public class VenditaImpl implements Vendita {
                 statement.setInt(1, idordine);
                 statement.executeUpdate();
 
-                //cancella i record con l'id dell'ordine dalla tabella dettaglio_ordini
+                // cancella i record con l'id dell'ordine dalla tabella dettaglio_ordini
                 String delete = "DELETE FROM dettaglio_ordini WHERE ID_ordine = ?";
                 PreparedStatement deleteStatement = conn.prepareStatement(delete);
                 deleteStatement.setInt(1, idordine);
@@ -299,34 +294,27 @@ public class VenditaImpl implements Vendita {
 
     }
 
-    public void buonoPasto(){
-
-    
-
-
-
+    public void buonoPasto() {
 
         Util util = new UtilImpl(conn);
         int ordine = util.getCurrentordine();
         boolean flag = false;
 
-
         String CFAddetto = JOptionPane.showInputDialog("Inserisci il codice fiscale del dipendente");
 
-        //se non esiste quel codice fiscale
+        // se non esiste quel codice fiscale
 
+        // controllo se è gia stato inserito un buono pasto per quell'addetto nella data
+        // odierna
 
-
-        //controllo se è gia stato inserito un buono pasto per quell'addetto nella data odierna
-
-        try{
+        try {
             String query = "SELECT * FROM buonopasto WHERE CFAddetto = ? AND data = ?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, CFAddetto);
             statement.setDate(2, java.sql.Date.valueOf(java.time.LocalDate.now()));
             ResultSet resultSet = statement.executeQuery();
 
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 JOptionPane.showMessageDialog(null, "Buono pasto gia inserito per questo addetto");
                 flag = true;
             }
@@ -334,28 +322,25 @@ public class VenditaImpl implements Vendita {
             e.printStackTrace();
         }
 
-
-
-
-        while(true && flag == false){
-            try{
+        while (true && flag == false) {
+            try {
                 String nome = "";
-                //prende il codice del prodotto dalla tabella dettaglio_ordini
+                // prende il codice del prodotto dalla tabella dettaglio_ordini
                 String query = "SELECT codice_prodotto FROM dettaglio_ordini WHERE ID_ordine = ?";
                 PreparedStatement statement = conn.prepareStatement(query);
                 statement.setInt(1, ordine);
                 ResultSet resultSet = statement.executeQuery();
 
-                while(resultSet.next()){
+                while (resultSet.next()) {
                     int codice = resultSet.getInt("codice_prodotto");
 
-                    //prende il nome del prodotto dalla tabella prodotti
+                    // prende il nome del prodotto dalla tabella prodotti
                     String query2 = "SELECT descrizione FROM prodotti WHERE codice = ?";
                     PreparedStatement statement2 = conn.prepareStatement(query2);
                     statement2.setInt(1, codice);
                     ResultSet resultSet2 = statement2.executeQuery();
 
-                    while(resultSet2.next()){
+                    while (resultSet2.next()) {
                         nome = resultSet2.getString("descrizione");
                     }
                     String query3 = "INSERT INTO buonopasto (ID, descrizione, data, CFAddetto) VALUES (?,?,?,?)";
@@ -368,18 +353,14 @@ public class VenditaImpl implements Vendita {
                     statement3.executeUpdate();
                 }
 
-                
-                break;  
-            }catch (SQLException e) {
+                break;
+            } catch (SQLException e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Errore");
                 return;
             }
         }
 
-
-
     }
 
-    
 }
