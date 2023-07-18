@@ -294,12 +294,23 @@ public class VenditaImpl implements Vendita {
 
 
         while (true) {
+            //Date dataCorrente = java.sql.Date.valueOf(java.time.LocalDate.now());
             try {
                 String query = "INSERT INTO dettaglio_consegna (ID_ordine, codice_prodotto, quantita, totale, nomeApp) SELECT ID_ordine, codice_prodotto, quantita, totale, ? FROM dettaglio_ordini WHERE ID_ordine = ?";
                 PreparedStatement statement = conn.prepareStatement(query);
                 statement.setString(1, delivery);
                 statement.setInt(2, idordine);
+                //statement.setDate(3, new java.sql.Date(System.currentTimeMillis()));
                 statement.executeUpdate();
+
+                //aggiorna il record inserndo la data nella colonna data
+                String update = "UPDATE dettaglio_consegna SET data = ? WHERE ID_ordine = ?";
+                PreparedStatement updateStatement = conn.prepareStatement(update);
+                updateStatement.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+                updateStatement.setInt(2, idordine);
+                updateStatement.executeUpdate();
+
+                
 
                 // cancella i record con l'id dell'ordine dalla tabella dettaglio_ordini
                 String delete = "DELETE FROM dettaglio_ordini WHERE ID_ordine = ?";
@@ -374,6 +385,7 @@ public class VenditaImpl implements Vendita {
                     statement3.setString(4, CFAddetto);
 
                     statement3.executeUpdate();
+
                 }
 
                 break;

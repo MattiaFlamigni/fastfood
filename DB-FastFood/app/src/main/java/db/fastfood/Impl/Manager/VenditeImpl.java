@@ -23,19 +23,18 @@ import javax.swing.table.DefaultTableModel;
 import db.fastfood.api.Manager.Vendite;
 import db.fastfood.util.CustomTable;
 
-public class VenditeImpl implements Vendite{
+public class VenditeImpl implements Vendite {
     private final Connection conn;
     private final CustomTable customizeTable;
-    DecimalFormat  df = new DecimalFormat("#.##");
+    DecimalFormat df = new DecimalFormat("#.##");
 
     public VenditeImpl(Connection conn) {
         this.conn = conn;
         customizeTable = new CustomTable();
-        
+
     }
 
-
-     /**
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -52,7 +51,7 @@ public class VenditeImpl implements Vendite{
             double totaleIncassoLordo = resultSet.getInt("TotIncassoLordo");
             double totaleMateriePrime = resultSet.getInt("MateriePrime");
             double totaleNetto = resultSet.getInt("TotNetto");
-            //double totaleScarti = resultSet.getInt("TotScarti");
+            // double totaleScarti = resultSet.getInt("TotScarti");
             resultSet.close();
             statement.close();
             JOptionPane
@@ -66,8 +65,8 @@ public class VenditeImpl implements Vendite{
             JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
                     JOptionPane.ERROR_MESSAGE);
         }
-    } 
-    
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -138,7 +137,7 @@ public class VenditeImpl implements Vendite{
      */
     @Override
     public void scontrinoMedio() {
-        //visualizza una tabella con lo scontrino medio di ogni mese
+        // visualizza una tabella con lo scontrino medio di ogni mese
         try {
             Statement statement = conn.createStatement();
             String query = """
@@ -151,7 +150,7 @@ public class VenditeImpl implements Vendite{
             String[] columnNames = { "mese", "scontrino_medio" };
 
             DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-            
+
             while (resultSet.next()) {
                 int mese = resultSet.getInt("mese");
                 String scontrino_medio = df.format(resultSet.getFloat("scontrino_medio"));
@@ -162,7 +161,7 @@ public class VenditeImpl implements Vendite{
             JTable table = new JTable(tableModel);
             JScrollPane scrollPane = new JScrollPane(table);
             JFrame frame = new JFrame("Scontrino medio");
-            
+
             customizeTable.notEditable(table);
             customizeTable.doGraphic(table);
 
@@ -183,19 +182,15 @@ public class VenditeImpl implements Vendite{
      * {@inheritDoc}
      */
     @Override
-    public void visualizzaScontriniPerData(){
-        //visualizza una tabella con gli scontrini emessi in un determinato intervallo di tempo con dataPiker
+    public void visualizzaScontriniPerData() {
+        // visualizza una tabella con gli scontrini emessi in un determinato intervallo
+        // di tempo con dataPiker
 
-
-
-        
-
-
-        //l'utente seleziona da un calendario la data di inizio e la data di fine periodo
+        // l'utente seleziona da un calendario la data di inizio e la data di fine
+        // periodo
         JFrame frame = new JFrame("Visualizza scontrini per data");
         frame.setSize(400, 300);
         frame.setLayout(new GridLayout(3, 2));
-
 
         JLabel dataInizioLabel = new JLabel("Data inizio (aaaa-mm-gg): ");
         dataInizioLabel.setSize(100, 100);
@@ -203,21 +198,17 @@ public class VenditeImpl implements Vendite{
         JLabel dataFineLabel = new JLabel("Data fine (aaaa-mm-gg): ");
         JTextField dataFine = new JTextField();
 
-        
-
         JButton visualizza = new JButton("Visualizza");
-        //posizione sotto la tabella
+        // posizione sotto la tabella
         visualizza.setBounds(100, 100, 140, 40);
-
-
 
         visualizza.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(dataInizio.getText().equals("") || dataFine.getText().equals("")){
+                if (dataInizio.getText().equals("") || dataFine.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Inserire entrambe le date.", "Errore",
-                    JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 try {
@@ -234,7 +225,7 @@ public class VenditeImpl implements Vendite{
                     String[] columnNames = { "ID", "data", "totale" };
 
                     DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-                    
+
                     while (resultSet.next()) {
                         int ID = resultSet.getInt("ID");
                         String data = resultSet.getString("data");
@@ -246,7 +237,7 @@ public class VenditeImpl implements Vendite{
                     JTable table = new JTable(tableModel);
                     JScrollPane scrollPane = new JScrollPane(table);
                     JFrame frame = new JFrame("Scontrini");
-                    
+
                     customizeTable.notEditable(table);
                     customizeTable.doGraphic(table);
 
@@ -273,21 +264,18 @@ public class VenditeImpl implements Vendite{
 
         frame.setVisible(true);
 
-        
     }
-    
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void report(){
-        //l'utente seleziona un mese e un anno
+    public void report() {
+        // l'utente seleziona un mese e un anno
 
         JFrame frame = new JFrame("Report");
         frame.setSize(400, 300);
         frame.setLayout(new GridLayout(3, 2));
-
 
         JLabel meseLabel = new JLabel("Mese (1-12): ");
         meseLabel.setSize(100, 100);
@@ -295,7 +283,7 @@ public class VenditeImpl implements Vendite{
         JLabel annoLabel = new JLabel("Anno (aaaa): ");
         JTextField anno = new JTextField();
         JButton visualizza = new JButton("Visualizza");
-        //posizione sotto la tabella
+        // posizione sotto la tabella
         visualizza.setBounds(100, 100, 140, 40);
         frame.add(meseLabel);
         frame.add(mese);
@@ -304,26 +292,25 @@ public class VenditeImpl implements Vendite{
         frame.add(visualizza);
         frame.setVisible(true);
 
-
         visualizza.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                //visualizza tabella con tot vendite, tot scarti, tot materie prime
-                if(mese.getText().equals("") || anno.getText().equals("")){
+                // visualizza tabella con tot vendite, tot scarti, tot materie prime
+                if (mese.getText().equals("") || anno.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Inserire entrambi i campi.", "Errore",
-                    JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                try{
-                    //ottengo gli scarti totali 
+                try {
+                    // ottengo gli scarti totali
                     Statement statement = conn.createStatement();
                     String query = """
-                        select SUM(s.quantita * p.prezzounitario)
-                        from scarti_giornalieri s, prodotti p
-                        where s.codice_prodotto = p.codice and MONTH(s.data)=? and YEAR(s.data)=?;
-                            """;
+                            select SUM(s.quantita * p.prezzounitario)
+                            from scarti_giornalieri s, prodotti p
+                            where s.codice_prodotto = p.codice and MONTH(s.data)=? and YEAR(s.data)=?;
+                                """;
 
                     PreparedStatement preparedStatement = conn.prepareStatement(query);
                     preparedStatement.setInt(1, Integer.parseInt(mese.getText()));
@@ -333,12 +320,12 @@ public class VenditeImpl implements Vendite{
                     String totScarti = df.format(resultSet.getFloat(1));
                     resultSet.close();
 
-                    //ottengo il totale delle vendite
+                    // ottengo il totale delle vendite
                     query = """
-                            select SUM(d.quantita * p.prezzovendita)
-                            from dettaglio_ordini d, prodotti p, ordine o
-                            where d.codice_prodotto = p.codice and d.ID_ordine = o.ID and MONTH(o.data)=? and YEAR(o.data)=?;
-                        """;
+                                select SUM(d.quantita * p.prezzovendita)
+                                from dettaglio_ordini d, prodotti p, ordine o
+                                where d.codice_prodotto = p.codice and d.ID_ordine = o.ID and MONTH(o.data)=? and YEAR(o.data)=?;
+                            """;
 
                     preparedStatement = conn.prepareStatement(query);
                     preparedStatement.setInt(1, Integer.parseInt(mese.getText()));
@@ -348,12 +335,12 @@ public class VenditeImpl implements Vendite{
                     String totVendite = df.format(resultSet.getFloat(1));
                     resultSet.close();
 
-                    //ottengo il totale delle materie prime
+                    // ottengo il totale delle materie prime
                     query = """
-                    SELECT SUM(P.prezzounitario*D.quantita) as MateriePrime
-                    FROM prodotti P, dettaglio_ordini D, ordine O
-                    WHERE D.codice_prodotto = P.codice and D.ID_ordine = O.ID
-                    AND MONTH(O.data) = ? AND YEAR(O.data) = ?;""";
+                            SELECT SUM(P.prezzounitario*D.quantita) as MateriePrime
+                            FROM prodotti P, dettaglio_ordini D, ordine O
+                            WHERE D.codice_prodotto = P.codice and D.ID_ordine = O.ID
+                            AND MONTH(O.data) = ? AND YEAR(O.data) = ?;""";
 
                     preparedStatement = conn.prepareStatement(query);
                     preparedStatement.setInt(1, Integer.parseInt(mese.getText()));
@@ -363,15 +350,14 @@ public class VenditeImpl implements Vendite{
                     String totMateriePrime = df.format(resultSet.getFloat(1));
                     resultSet.close();
 
+                    // ottengo il totale netto
+                    float totaleNetto = Float.parseFloat(totVendite) - Float.parseFloat(totScarti)
+                            - Float.parseFloat(totMateriePrime);
 
-                    //ottengo il totale netto
-                    float totaleNetto = Float.parseFloat(totVendite) - Float.parseFloat(totScarti) - Float.parseFloat(totMateriePrime);
-                    
-
-
-                    //costruisco la tabella
-                    String[] columnNames = { "Totale vendite", "Totale scarti", "Totale materie prime", "Totale netto" };
-                    Object[][] data = { { totVendite, totScarti, totMateriePrime, totaleNetto} };
+                    // costruisco la tabella
+                    String[] columnNames = { "Totale vendite", "Totale scarti", "Totale materie prime",
+                            "Totale netto" };
+                    Object[][] data = { { totVendite, totScarti, totMateriePrime, totaleNetto } };
                     JTable table = new JTable(data, columnNames);
                     customizeTable.doGraphic(table);
                     JScrollPane scrollPane = new JScrollPane(table);
@@ -382,25 +368,141 @@ public class VenditeImpl implements Vendite{
 
                     resultSet.close();
                     statement.close();
-                }catch(SQLException ex){
+                } catch (SQLException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
-                    JOptionPane.ERROR_MESSAGE);
-
-
-
-
-
+                            JOptionPane.ERROR_MESSAGE);
 
                 }
+            }
+
+        });
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void reportDelivery(){
+        // mostra una tabella relativa alle consegne effettuate in un determinato periodo di tempo
+
+        JFrame frame = new JFrame("Report consegne");
+        frame.setSize(400, 300);
+        frame.setLayout(new GridLayout(3, 2));
+
+        JLabel dataInizioLabel = new JLabel("Data inizio (aaaa-mm-gg): ");
+        dataInizioLabel.setSize(100, 100);
+        JTextField dataInizio = new JTextField();
+        JLabel dataFineLabel = new JLabel("Data fine (aaaa-mm-gg): ");
+        JTextField dataFine = new JTextField();
+
+        JButton visualizza = new JButton("Visualizza");
+        // posizione sotto la tabella
+        visualizza.setBounds(100, 100, 140, 40);
+
+        visualizza.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                //per ogni applicazione, mostra il totale delle consegne effettuate in un periodo di tempo
+
+                if (dataInizio.getText().equals("") || dataFine.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Inserire entrambi i campi.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                try {
+                    // ottengo il totale delle consegne di glovo
+                    Statement statement = conn.createStatement();
+                    String query = """
+                            select SUM(c.quantita * p.prezzovendita)
+                            from dettaglio_consegna c, prodotti p
+                            where c.codice_prodotto = p.codice and c.data between ? and ? and c.nomeApp = 'Glovo';
+                                """;
+
+                    PreparedStatement preparedStatement = conn.prepareStatement(query);
+                    preparedStatement.setString(1, dataInizio.getText());
+                    preparedStatement.setString(2, dataFine.getText());
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    resultSet.next();
+                    double totGlovo = resultSet.getDouble(1);
+                    resultSet.close();
+
+                    // ottengo il totale delle consegne di deliveroo
+                    query = """
+                                select SUM(c.quantita * p.prezzovendita)
+                                from dettaglio_consegna c, prodotti p
+                                where c.codice_prodotto = p.codice and c.data between ? and ? and c.nomeApp = 'Deliveroo';
+                            """;
+
+                    preparedStatement = conn.prepareStatement(query);
+                    preparedStatement.setString(1, dataInizio.getText());
+                    preparedStatement.setString(2, dataFine.getText());
+                    resultSet = preparedStatement.executeQuery();
+                    resultSet.next();
+                    double totDeliveroo = resultSet.getDouble(1);
+                    resultSet.close();
+
+                    // ottengo il totale delle consegne di justeat
+
+                    query = """
+                                select SUM(c.quantita * p.prezzovendita)
+                                from dettaglio_consegna c, prodotti p
+                                where c.codice_prodotto = p.codice and c.data between ? and ? and c.nomeApp = 'JustEat';
+                            """;
+
+                    preparedStatement = conn.prepareStatement(query);
+                    preparedStatement.setString(1, dataInizio.getText());
+                    preparedStatement.setString(2, dataFine.getText());
+
+                    resultSet = preparedStatement.executeQuery();
+
+                    resultSet.next();
+                    Double totJustEat = resultSet.getDouble(1);
+
+                    resultSet.close();
+
+                    
+                    // costruisco la tabella
+                    String[] columnNames = { "Totale Glovo", "Totale Netto Glovo", "Totale Deliveroo", "Totale Netto Deliveroo", "Totale JustEat", "Totale Netto JustEat" };
+                    Object[][] data = { { totGlovo, totGlovo-(totGlovo*20/100), totDeliveroo, totDeliveroo-(totDeliveroo*20/100), totJustEat, totJustEat-(totJustEat*20/100) } };
+                    JTable table = new JTable(data, columnNames);
+                    customizeTable.doGraphic(table);
+                    customizeTable.notEditable(table);
+
+                    JScrollPane scrollPane = new JScrollPane(table);
+                    JFrame frame = new JFrame("Report");
+                    frame.add(scrollPane, BorderLayout.CENTER);
+                    frame.setSize(800, 400);
+                    frame.setVisible(true);
+
+                    resultSet.close();
+                    statement.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione della query.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
+
+                }
+
+
+                    
+
             }
             
         });
 
-        
+        frame.add(dataInizioLabel);
+        frame.add(dataInizio);
+        frame.add(dataFineLabel);
+        frame.add(dataFine);
+        frame.add(visualizza);
+        frame.setVisible(true);
+
+
 
 
     }
-
-
 }

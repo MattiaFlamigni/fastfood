@@ -25,4 +25,10 @@ public interface Vendite {
      * Method that allow to show the report
      */
     public void report();
+
+    /**
+     * Method that allow to show the report delivery
+     */
+
+     public void reportDelivery();
 }
