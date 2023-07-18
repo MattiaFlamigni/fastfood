@@ -6,7 +6,7 @@ public interface Vendite {
      */
     public void visualizzaFatturatoMensile();
 
-     /**
+    /**
      * Method that allow to show the daily sales
      */
     public void visualizzaVenditeGiornaliere();

@@ -3,7 +3,7 @@ package db.fastfood.api.Manager;
 public interface ManagerContratti {
     /**
      * Method that allow to add a new contract
-    */
+     */
     public void inserisciContratto();
 
     /**

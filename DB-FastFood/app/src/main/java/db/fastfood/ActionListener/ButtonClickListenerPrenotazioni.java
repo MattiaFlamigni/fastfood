@@ -9,9 +9,10 @@ import javax.swing.JButton;
 import db.fastfood.Impl.Manager.ManagerPrenotazioniImpl;
 import db.fastfood.api.Manager.ManagerPrenotazioni;
 
-public class ButtonClickListenerPrenotazioni implements ActionListener{
+public class ButtonClickListenerPrenotazioni implements ActionListener {
     Connection conn;
     ManagerPrenotazioni prenotazioni;
+
     public ButtonClickListenerPrenotazioni(Connection conn) {
         this.conn = conn;
         prenotazioni = new ManagerPrenotazioniImpl(conn);
@@ -19,7 +20,7 @@ public class ButtonClickListenerPrenotazioni implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton button = (JButton)e.getSource();
+        JButton button = (JButton) e.getSource();
         String buttonName = button.getText();
 
         switch (buttonName) {
@@ -30,8 +31,8 @@ public class ButtonClickListenerPrenotazioni implements ActionListener{
             case "Visualizza tavoli":
 
                 prenotazioni.visualizzaTavoli();
-                break;  
-            
+                break;
+
             case "Inserisci prenotazione":
                 prenotazioni.inserisciPrenotazione();
                 break;
@@ -41,6 +42,5 @@ public class ButtonClickListenerPrenotazioni implements ActionListener{
                 break;
         }
     }
-
 
 }

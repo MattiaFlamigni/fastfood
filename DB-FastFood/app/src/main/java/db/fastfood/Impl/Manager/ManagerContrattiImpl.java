@@ -29,7 +29,6 @@ public class ManagerContrattiImpl implements ManagerContratti {
         this.conn = conn;
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -129,7 +128,7 @@ public class ManagerContrattiImpl implements ManagerContratti {
                             if (rowsAffected > 0) {
                                 JOptionPane.showMessageDialog(frame, "Record modificato con successo.", "Modifica",
                                         JOptionPane.INFORMATION_MESSAGE);
-                                        
+
                                 frame.dispose();
                                 visualizzaContratti(cfDipendenteDaCercare); // Aggiorna la visualizzazione dei contratti
                             } else {
@@ -146,9 +145,8 @@ public class ManagerContrattiImpl implements ManagerContratti {
                                 JOptionPane.WARNING_MESSAGE);
                     }
                 }
-                
-            });
 
+            });
 
             JPanel buttonPanel = new JPanel();
             buttonPanel.add(eliminaButton);
@@ -163,8 +161,7 @@ public class ManagerContrattiImpl implements ManagerContratti {
         }
     }
 
-
-     /**
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -172,7 +169,6 @@ public class ManagerContrattiImpl implements ManagerContratti {
         String CFricercato = JOptionPane.showInputDialog(null, "Cognome del dipendente:");
         visualizzaContratti(CFricercato);
     }
-
 
     /**
      * {@inheritDoc}
@@ -188,7 +184,7 @@ public class ManagerContrattiImpl implements ManagerContratti {
 
             if (resultSet.next()) {
                 count = resultSet.getInt(1);
-                //System.out.println("Numero di righe: " + count);
+                // System.out.println("Numero di righe: " + count);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -196,15 +192,20 @@ public class ManagerContrattiImpl implements ManagerContratti {
 
         // inserisce il contratto
         String CF = JOptionPane.showInputDialog(null, "CF del dipendente:");
-        if(CF == null) return;
+        if (CF == null)
+            return;
         String stipendio = JOptionPane.showInputDialog(null, "Stipendio:");
-        if(stipendio == null) return;
+        if (stipendio == null)
+            return;
         String dataInizio = JOptionPane.showInputDialog(null, "Data di inizio (YYYY-MM-DD):");
-        if(dataInizio == null) return;
+        if (dataInizio == null)
+            return;
         String dataFine = JOptionPane.showInputDialog(null, "Data di fine (YYYY-MM-DD):");
-        if(dataFine == null) return;
+        if (dataFine == null)
+            return;
         String ore = JOptionPane.showInputDialog(null, "Ore settimanali:");
-        if(ore == null) return;
+        if (ore == null)
+            return;
 
         try {
             Statement statement = conn.createStatement();

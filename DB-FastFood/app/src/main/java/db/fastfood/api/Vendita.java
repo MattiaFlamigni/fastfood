@@ -16,7 +16,7 @@ public interface Vendita {
     /**
      * 
      * @param nomeprodotto
-     * sold product 
+     *                     sold product
      *
      */
     public void vendita(String nomeprodotto);
@@ -28,7 +28,7 @@ public interface Vendita {
 
     /**
      * allow an employee eat for free
-     *      
+     * 
      */
     public void buonoPasto();
 

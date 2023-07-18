@@ -43,12 +43,13 @@ public class ButtonClickListenerDipendenti implements ActionListener {
                 contratti.inserisciContratto();
                 break;
             case "Ricerca contratto":
-                //String cf = JOptionPane.showInputDialog("Inserisci il codice fiscale del dipendente");
+                // String cf = JOptionPane.showInputDialog("Inserisci il codice fiscale del
+                // dipendente");
                 contratti.ricercaContratti();
                 break;
             default:
                 break;
         }
     }
-    
+
 }

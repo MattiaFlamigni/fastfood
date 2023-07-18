@@ -6,5 +6,5 @@ public interface ManagerFornitori {
     public void visualizzaFornitori();
 
     public void makeOrder();
-    
+
 }

@@ -13,7 +13,7 @@ public class ButtonClickListenerRichieste implements ActionListener {
 
     ManagerRichieste richieste;
 
-    public ButtonClickListenerRichieste(Connection conn){
+    public ButtonClickListenerRichieste(Connection conn) {
         richieste = new ManagerRichiesteImpl(conn);
     }
 
@@ -21,7 +21,7 @@ public class ButtonClickListenerRichieste implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         String buttonName = button.getText();
-        
+
         switch (buttonName) {
             case "Nuova richiesta":
                 richieste.inserisciRichiesta();
@@ -33,5 +33,5 @@ public class ButtonClickListenerRichieste implements ActionListener {
                 break;
         }
     }
-    
+
 }

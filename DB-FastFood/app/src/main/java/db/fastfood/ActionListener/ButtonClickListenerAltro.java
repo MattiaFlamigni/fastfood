@@ -22,10 +22,10 @@ public class ButtonClickListenerAltro implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton button = (JButton)e.getSource();
+        JButton button = (JButton) e.getSource();
         String buttonName = button.getText();
 
-        switch (buttonName){
+        switch (buttonName) {
             case "Visualizza Fatturato Mensile":
                 vendita.visualizzaFatturatoMensile();
                 break;
@@ -41,7 +41,7 @@ public class ButtonClickListenerAltro implements ActionListener {
 
             case "Scontrino Medio":
                 vendita.scontrinoMedio();
-                break; 
+                break;
             case "Visualizza scontrini per data":
                 vendita.visualizzaScontriniPerData();
                 break;
@@ -60,5 +60,5 @@ public class ButtonClickListenerAltro implements ActionListener {
         }
 
     }
-    
+
 }

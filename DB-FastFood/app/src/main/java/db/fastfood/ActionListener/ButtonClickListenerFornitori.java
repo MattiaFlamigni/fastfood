@@ -19,9 +19,9 @@ public class ButtonClickListenerFornitori implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
-        String buttonName=button.getText();
+        String buttonName = button.getText();
 
-        switch (buttonName){
+        switch (buttonName) {
             case "Inserisci Fornitore":
                 fornitori.inserisciFornitore();
                 break;
@@ -33,5 +33,5 @@ public class ButtonClickListenerFornitori implements ActionListener {
                 break;
         }
     }
-    
+
 }

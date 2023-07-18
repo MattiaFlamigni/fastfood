@@ -25,7 +25,6 @@ public class ButtonClickListenerProducts implements ActionListener {
         JButton button = (JButton) e.getSource();
         String buttonName = button.getText();
 
-
         /* chiamo funzioni diverse a seconda del bottone */
         switch (buttonName) {
             case "Visualizza Prodotti Disponibili":
@@ -53,5 +52,5 @@ public class ButtonClickListenerProducts implements ActionListener {
                 break;
         }
     }
-    
+
 }
