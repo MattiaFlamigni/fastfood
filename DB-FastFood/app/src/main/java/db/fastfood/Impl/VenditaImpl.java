@@ -120,7 +120,7 @@ public class VenditaImpl implements Vendita {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         boolean flag = false;
-
+        
         try {
             @SuppressWarnings("unused")
             int idcliente = util.getCurrentcliente();
@@ -199,19 +199,21 @@ public class VenditaImpl implements Vendita {
                 // Inserisci la vendita nel database del cliente corrente
                 idcliente = util.getCurrentcliente();
                 idordine = util.getCurrentordine();
-                String query2 = "INSERT INTO dettaglio_ordini (ID_ordine, codice_prodotto, quantita) VALUES (?,?,?)";
+                String query2 = "INSERT INTO dettaglio_ordini (ID_ordine, codice_prodotto, quantita, totale) VALUES (?,?,?, ?)";
                 statement = conn.prepareStatement(query2);
                 statement.setInt(1, idordine);
                 statement.setInt(2, idProdotto);
                 statement.setInt(3, 1);
+                statement.setDouble(4, prezzo);
                 statement.executeUpdate();
 
                 // Aggiorna il prezzo totale dell'ordine
-                String updatePrezzo = "UPDATE dettaglio_ordini SET totale = totale + ? WHERE ID_ordine = ?";
+                /*String updatePrezzo = "UPDATE dettaglio_ordini SET totale = ? WHERE ID_ordine = ?";
                 PreparedStatement updatePrezzoStatement = conn.prepareStatement(updatePrezzo);
+
                 updatePrezzoStatement.setDouble(1, prezzo);
                 updatePrezzoStatement.setInt(2, idordine);
-                updatePrezzoStatement.executeUpdate();
+                updatePrezzoStatement.executeUpdate();*/
 
                 // controller.updateTable(nomeprodotto, 1, prezzo);
 
@@ -236,7 +238,8 @@ public class VenditaImpl implements Vendita {
                 e.printStackTrace();
             }
 
-        }
+        }   
+    
 
         flag = false;
     }
@@ -271,13 +274,31 @@ public class VenditaImpl implements Vendita {
 
         int idordine = util.getCurrentordine();
 
-        // prende tutti i record con l'id dell'ordine dalla tabella dettaglio_ordini e
-        // li sposta nella tabella dettaglio_consegne
+        //viene visualizzato un menu a tendina contenente i valori "glovo, justeat, deliveroo"
+
+        String[] options = { "Glovo", "Justeat", "Deliveroo" };
+        String delivery = (String) JOptionPane.showInputDialog(null, "Scegli il servizio di delivery",
+                "Servizio di delivery", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+                System.out.println(delivery);
+
+
+
+
+
+        
+
+
+
+
+
+
         while (true) {
             try {
-                String query = "INSERT INTO dettaglio_consegna (ID_ordine, codice_prodotto, quantita, totale) SELECT ID_ordine, codice_prodotto, quantita, totale FROM dettaglio_ordini WHERE ID_ordine = ?";
+                String query = "INSERT INTO dettaglio_consegna (ID_ordine, codice_prodotto, quantita, totale, nomeApp) SELECT ID_ordine, codice_prodotto, quantita, totale, ? FROM dettaglio_ordini WHERE ID_ordine = ?";
                 PreparedStatement statement = conn.prepareStatement(query);
-                statement.setInt(1, idordine);
+                statement.setString(1, delivery);
+                statement.setInt(2, idordine);
                 statement.executeUpdate();
 
                 // cancella i record con l'id dell'ordine dalla tabella dettaglio_ordini
@@ -285,6 +306,8 @@ public class VenditaImpl implements Vendita {
                 PreparedStatement deleteStatement = conn.prepareStatement(delete);
                 deleteStatement.setInt(1, idordine);
                 deleteStatement.executeUpdate();
+
+        
 
                 break;
             } catch (SQLException e) {
