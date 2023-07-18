@@ -1,11 +1,13 @@
 package db.fastfood.Impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.time.LocalDate;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -294,6 +296,85 @@ public class VenditaImpl implements Vendita {
                 e.printStackTrace();
             }
         }
+
+    }
+
+    public void buonoPasto(){
+
+    
+
+
+
+
+        Util util = new UtilImpl(conn);
+        int ordine = util.getCurrentordine();
+        boolean flag = false;
+
+
+        String CFAddetto = JOptionPane.showInputDialog("Inserisci il codice fiscale del dipendente");
+        //controllo se è gia stato inserito un buono pasto per quell'addetto nella data odierna
+
+        try{
+            String query = "SELECT * FROM buonopasto WHERE CFAddetto = ? AND data = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, CFAddetto);
+            statement.setDate(2, java.sql.Date.valueOf(java.time.LocalDate.now()));
+            ResultSet resultSet = statement.executeQuery();
+
+            if(resultSet.next()){
+                JOptionPane.showMessageDialog(null, "Buono pasto gia inserito per questo addetto");
+                flag = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        while(true && flag == false){
+            try{
+                String nome = "";
+                //prende il codice del prodotto dalla tabella dettaglio_ordini
+                String query = "SELECT codice_prodotto FROM dettaglio_ordini WHERE ID_ordine = ?";
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setInt(1, ordine);
+                ResultSet resultSet = statement.executeQuery();
+
+                while(resultSet.next()){
+                    int codice = resultSet.getInt("codice_prodotto");
+
+                    //prende il nome del prodotto dalla tabella prodotti
+                    String query2 = "SELECT descrizione FROM prodotti WHERE codice = ?";
+                    PreparedStatement statement2 = conn.prepareStatement(query2);
+                    statement2.setInt(1, codice);
+                    ResultSet resultSet2 = statement2.executeQuery();
+
+                    while(resultSet2.next()){
+                        nome = resultSet2.getString("descrizione");
+                    }
+                    String query3 = "INSERT INTO buonopasto (ID, descrizione, data, CFAddetto) VALUES (?,?,?,?)";
+                    PreparedStatement statement3 = conn.prepareStatement(query3);
+                    statement3.setInt(1, ordine);
+                    statement3.setString(2, nome);
+                    statement3.setDate(3, Date.valueOf(LocalDate.now()));
+                    statement3.setString(4, CFAddetto);
+
+                    statement3.executeUpdate();
+                }
+
+                
+                break;  
+            
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+            
+        }
+
+
 
     }
 

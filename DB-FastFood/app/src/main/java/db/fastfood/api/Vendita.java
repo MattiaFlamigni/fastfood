@@ -26,4 +26,10 @@ public interface Vendita {
      */
     public void delivery();
 
+    /**
+     * allow an employee eat for free
+     *      
+     */
+    public void buonoPasto();
+
 }

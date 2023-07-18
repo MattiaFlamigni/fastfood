@@ -148,6 +148,13 @@ public class ViewSchermatavendita extends JFrame {
             vendita.delivery();
         });
 
+        JButton btnBuonoPasto = new JButton("Buono Pasto");
+        panel.add(btnBuonoPasto);
+        btnBuonoPasto.addActionListener(e -> {
+            Vendita vendita = new VenditaImpl(getView(), conn);
+            vendita.buonoPasto();
+        });
+
     }
 
 
