@@ -12,6 +12,7 @@ import db.fastfood.Impl.Manager.ManagerImpl;
 import db.fastfood.api.Manager.Manager;
 import db.fastfood.api.Manager.ManagerAddetti;
 import db.fastfood.api.Manager.ManagerContratti;
+import db.fastfood.view.SchermataInizialeFinale;
 
 public class ButtonClickListenerDipendenti implements ActionListener {
     ManagerContratti contratti;
@@ -47,6 +48,7 @@ public class ButtonClickListenerDipendenti implements ActionListener {
                 // dipendente");
                 contratti.ricercaContratti();
                 break;
+
             default:
                 break;
         }

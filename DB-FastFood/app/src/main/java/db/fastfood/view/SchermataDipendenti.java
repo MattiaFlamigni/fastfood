@@ -1,16 +1,21 @@
 package db.fastfood.view;
 
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import db.fastfood.ActionListener.ButtonClickListenerDipendenti;
+import db.fastfood.util.CustomIndietroButton;
 
 public class SchermataDipendenti extends JFrame {
     @SuppressWarnings("unused")
@@ -30,6 +35,7 @@ public class SchermataDipendenti extends JFrame {
         JButton btnContratti = new JButton("Crea contratto");
         JButton btnVisualizzaContratti = new JButton("Visualizza contratti");
         JButton btnRicercaContratto = new JButton("Ricerca contratto");
+        JButton btnIndietro = new JButton("Indietro");
 
 
         Container container = getContentPane();
@@ -48,6 +54,23 @@ public class SchermataDipendenti extends JFrame {
         dipendentiPanel.add(btnRicercaContratto);
         container.add(dipendentiPanel);
 
+       ImageIcon iconaIndietro = new javax.swing.ImageIcon(getClass().getResource("images/arrow-left-circle.png"));
+        ImageIcon iconaIndietroRidimensionata = new ImageIcon(iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+
+        btnIndietro.setIcon(iconaIndietroRidimensionata);
+
+        JPanel indietroPanel = new JPanel();
+        indietroPanel.add(btnIndietro);
+
+        btnIndietro.setBackground(java.awt.Color.WHITE);
+        btnIndietro.setForeground(java.awt.Color.RED);
+
+        container.add(indietroPanel, BorderLayout.SOUTH);
+        
+
+
+
+
         setVisible(true);
 
 
@@ -57,6 +80,15 @@ public class SchermataDipendenti extends JFrame {
         btnContratti.addActionListener(new ButtonClickListenerDipendenti(conn));
         btnVisualizzaContratti.addActionListener(new ButtonClickListenerDipendenti(conn));
         btnRicercaContratto.addActionListener(new ButtonClickListenerDipendenti(conn));
+
+        btnIndietro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new SchermataInizialeFinale(conn);
+            }
+        }) ;
+        
 
 
     }

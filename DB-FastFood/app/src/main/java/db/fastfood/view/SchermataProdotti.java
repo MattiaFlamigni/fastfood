@@ -3,8 +3,10 @@ package db.fastfood.view;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,9 +35,11 @@ public class SchermataProdotti extends JFrame {
         JButton btnMagazzino = new JButton("Situazione magazzino");
         JButton btnTop10 = new JButton("Top 10 Prodotti");
 
+        JButton btnIndietro = new JButton("Indietro");
+
         // Creazione del layout
         Container container = getContentPane();
-        container.setLayout(new GridLayout(3, 2)); // 3 righe e 2 colonne per coppie di pulsanti
+        container.setLayout(new GridLayout(4, 2)); // 3 righe e 2 colonne per coppie di pulsanti
 
         // Aggiunta dei pulsanti alla sezione "Prodotti"
         JPanel prodottiPanel = new JPanel();
@@ -57,6 +61,18 @@ public class SchermataProdotti extends JFrame {
         prodottiPanel.add(btnMagazzino);
         container.add(prodottiPanel);
 
+        ImageIcon iconaIndietro = new javax.swing.ImageIcon(getClass().getResource("images/arrow-left-circle.png"));
+        ImageIcon iconaIndietroRidimensionata = new ImageIcon(iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+
+        btnIndietro.setIcon(iconaIndietroRidimensionata);
+        JPanel indietroPanel = new JPanel();
+        indietroPanel.add(btnIndietro);
+
+        btnIndietro.setBackground(java.awt.Color.WHITE);
+        btnIndietro.setForeground(java.awt.Color.RED);
+
+        container.add(indietroPanel);
+
         // Mostra la finestra
         setVisible(true);
 
@@ -70,6 +86,13 @@ public class SchermataProdotti extends JFrame {
         btnMagazzino.addActionListener(listener);
         btnTop10.addActionListener(listener);
 
+        btnIndietro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dispose();
+                new SchermataInizialeFinale(conn);
+            }
+        });
         
     }
 }

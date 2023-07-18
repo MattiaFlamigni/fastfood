@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.sql.Connection;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,6 +28,7 @@ public class SchermataOrdiniFornitori extends JFrame {
         JButton btnInserisciFornitore = new JButton("Inserisci Fornitore");
         JButton btnVisualizzaFornitori = new JButton("Visualizza Fornitori");
         JButton btnInserisciOrdine = new JButton("Inserisci Ordine");
+        JButton btnIndietro = new JButton("Indietro");
 
         Container container = getContentPane();
         container.setLayout(new GridLayout(3,2));
@@ -41,12 +43,29 @@ public class SchermataOrdiniFornitori extends JFrame {
         ordiniFornitoriPanel.add(btnInserisciOrdine);
         container.add(ordiniFornitoriPanel);
 
+        ImageIcon iconaIndietro = new javax.swing.ImageIcon(getClass().getResource("images/arrow-left-circle.png"));
+        ImageIcon iconaIndietroRidimensionata = new ImageIcon(iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+
+        btnIndietro.setIcon(iconaIndietroRidimensionata);
+
+        JPanel indietroPanel = new JPanel();
+        indietroPanel.add(btnIndietro);
+
+        btnIndietro.setBackground(java.awt.Color.WHITE);
+        btnIndietro.setForeground(java.awt.Color.RED);
+
+        container.add(indietroPanel);
+
         setVisible(true);
 
         btnInserisciFornitore.addActionListener(new ButtonClickListenerFornitori(connection));
         btnVisualizzaFornitori.addActionListener(new ButtonClickListenerFornitori(connection));
         btnInserisciOrdine.addActionListener(new ButtonClickListenerFornitori(connection));
 
+        btnIndietro.addActionListener(e -> {
+            dispose();
+            new SchermataInizialeFinale(connection);
+        });
     }
     
 }
