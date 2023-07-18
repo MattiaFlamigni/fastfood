@@ -7,19 +7,16 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import db.fastfood.ActionListener.ButtonClickListenerPrenotazioni;
 
 public class SchermataPrenotazioni extends JFrame {
 
-    private final Connection conn;
-    private ButtonClickListenerPrenotazioni listener;
+    final Connection conn;
 
     public SchermataPrenotazioni(Connection conn) {
         this.conn = conn;

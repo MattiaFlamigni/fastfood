@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.util.concurrent.Flow;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import db.fastfood.ActionListener.ButtonClickListenerAltro;
-import db.fastfood.util.CustomIndietroButton;
 
 public class SchermataAltro extends JFrame {
     @SuppressWarnings("unused")

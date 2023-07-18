@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import db.fastfood.ActionListener.ButtonClickListenerDipendenti;
-import db.fastfood.util.CustomIndietroButton;
 
 public class SchermataDipendenti extends JFrame {
     @SuppressWarnings("unused")
