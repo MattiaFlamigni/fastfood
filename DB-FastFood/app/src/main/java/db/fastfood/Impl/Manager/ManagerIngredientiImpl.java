@@ -32,9 +32,13 @@ public class ManagerIngredientiImpl implements ManagerIngredienti {
     @Override
     public void addIngredient() {
         String nome = JOptionPane.showInputDialog(null, "Inserisci il nome dell'ingrediente:");
+        if(nome==null) return;
         String quantita = JOptionPane.showInputDialog(null, "Inserisci la quantità disponibile:");
+        if(quantita==null) return;
         String idIngrediente = JOptionPane.showInputDialog(null, "Inserisci l'ID dell'ingrediente:");
+        if(idIngrediente==null) return;
         String prezzounitario = JOptionPane.showInputDialog(null, "Inserisci il costo di acquisto:");
+        if(prezzounitario==null) return;
 
         try {
             Statement statement = conn.createStatement();
