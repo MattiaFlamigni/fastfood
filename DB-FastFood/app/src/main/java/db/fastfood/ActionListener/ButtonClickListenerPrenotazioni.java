@@ -25,20 +25,20 @@ public class ButtonClickListenerPrenotazioni implements ActionListener {
 
         switch (buttonName) {
             case "Inserisci tavoli":
-                prenotazioni.inserisciTavolo();
+                prenotazioni.AddTable();
                 break;
 
             case "Visualizza tavoli":
 
-                prenotazioni.visualizzaTavoli();
+                prenotazioni.showTable();
                 break;
 
             case "Inserisci prenotazione":
-                prenotazioni.inserisciPrenotazione();
+                prenotazioni.AddReservation();
                 break;
 
             case "Visualizza prenotazioni":
-                prenotazioni.visualizzaPrenotazioni();
+                prenotazioni.showreservation();
                 break;
         }
     }

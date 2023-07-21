@@ -13,7 +13,6 @@ import db.fastfood.util.Util;
 import db.fastfood.util.UtilImpl;
 
 public class VenditaFideltyImpl implements VenditaFidelty {
-    
 
     private final Connection conn;
 
@@ -21,8 +20,11 @@ public class VenditaFideltyImpl implements VenditaFidelty {
         this.conn = conn;
     }
 
-
-    public void assegna_fidelty() {
+    /**
+     * @{inheritDoc}
+     */
+    @Override
+    public void assign_fidelty() {
         String numero_fidelty_tmp = JOptionPane.showInputDialog("Inserisci il numero di fidelty");
         int numero_fidelty = Integer.parseInt(numero_fidelty_tmp);
         String numero_timbri_corrente_tmp = JOptionPane.showInputDialog("N. menu acquistati");
@@ -76,49 +78,47 @@ public class VenditaFideltyImpl implements VenditaFidelty {
 
     }
 
-
-    public void utilizza_fidelty(){
+    /**
+     * @inherutDoc
+     */
+    @Override
+    public void use_fidelty() {
         Util util = new UtilImpl(conn);
 
-        //VenditaFidelty vendita = new VenditaFideltyImpl(conn);
-
-        int nTimbri=0;
-        String numeroFideltyTmp= JOptionPane.showInputDialog("Inserisci il numero di fidelty");
+        int nTimbri = 0;
+        String numeroFideltyTmp = JOptionPane.showInputDialog("Inserisci il numero di fidelty");
         int numeroFidelty = Integer.parseInt(numeroFideltyTmp);
 
-        try{
-            String nTimbriQuery = "SELECT n_timbri FROM fidelty WHERE numero = '"+numeroFidelty+"'";
+        try {
+            String nTimbriQuery = "SELECT n_timbri FROM fidelty WHERE numero = '" + numeroFidelty + "'";
             Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery(nTimbriQuery);
-            while(resultSet.next()){
-                nTimbri = resultSet.getInt("n_timbri");          
+            while (resultSet.next()) {
+                nTimbri = resultSet.getInt("n_timbri");
             }
 
-            
-
-            if(nTimbri<10){
+            if (nTimbri < 10) {
                 JOptionPane.showMessageDialog(null, "La tessera ha meno di 10 punti");
-            }else{
+            } else {
 
                 String query = "UPDATE fidelty SET n_timbri = ? WHERE numero = ?";
                 PreparedStatement statement2 = conn.prepareStatement(query);
-                statement2.setInt(1, nTimbri-10);
+                statement2.setInt(1, nTimbri - 10);
                 statement2.setInt(2, numeroFidelty);
                 statement2.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Saldo punti aggiornato");
 
-                //il totale dell'ordine viene settato a 0
+                // il totale dell'ordine viene settato a 0
                 String query2 = "UPDATE dettaglio_ordini SET totale = ? WHERE ID_ordine = ?";
                 PreparedStatement statement3 = conn.prepareStatement(query2);
                 statement3.setDouble(1, 0);
                 statement3.setInt(2, util.getCurrentordine());
                 statement3.executeUpdate();
             }
-            
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
 }

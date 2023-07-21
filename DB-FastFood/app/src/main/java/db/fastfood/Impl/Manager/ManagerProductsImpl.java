@@ -27,7 +27,7 @@ public class ManagerProductsImpl implements ManagerProducts {
      * @{inheritDoc}
      */
     @Override
-    public void visualizzaProdottiDisponibili() {
+    public void showavaiableProduct() {
         try {
             Statement statement = conn.createStatement();
             String query = "SELECT * FROM Prodotti";
@@ -70,7 +70,7 @@ public class ManagerProductsImpl implements ManagerProducts {
      * @{inheritDoc}
      */
     @Override
-    public void aggiungiProdotto() {
+    public void addProduct() {
         String codice = JOptionPane.showInputDialog(null, "Inserisci il codice del prodotto:");
         if(codice == null) return;
         String descrizione = JOptionPane.showInputDialog(null, "Inserisci la descrizione del prodotto:");
@@ -104,8 +104,7 @@ public class ManagerProductsImpl implements ManagerProducts {
      * @{inheritDoc}
      */
     @Override
-    public void visualizzaTop10(){
-        //apre una finestra con una tabella che mostra i primi 10 prodotti più venduti
+    public void Top10(){
 
         try {
             Statement statement = conn.createStatement();
@@ -125,7 +124,6 @@ public class ManagerProductsImpl implements ManagerProducts {
                 String descrizione = resultSet.getString("descrizione");
                 double prezzoVendita = resultSet.getDouble("prezzovendita");
                 int vendite = resultSet.getInt("vendite");
-                //int vendite = resultSet.getInt("vendite");
 
                 tableModel.addRow(new Object[] {descrizione, prezzoVendita, vendite });
             }

@@ -1,11 +1,23 @@
 package db.fastfood.api.Manager;
 
 public interface ManagerPrenotazioni {
-    public void inserisciTavolo();
+    /**
+     * Method that allow to add a new table
+     */
+    public void AddTable();
 
-    public void visualizzaTavoli();
+    /**
+     * Method that allow to show all tables
+     */
+    public void showTable();
 
-    public void visualizzaPrenotazioni();
+    /**
+     * Method that allow to add a new reservation
+     */
+    public void showreservation();
 
-    public void inserisciPrenotazione();
+    /**
+     * Method that allow to add a new reservation
+     */
+    public void AddReservation();
 }

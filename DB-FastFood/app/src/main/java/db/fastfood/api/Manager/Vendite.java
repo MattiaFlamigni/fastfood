@@ -4,22 +4,22 @@ public interface Vendite {
     /**
      * Method that allow to show the monthly money earned
      */
-    public void visualizzaFatturatoMensile();
+    public void monthlyEarned();
 
     /**
      * Method that allow to show the daily sales
      */
-    public void visualizzaVenditeGiornaliere();
+    public void showDailySales();
 
     /**
      * Method that allow to show the average receipt
      */
-    public void scontrinoMedio();
+    public void averageReceipt();
 
     /**
      * Method that allow to show the receipt by date
      */
-    public void visualizzaScontriniPerData();
+    public void showReceiptByDate();
 
     /**
      * Method that allow to show the report
@@ -30,5 +30,5 @@ public interface Vendite {
      * Method that allow to show the report delivery
      */
 
-     public void reportDelivery();
+    public void reportDelivery();
 }

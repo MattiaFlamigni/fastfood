@@ -18,7 +18,7 @@ public class SchermataProdotti extends JFrame {
     private final Connection conn;
     ButtonClickListenerProducts listener;
 
-    public SchermataProdotti(Connection conn){
+    public SchermataProdotti(Connection conn) {
         this.conn = conn;
         listener = new ButtonClickListenerProducts(conn);
         setTitle("Schermata Prodotti");
@@ -62,7 +62,8 @@ public class SchermataProdotti extends JFrame {
         container.add(prodottiPanel);
 
         ImageIcon iconaIndietro = new javax.swing.ImageIcon(getClass().getResource("images/arrow-left-circle.png"));
-        ImageIcon iconaIndietroRidimensionata = new ImageIcon(iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        ImageIcon iconaIndietroRidimensionata = new ImageIcon(
+                iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
 
         btnIndietro.setIcon(iconaIndietroRidimensionata);
         JPanel indietroPanel = new JPanel();
@@ -76,8 +77,7 @@ public class SchermataProdotti extends JFrame {
         // Mostra la finestra
         setVisible(true);
 
-
-        //per ogni pulsante aggiungo il listener
+        // per ogni pulsante aggiungo il listener
         btnVisualizzaProdotti.addActionListener(listener);
         btnAggiungiProdotto.addActionListener(listener);
         btnAggiungiIngredienti.addActionListener(listener);
@@ -93,6 +93,6 @@ public class SchermataProdotti extends JFrame {
                 new SchermataInizialeFinale(conn);
             }
         });
-        
+
     }
 }

@@ -4,11 +4,11 @@ public interface ManagerRichieste {
     /**
      * Method that allow insert a new request
      */
-    public void inserisciRichiesta();
+    public void addRequest();
 
     /**
      * Method that allow to show and decline requests.
      * 
      */
-    public void visualizzaRifiutaRichieste();
+    public void ShowDeclineRequest();
 }

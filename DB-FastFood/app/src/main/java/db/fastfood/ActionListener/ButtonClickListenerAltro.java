@@ -27,35 +27,35 @@ public class ButtonClickListenerAltro implements ActionListener {
 
         switch (buttonName) {
             case "Visualizza Fatturato Mensile":
-                vendita.visualizzaFatturatoMensile();
+                vendita.monthlyEarned();
                 break;
             case "Crea Fidelty":
-                manager.creaFidelty();
+                manager.createFidelity();
                 break;
             case "Visualizza Vendite Giornaliere":
-                vendita.visualizzaVenditeGiornaliere();
+                vendita.showDailySales();
                 break;
             case "Registra Scarti":
-                manager.registraScarti();
+                manager.newWaste();
                 break;
 
             case "Scontrino Medio":
-                vendita.scontrinoMedio();
+                vendita.averageReceipt();
                 break;
             case "Visualizza scontrini per data":
-                vendita.visualizzaScontriniPerData();
+                vendita.showReceiptByDate();
                 break;
             case "Visualizza Scarti":
-                manager.visualizzaScarti();
+                manager.showWaste();
                 break;
             case "Report":
                 vendita.report();
                 break;
             case "Spese Extra":
-                manager.speseExtra();
+                manager.extra();
                 break;
             case "Visualizza Spese Extra":
-                manager.visualizzaSpeseExtra();
+                manager.showExtra();
                 break;
 
             case "Report Delivery":

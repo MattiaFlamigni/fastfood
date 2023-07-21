@@ -5,13 +5,13 @@ public interface Vendita {
     /**
      * to start a new order
      */
-    public void nuovo_cliente();
+    public void newCustomer();
 
     /**
      * 
-     * an order with fidelity card
+     * an order with a discount
      */
-    public void inserisci_offerta();
+    public void addOffer();
 
     /**
      * 
@@ -19,7 +19,7 @@ public interface Vendita {
      *                     sold product
      *
      */
-    public void vendita(String nomeprodotto);
+    public void sold(String nomeprodotto);
 
     /**
      * an order delivered by app
@@ -30,6 +30,6 @@ public interface Vendita {
      * allow an employee eat for free
      * 
      */
-    public void buonoPasto();
+    public void mealVoucher();
 
 }

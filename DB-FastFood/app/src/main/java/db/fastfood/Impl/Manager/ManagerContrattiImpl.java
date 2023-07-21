@@ -33,7 +33,7 @@ public class ManagerContrattiImpl implements ManagerContratti {
      * {@inheritDoc}
      */
     @Override
-    public void visualizzaContratti(String cfDipendenteDaCercare) {
+    public void showContract(String cfDipendenteDaCercare) {
         try {
             Statement statement = conn.createStatement();
             String query = "SELECT * FROM CONTRATTO C, ADDETTO D WHERE C.CF_addetto = D.CF";
@@ -82,7 +82,7 @@ public class ManagerContrattiImpl implements ManagerContratti {
                             if (rowsAffected > 0) {
                                 JOptionPane.showMessageDialog(frame, "Record eliminato con successo.", "Eliminazione",
                                         JOptionPane.INFORMATION_MESSAGE);
-                                visualizzaContratti(cfDipendenteDaCercare); // Aggiorna la visualizzazione dei contratti
+                                showContract(cfDipendenteDaCercare); // Aggiorna la visualizzazione dei contratti
                             } else {
                                 JOptionPane.showMessageDialog(frame, "Nessun record eliminato.", "Eliminazione",
                                         JOptionPane.WARNING_MESSAGE);
@@ -130,7 +130,7 @@ public class ManagerContrattiImpl implements ManagerContratti {
                                         JOptionPane.INFORMATION_MESSAGE);
 
                                 frame.dispose();
-                                visualizzaContratti(cfDipendenteDaCercare); // Aggiorna la visualizzazione dei contratti
+                                showContract(cfDipendenteDaCercare); // Aggiorna la visualizzazione dei contratti
                             } else {
                                 JOptionPane.showMessageDialog(frame, "Nessun record modificato.", "Modifica",
                                         JOptionPane.WARNING_MESSAGE);
@@ -165,16 +165,16 @@ public class ManagerContrattiImpl implements ManagerContratti {
      * {@inheritDoc}
      */
     @Override
-    public void ricercaContratti() {
+    public void searchContract() {
         String CFricercato = JOptionPane.showInputDialog(null, "Cognome del dipendente:");
-        visualizzaContratti(CFricercato);
+        showContract(CFricercato);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void inserisciContratto() {
+    public void newContract() {
         // si connette alla tabella e conta il numero di righe
         int count = 0;
         try {

@@ -18,7 +18,7 @@ public class SchermataAltro extends JFrame {
     @SuppressWarnings("unused")
     private Connection connection;
 
-    public SchermataAltro(Connection connection){
+    public SchermataAltro(Connection connection) {
         this.connection = connection;
         setTitle("Schermata Altro");
         setSize(400, 800);
@@ -38,8 +38,8 @@ public class SchermataAltro extends JFrame {
         JButton btnReportrDelivery = new JButton("Report Delivery");
 
         Container container = getContentPane();
-        container.setLayout(new GridLayout(4,1));
-        
+        container.setLayout(new GridLayout(4, 1));
+
         JPanel altroPanel = new JPanel();
         altroPanel.setLayout(new FlowLayout());
         altroPanel.add(btnFatturatoMensile);
@@ -49,11 +49,11 @@ public class SchermataAltro extends JFrame {
         altroPanel.add(btnReport);
         container.add(altroPanel);
 
-        altroPanel=new JPanel();
+        altroPanel = new JPanel();
         altroPanel.add(btnCreaFidelity);
         container.add(altroPanel);
 
-        altroPanel=new JPanel();
+        altroPanel = new JPanel();
         altroPanel.add(btnVisualizzaScarti);
         altroPanel.add(btnScarti);
         altroPanel.add(btnSpeseExtra);
@@ -61,17 +61,14 @@ public class SchermataAltro extends JFrame {
         altroPanel.add(btnReportrDelivery);
         container.add(altroPanel);
 
-
-        //voglio un bottone che mi consenta di tornare alla schermata iniziale. il bottone deve stare nella parte bassa della schermata
         JPanel indietroPanel = new JPanel();
         JButton btnIndietro = new JButton("Indietro");
-    
+
         container.add(indietroPanel, BorderLayout.SOUTH);
 
-        //voglio che il bottone indietro abbia l'icona di una freccia che punta verso sinistra
-
         ImageIcon iconaIndietro = new javax.swing.ImageIcon(getClass().getResource("images/arrow-left-circle.png"));
-        ImageIcon iconaIndietroRidimensionata = new ImageIcon(iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        ImageIcon iconaIndietroRidimensionata = new ImageIcon(
+                iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
 
         btnIndietro.setIcon(iconaIndietroRidimensionata);
 
@@ -80,14 +77,7 @@ public class SchermataAltro extends JFrame {
         btnIndietro.setBackground(java.awt.Color.WHITE);
         btnIndietro.setForeground(java.awt.Color.RED);
 
-
-
-
-
-
-
         setVisible(true);
-
 
         btnFatturatoMensile.addActionListener(new ButtonClickListenerAltro(connection));
         btnCreaFidelity.addActionListener(new ButtonClickListenerAltro(connection));
@@ -107,7 +97,6 @@ public class SchermataAltro extends JFrame {
                 new SchermataInizialeFinale(connection);
             }
         });
-
 
     }
 }

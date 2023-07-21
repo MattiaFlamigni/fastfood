@@ -24,10 +24,10 @@ public class ButtonClickListenerRichieste implements ActionListener {
 
         switch (buttonName) {
             case "Nuova richiesta":
-                richieste.inserisciRichiesta();
+                richieste.addRequest();
                 break;
             case "Visualizza/rifiuta richieste":
-                richieste.visualizzaRifiutaRichieste();
+                richieste.ShowDeclineRequest();
                 break;
             default:
                 break;

@@ -12,8 +12,6 @@ import java.time.LocalDate;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-//import com.mysql.cj.xdevapi.PreparableStatement;
-
 import db.fastfood.api.Vendita;
 import db.fastfood.util.Util;
 import db.fastfood.util.UtilImpl;
@@ -22,7 +20,6 @@ import db.fastfood.view.ViewSchermatavendita;
 public class VenditaImpl implements Vendita {
     private final Connection conn;
 
-    // non devo creare una nuova view ma devo aggiornare quella esistente
     ViewSchermatavendita view;
 
     public VenditaImpl(ViewSchermatavendita view, Connection conn) {
@@ -30,7 +27,11 @@ public class VenditaImpl implements Vendita {
         this.view = view;
     }
 
-    public void nuovo_cliente() {
+    /**
+     * @{inheritDoc}
+     */
+    @Override
+    public void newCustomer() {
 
         Util util = new UtilImpl(conn);
 
@@ -41,9 +42,7 @@ public class VenditaImpl implements Vendita {
             statement.setInt(1, idcliente + 1);
             statement.executeUpdate();
 
-            // associo id cliente alla tabella ordine
             int idordine = util.getCurrentordine() + 1;
-            // salva l'orario in cui è stato effettuato l'ordine in formato sql
             java.util.Date currentTime = new java.util.Date();
             Time ora = new java.sql.Time(currentTime.getTime());
 
@@ -59,15 +58,17 @@ public class VenditaImpl implements Vendita {
             throwables.printStackTrace();
         }
 
-        // aggiorno i correnti
-
         util.getCurrentcliente();
         util.getCurrentordine();
         view.clearTable();
 
     }
 
-    public void inserisci_offerta() {
+    /**
+     * @{inheritDoc}
+     */
+    @Override
+    public void addOffer() {
         Util util = new UtilImpl(conn);
         try {
             // int idcliente=getCurrentcliente();
@@ -77,15 +78,6 @@ public class VenditaImpl implements Vendita {
             dialog.setAlwaysOnTop(true);
             String numero_offerta = JOptionPane.showInputDialog(dialog, "Inserisci il numero dell'offerta");
             int numero_offerta_int = Integer.parseInt(numero_offerta);
-            /*
-             * String query =
-             * "INSERT INTO possedimento_offerta(ID_cliente, codice_offerta) VALUES (?, ?) "
-             * ;
-             * PreparedStatement statement = conn.prepareStatement(query);
-             * statement.setInt(1, idcliente);
-             * statement.setInt(2, idordine);
-             * statement.executeUpdate();
-             */
 
             // recupera il valore dello sconto
             String query2 = "SELECT percentuale FROM offerta WHERE codice = ?";
@@ -108,19 +100,17 @@ public class VenditaImpl implements Vendita {
             throwables.printStackTrace();
         }
 
-        // aggiorno i correnti
-
         util.getCurrentcliente();
         util.getCurrentordine();
     }
 
-    public void vendita(String nomeprodotto) {
+    public void sold(String nomeprodotto) {
         Util util = new UtilImpl(conn);
 
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         boolean flag = false;
-        
+
         try {
             @SuppressWarnings("unused")
             int idcliente = util.getCurrentcliente();
@@ -168,10 +158,6 @@ public class VenditaImpl implements Vendita {
                     updateStatement.setInt(2, idProdotto);
                     updateStatement.executeUpdate();
 
-                    // Aggiorna il prezzo totale dell'ordine
-                    // System.out.println("Il cliente ha già quel prodotto nel suo ordine");
-                    // System.out.println(prezzo);
-
                     String updatePrezzo = "UPDATE dettaglio_ordini SET totale = totale + ? WHERE ID_ordine = ?";
                     PreparedStatement updatePrezzoStatement = conn.prepareStatement(updatePrezzo);
                     updatePrezzoStatement.setDouble(1, prezzo);
@@ -190,10 +176,8 @@ public class VenditaImpl implements Vendita {
             }
 
             if (!flag) {
-                // Il prodotto non esiste ancora nel dettaglio ordine, procedi con il resto
-                // delle operazioni
+                // Il prodotto non esiste ancora nel dettaglio ordinei
 
-                // decremento la quantita degli ingredienti in magazzino
                 updateQuantity(nomeprodotto, idProdotto);
 
                 // Inserisci la vendita nel database del cliente corrente
@@ -207,17 +191,6 @@ public class VenditaImpl implements Vendita {
                 statement.setDouble(4, prezzo);
                 statement.executeUpdate();
 
-                // Aggiorna il prezzo totale dell'ordine
-                /*String updatePrezzo = "UPDATE dettaglio_ordini SET totale = ? WHERE ID_ordine = ?";
-                PreparedStatement updatePrezzoStatement = conn.prepareStatement(updatePrezzo);
-
-                updatePrezzoStatement.setDouble(1, prezzo);
-                updatePrezzoStatement.setInt(2, idordine);
-                updatePrezzoStatement.executeUpdate();*/
-
-                // controller.updateTable(nomeprodotto, 1, prezzo);
-
-                // ViewSchermatavendita view = new ViewSchermatavendita(conn);
                 view.updateTable(nomeprodotto, 1, prezzo);
 
             }
@@ -238,8 +211,7 @@ public class VenditaImpl implements Vendita {
                 e.printStackTrace();
             }
 
-        }   
-    
+        }
 
         flag = false;
     }
@@ -274,51 +246,37 @@ public class VenditaImpl implements Vendita {
 
         int idordine = util.getCurrentordine();
 
-        //viene visualizzato un menu a tendina contenente i valori "glovo, justeat, deliveroo"
+        // viene visualizzato un menu a tendina contenente i valori "glovo, justeat,
+        // deliveroo"
 
         String[] options = { "Glovo", "Justeat", "Deliveroo" };
         String delivery = (String) JOptionPane.showInputDialog(null, "Scegli il servizio di delivery",
                 "Servizio di delivery", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-                System.out.println(delivery);
-
-
-
-
-
-        
-
-
-
-
-
+        System.out.println(delivery);
 
         while (true) {
-            //Date dataCorrente = java.sql.Date.valueOf(java.time.LocalDate.now());
+            // Date dataCorrente = java.sql.Date.valueOf(java.time.LocalDate.now());
             try {
                 String query = "INSERT INTO dettaglio_consegna (ID_ordine, codice_prodotto, quantita, totale, nomeApp) SELECT ID_ordine, codice_prodotto, quantita, totale, ? FROM dettaglio_ordini WHERE ID_ordine = ?";
                 PreparedStatement statement = conn.prepareStatement(query);
                 statement.setString(1, delivery);
                 statement.setInt(2, idordine);
-                //statement.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+                // statement.setDate(3, new java.sql.Date(System.currentTimeMillis()));
                 statement.executeUpdate();
 
-                //aggiorna il record inserndo la data nella colonna data
+                // aggiorna il record inserndo la data nella colonna data
                 String update = "UPDATE dettaglio_consegna SET data = ? WHERE ID_ordine = ?";
                 PreparedStatement updateStatement = conn.prepareStatement(update);
                 updateStatement.setDate(1, new java.sql.Date(System.currentTimeMillis()));
                 updateStatement.setInt(2, idordine);
                 updateStatement.executeUpdate();
 
-                
-
                 // cancella i record con l'id dell'ordine dalla tabella dettaglio_ordini
                 String delete = "DELETE FROM dettaglio_ordini WHERE ID_ordine = ?";
                 PreparedStatement deleteStatement = conn.prepareStatement(delete);
                 deleteStatement.setInt(1, idordine);
                 deleteStatement.executeUpdate();
-
-        
 
                 break;
             } catch (SQLException e) {
@@ -328,7 +286,11 @@ public class VenditaImpl implements Vendita {
 
     }
 
-    public void buonoPasto() {
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public void mealVoucher() {
 
         Util util = new UtilImpl(conn);
         int ordine = util.getCurrentordine();

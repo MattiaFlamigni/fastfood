@@ -29,7 +29,7 @@ public class ManagerFornitoriImpl implements ManagerFornitori {
     }
 
     @Override
-    public void inserisciFornitore() {
+    public void addSupplier() {
         String piva = JOptionPane.showInputDialog(null, "Inserisci la partita iva del fornitore", "Inserisci fornitore",
                 JOptionPane.INFORMATION_MESSAGE);
         if (piva == null)
@@ -66,7 +66,7 @@ public class ManagerFornitoriImpl implements ManagerFornitori {
     }
 
     @Override
-    public void visualizzaFornitori() {
+    public void showSupplier() {
         // visualizzo in una nuova schermata la tabella dei fornitori
         try {
             Statement stmt = conn.createStatement();

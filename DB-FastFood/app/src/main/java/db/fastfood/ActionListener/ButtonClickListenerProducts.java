@@ -28,25 +28,25 @@ public class ButtonClickListenerProducts implements ActionListener {
         /* chiamo funzioni diverse a seconda del bottone */
         switch (buttonName) {
             case "Visualizza Prodotti Disponibili":
-                products.visualizzaProdottiDisponibili();
+                products.showavaiableProduct();
                 break;
             case "Aggiungi Prodotto":
-                products.aggiungiProdotto();
+                products.addProduct();
                 break;
             case "Aggiungi Ingredienti a Prodotto":
-                ingredienti.aggiungiIngredienteAProdotto();
+                ingredienti.addIngredientToProduct();
                 break;
             case "Aggiungi Ingrediente":
-                ingredienti.aggiungiIngrediente();
+                ingredienti.addIngredient();
                 break;
             case "Visualizza Ingredienti di un Prodotto":
-                ingredienti.visualizzaIngredientiProdotto();
+                ingredienti.showIngredientIntoProduct();
                 break;
             case "Situazione magazzino":
-                ingredienti.visualizzaMagazzino();
+                ingredienti.showWarehouse();
                 break;
             case "Top 10 Prodotti":
-                products.visualizzaTop10();
+                products.Top10();
                 break;
             default:
                 break;

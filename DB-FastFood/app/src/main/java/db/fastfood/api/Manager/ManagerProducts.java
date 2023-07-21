@@ -4,15 +4,15 @@ public interface ManagerProducts {
     /**
      * Method that allow to show all available products
      */
-    public void visualizzaProdottiDisponibili();
+    public void showavaiableProduct();
 
     /**
      * Method that allow to add a new product
      */
-    public void aggiungiProdotto();
+    public void addProduct();
 
     /**
      * show the top 10 products sold
      */
-    public void visualizzaTop10();
+    public void Top10();
 }

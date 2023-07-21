@@ -31,20 +31,22 @@ public class ManagerRichiesteImpl implements ManagerRichieste {
      * @{inheritDoc}
      */
     @Override
-    public void inserisciRichiesta() {
-        // un addetto puo effettuare una richiesta di riposo, di ferie o di malattia
+    public void addRequest() {
         String tipoRichiesta = JOptionPane.showInputDialog(null,
                 "Inserisci il tipo di richiesta (riposo, ferie, malattia):");
-                if(tipoRichiesta == null) return;
+        if (tipoRichiesta == null)
+            return;
         String dataInizio = JOptionPane.showInputDialog(null, "Inserisci la data di inizio (YYYY-MM-DD):");
-        if(dataInizio == null) return;
+        if (dataInizio == null)
+            return;
         String dataFine = JOptionPane.showInputDialog(null, "Inserisci la data di fine (YYYY-MM-DD):");
-        if(dataFine == null) return;
+        if (dataFine == null)
+            return;
         String idAddetto = JOptionPane.showInputDialog(null, "Inserisci CF dell'addetto:");
-        if(idAddetto == null) return;
+        if (idAddetto == null)
+            return;
 
         try {
-            // Statement statement = conn.createStatement();
             String query = "INSERT INTO richieste (tipo, datainizio, datafine, CF_addetto, dataRichiesta) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, tipoRichiesta);
@@ -74,10 +76,7 @@ public class ManagerRichiesteImpl implements ManagerRichieste {
      * @{inheritDoc}
      */
     @Override
-    public void visualizzaRifiutaRichieste() {
-        // visualizza tutte le richieste di riposo, ferie o malattia e permette di
-        // rifiutarle
-        // se una richiesta viene rifiutata, viene eliminata dalla tabella richieste
+    public void ShowDeclineRequest() {
 
         try {
             Statement statement = conn.createStatement();
@@ -109,24 +108,17 @@ public class ManagerRichiesteImpl implements ManagerRichieste {
             resultSet.close();
             statement.close();
 
-            // l'utente seleziona la richiesta da rifiutare selezionando la riga della
-            // tabella
-            // e cliccando sul pulsante "Rifiuta"
-
             JButton rifiutaButton = new JButton("Rifiuta");
             tableFrame.getContentPane().add(rifiutaButton, BorderLayout.SOUTH);
             rifiutaButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    // solo un direttore puo rifiutare una richiesta
-                    // l'utente deve inserire il proprio CF per rifiutare la richiesta
-
                     String CF_manager = JOptionPane.showInputDialog(tableFrame, "Inserisci il tuo CF:");
                     // se è presente nella tabella direttori allora è un direttore
 
                     try {
-                        // Statement statement = conn.createStatement();
+
                         String query = "SELECT * FROM direttori WHERE CF = ?";
                         PreparedStatement preparedStatement = conn.prepareStatement(query);
                         preparedStatement.setString(1, CF_manager);
@@ -147,7 +139,7 @@ public class ManagerRichiesteImpl implements ManagerRichieste {
                                 String CF_addetto = (String) table.getValueAt(selectedRow, 3);
                                 String dataRichiesta = (String) table.getValueAt(selectedRow, 4);
                                 try {
-                                    // Statement statementdelete = conn.createStatement();
+
                                     String querydelete = "DELETE FROM richieste WHERE tipo = ? AND datainizio = ? AND datafine = ? AND CF_addetto = ? AND dataRichiesta = ?";
                                     PreparedStatement preparedStatementdelete = conn.prepareStatement(querydelete);
                                     preparedStatementdelete.setString(1, tipo);
@@ -160,7 +152,7 @@ public class ManagerRichiesteImpl implements ManagerRichieste {
                                     if (rowsAffected > 0) {
                                         JOptionPane.showMessageDialog(tableFrame, "Richiesta rifiutata con successo.",
                                                 "Successo", JOptionPane.INFORMATION_MESSAGE);
-                                        // aggirona la tabella richieste
+                                        // rimuovo la riga dalla tabella
                                         tableModel.removeRow(selectedRow);
                                     } else {
                                         JOptionPane.showMessageDialog(tableFrame, "Impossibile rifiutare la richiesta.",

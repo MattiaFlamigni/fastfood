@@ -61,8 +61,10 @@ public class ViewSchermataIniziale extends JFrame {
 
         btnManager.addActionListener(e -> {
             // Avvia la schermata del manager
-            /*JFrame manager = new ViewSchermataManager(conn);
-            manager.setVisible(true); */
+            /*
+             * JFrame manager = new ViewSchermataManager(conn);
+             * manager.setVisible(true);
+             */
 
             JFrame manager = new SchermataInizialeFinale(conn);
             manager.setVisible(true);

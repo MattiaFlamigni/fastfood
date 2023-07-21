@@ -4,21 +4,21 @@ public interface ManagerIngredienti {
     /**
      * Method that allow to add ingredients
      */
-    public void aggiungiIngrediente();
+    public void addIngredient();
 
     /**
      * Method that allow to show all ingredients into a product
      */
-    public void visualizzaIngredientiProdotto();
+    public void showIngredientIntoProduct();
 
     /**
      * Method that allow to add an ingredient to a product
      */
-    public void aggiungiIngredienteAProdotto();
+    public void addIngredientToProduct();
 
     /*
      * Method that allow to show all ingredients into the warehouse
      */
-    public void visualizzaMagazzino();
+    public void showWarehouse();
 
 }

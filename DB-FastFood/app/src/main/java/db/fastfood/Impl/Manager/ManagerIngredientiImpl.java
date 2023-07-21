@@ -30,7 +30,7 @@ public class ManagerIngredientiImpl implements ManagerIngredienti {
      * @{inheritDoc}
      */
     @Override
-    public void aggiungiIngrediente() {
+    public void addIngredient() {
         String nome = JOptionPane.showInputDialog(null, "Inserisci il nome dell'ingrediente:");
         String quantita = JOptionPane.showInputDialog(null, "Inserisci la quantità disponibile:");
         String idIngrediente = JOptionPane.showInputDialog(null, "Inserisci l'ID dell'ingrediente:");
@@ -61,7 +61,7 @@ public class ManagerIngredientiImpl implements ManagerIngredienti {
      * @{inheritDoc}
      */
     @Override
-    public void visualizzaIngredientiProdotto() {
+    public void showIngredientIntoProduct() {
         String nome_prodotto = JOptionPane.showInputDialog(null, "Inserisci il codice(nome) del prodotto:");
 
         try {
@@ -103,7 +103,7 @@ public class ManagerIngredientiImpl implements ManagerIngredienti {
      * @{inheritDoc}
      */
     @Override
-    public void aggiungiIngredienteAProdotto() {
+    public void addIngredientToProduct() {
         try {
             Statement statement = conn.createStatement();
             String query = "SELECT * FROM Ingredienti";
@@ -136,7 +136,7 @@ public class ManagerIngredientiImpl implements ManagerIngredienti {
      * @{inheritDoc}
      */
     @Override
-    public void visualizzaMagazzino() {
+    public void showWarehouse() {
         String query = "SELECT * FROM ingredienti";
 
         try {

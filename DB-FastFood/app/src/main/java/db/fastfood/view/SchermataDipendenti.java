@@ -1,6 +1,5 @@
 package db.fastfood.view;
 
-
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
@@ -19,11 +18,9 @@ import db.fastfood.ActionListener.ButtonClickListenerDipendenti;
 public class SchermataDipendenti extends JFrame {
     @SuppressWarnings("unused")
     private final Connection conn;
-    //ButtonClickListenerDipendenti listener;
 
     public SchermataDipendenti(Connection conn) {
         this.conn = conn;
-        //listener = new ButtonClickListenerDipendenti(conn);
         setTitle("Schermata Prodotti");
         setSize(400, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,9 +33,8 @@ public class SchermataDipendenti extends JFrame {
         JButton btnRicercaContratto = new JButton("Ricerca contratto");
         JButton btnIndietro = new JButton("Indietro");
 
-
         Container container = getContentPane();
-        container.setLayout(new GridLayout(3, 2));  
+        container.setLayout(new GridLayout(3, 2));
 
         // Aggiunta dei pulsanti alla sezione "Dipendenti"
         JPanel dipendentiPanel = new JPanel();
@@ -53,8 +49,9 @@ public class SchermataDipendenti extends JFrame {
         dipendentiPanel.add(btnRicercaContratto);
         container.add(dipendentiPanel);
 
-       ImageIcon iconaIndietro = new javax.swing.ImageIcon(getClass().getResource("images/arrow-left-circle.png"));
-        ImageIcon iconaIndietroRidimensionata = new ImageIcon(iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        ImageIcon iconaIndietro = new javax.swing.ImageIcon(getClass().getResource("images/arrow-left-circle.png"));
+        ImageIcon iconaIndietroRidimensionata = new ImageIcon(
+                iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
 
         btnIndietro.setIcon(iconaIndietroRidimensionata);
 
@@ -65,13 +62,8 @@ public class SchermataDipendenti extends JFrame {
         btnIndietro.setForeground(java.awt.Color.RED);
 
         container.add(indietroPanel, BorderLayout.SOUTH);
-        
-
-
-
 
         setVisible(true);
-
 
         /* aggiungo i listener */
         btnInserisciAddetto.addActionListener(new ButtonClickListenerDipendenti(conn));
@@ -86,9 +78,7 @@ public class SchermataDipendenti extends JFrame {
                 dispose();
                 new SchermataInizialeFinale(conn);
             }
-        }) ;
-        
-
+        });
 
     }
 }

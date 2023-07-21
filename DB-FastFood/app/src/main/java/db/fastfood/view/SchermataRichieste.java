@@ -17,13 +17,12 @@ public class SchermataRichieste extends JFrame {
     @SuppressWarnings("unused")
     private final Connection conn;
 
-    public SchermataRichieste(Connection conn){
+    public SchermataRichieste(Connection conn) {
         this.conn = conn;
         setTitle("Schermata Prodotti");
         setSize(400, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
 
         // Creazione dei pulsanti per la sezione "Richieste"
         JButton btnInserisciRichiesta = new JButton("Nuova richiesta");
@@ -31,7 +30,7 @@ public class SchermataRichieste extends JFrame {
         JButton btnIndietro = new JButton("Indietro");
 
         Container container = getContentPane();
-        container.setLayout(new GridLayout(2,1));
+        container.setLayout(new GridLayout(2, 1));
 
         // Aggiunta dei pulsanti alla sezione "Richieste"
         JPanel richiestePanel = new JPanel();
@@ -39,14 +38,15 @@ public class SchermataRichieste extends JFrame {
         richiestePanel.add(btnInserisciRichiesta);
         container.add(richiestePanel);
 
-        richiestePanel=new JPanel();
+        richiestePanel = new JPanel();
         richiestePanel.setLayout(new FlowLayout());
         richiestePanel.add(btnVisualizzaRifiuta);
         container.add(richiestePanel);
 
         JPanel indietroPanel = new JPanel();
         ImageIcon iconaIndietro = new javax.swing.ImageIcon(getClass().getResource("images/arrow-left-circle.png"));
-        ImageIcon iconaIndietroRidimensionata = new ImageIcon(iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        ImageIcon iconaIndietroRidimensionata = new ImageIcon(
+                iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
 
         btnIndietro.setIcon(iconaIndietroRidimensionata);
 
@@ -58,9 +58,8 @@ public class SchermataRichieste extends JFrame {
         container.add(indietroPanel);
 
         setVisible(true);
-        
 
-        /*aggiungo i listener */
+        /* aggiungo i listener */
         btnInserisciRichiesta.addActionListener(new ButtonClickListenerRichieste(conn));
         btnVisualizzaRifiuta.addActionListener(new ButtonClickListenerRichieste(conn));
 
@@ -72,12 +71,6 @@ public class SchermataRichieste extends JFrame {
             }
         });
 
-
-        
-
-
     }
 
-
-    
 }

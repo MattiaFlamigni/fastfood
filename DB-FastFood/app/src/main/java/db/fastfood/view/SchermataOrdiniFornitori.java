@@ -17,13 +17,12 @@ public class SchermataOrdiniFornitori extends JFrame {
     private Connection connection;
     ButtonClickListenerFornitori listener;
 
-    public SchermataOrdiniFornitori(Connection connection){
+    public SchermataOrdiniFornitori(Connection connection) {
         this.connection = connection;
         setTitle("Schermata Ordini Fornitori");
         setSize(400, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
 
         JButton btnInserisciFornitore = new JButton("Inserisci Fornitore");
         JButton btnVisualizzaFornitori = new JButton("Visualizza Fornitori");
@@ -31,7 +30,7 @@ public class SchermataOrdiniFornitori extends JFrame {
         JButton btnIndietro = new JButton("Indietro");
 
         Container container = getContentPane();
-        container.setLayout(new GridLayout(3,2));
+        container.setLayout(new GridLayout(3, 2));
 
         JPanel ordiniFornitoriPanel = new JPanel();
         ordiniFornitoriPanel.setLayout(new FlowLayout());
@@ -39,12 +38,13 @@ public class SchermataOrdiniFornitori extends JFrame {
         ordiniFornitoriPanel.add(btnVisualizzaFornitori);
         container.add(ordiniFornitoriPanel);
 
-        ordiniFornitoriPanel=new JPanel();
+        ordiniFornitoriPanel = new JPanel();
         ordiniFornitoriPanel.add(btnInserisciOrdine);
         container.add(ordiniFornitoriPanel);
 
         ImageIcon iconaIndietro = new javax.swing.ImageIcon(getClass().getResource("images/arrow-left-circle.png"));
-        ImageIcon iconaIndietroRidimensionata = new ImageIcon(iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        ImageIcon iconaIndietroRidimensionata = new ImageIcon(
+                iconaIndietro.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
 
         btnIndietro.setIcon(iconaIndietroRidimensionata);
 
@@ -67,5 +67,5 @@ public class SchermataOrdiniFornitori extends JFrame {
             new SchermataInizialeFinale(connection);
         });
     }
-    
+
 }

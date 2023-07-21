@@ -33,7 +33,7 @@ public class ManagerAddettiImpl implements ManagerAddetti {
      * {@inheritDoc}
      */
     @Override
-    public void inserisciDipendente() {
+    public void addEmployee() {
         String[] options = { "Addetto", "Manager" };
         int choice = JOptionPane.showOptionDialog(null, "Seleziona il tipo di dipendente:", "Inserisci dipendente",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
@@ -119,7 +119,7 @@ public class ManagerAddettiImpl implements ManagerAddetti {
      * {@inheritDoc}
      */
     @Override
-    public void visualizzaAddetti() {
+    public void showEmployee() {
         String[] options = { "Addetto", "Direttore", "Manager" };
         int choice = JOptionPane.showOptionDialog(null, "Seleziona il tipo di dipendente:", "Inserisci dipendente",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);

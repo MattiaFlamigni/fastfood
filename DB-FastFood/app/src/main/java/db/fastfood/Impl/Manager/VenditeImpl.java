@@ -38,7 +38,7 @@ public class VenditeImpl implements Vendite {
      * {@inheritDoc}
      */
     @Override
-    public void visualizzaFatturatoMensile() {
+    public void monthlyEarned() {
         try {
             Statement statement = conn.createStatement();
             String query = """
@@ -51,7 +51,6 @@ public class VenditeImpl implements Vendite {
             double totaleIncassoLordo = resultSet.getInt("TotIncassoLordo");
             double totaleMateriePrime = resultSet.getInt("MateriePrime");
             double totaleNetto = resultSet.getInt("TotNetto");
-            // double totaleScarti = resultSet.getInt("TotScarti");
             resultSet.close();
             statement.close();
             JOptionPane
@@ -71,8 +70,7 @@ public class VenditeImpl implements Vendite {
      * {@inheritDoc}
      */
     @Override
-    public void visualizzaVenditeGiornaliere() {
-        // visualizza una tabella con le vendite giornaliere
+    public void showDailySales() {
         try {
             Statement statement = conn.createStatement();
             String query = """
@@ -91,8 +89,6 @@ public class VenditeImpl implements Vendite {
                 // prodotti.add(nome);
                 double prezzo = resultSet.getDouble("prezzovendita");
                 int venduto = resultSet.getInt("venduto");
-                // int quantita = resultSet.getInt("quantita");
-                // String data = resultSet.getString("data");
                 Object[] row = { nome, prezzo, venduto, /* data */ };
 
                 tableModel.addRow(row);
@@ -136,8 +132,7 @@ public class VenditeImpl implements Vendite {
      * {@inheritDoc}
      */
     @Override
-    public void scontrinoMedio() {
-        // visualizza una tabella con lo scontrino medio di ogni mese
+    public void averageReceipt() {
         try {
             Statement statement = conn.createStatement();
             String query = """
@@ -182,12 +177,7 @@ public class VenditeImpl implements Vendite {
      * {@inheritDoc}
      */
     @Override
-    public void visualizzaScontriniPerData() {
-        // visualizza una tabella con gli scontrini emessi in un determinato intervallo
-        // di tempo con dataPiker
-
-        // l'utente seleziona da un calendario la data di inizio e la data di fine
-        // periodo
+    public void showReceiptByDate() {
         JFrame frame = new JFrame("Visualizza scontrini per data");
         frame.setSize(400, 300);
         frame.setLayout(new GridLayout(3, 2));
@@ -271,7 +261,6 @@ public class VenditeImpl implements Vendite {
      */
     @Override
     public void report() {
-        // l'utente seleziona un mese e un anno
 
         JFrame frame = new JFrame("Report");
         frame.setSize(400, 300);
@@ -384,8 +373,7 @@ public class VenditeImpl implements Vendite {
      * {@inheritDoc}
      */
     @Override
-    public void reportDelivery(){
-        // mostra una tabella relativa alle consegne effettuate in un determinato periodo di tempo
+    public void reportDelivery() {
 
         JFrame frame = new JFrame("Report consegne");
         frame.setSize(400, 300);
@@ -405,7 +393,6 @@ public class VenditeImpl implements Vendite {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                //per ogni applicazione, mostra il totale delle consegne effettuate in un periodo di tempo
 
                 if (dataInizio.getText().equals("") || dataFine.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Inserire entrambi i campi.", "Errore",
@@ -464,10 +451,12 @@ public class VenditeImpl implements Vendite {
 
                     resultSet.close();
 
-                    
                     // costruisco la tabella
-                    String[] columnNames = { "Totale Glovo", "Totale Netto Glovo", "Totale Deliveroo", "Totale Netto Deliveroo", "Totale JustEat", "Totale Netto JustEat" };
-                    Object[][] data = { { totGlovo, totGlovo-(totGlovo*20/100), totDeliveroo, totDeliveroo-(totDeliveroo*20/100), totJustEat, totJustEat-(totJustEat*20/100) } };
+                    String[] columnNames = { "Totale Glovo", "Totale Netto Glovo", "Totale Deliveroo",
+                            "Totale Netto Deliveroo", "Totale JustEat", "Totale Netto JustEat" };
+                    Object[][] data = { { totGlovo, totGlovo - (totGlovo * 20 / 100), totDeliveroo,
+                            totDeliveroo - (totDeliveroo * 20 / 100), totJustEat,
+                            totJustEat - (totJustEat * 20 / 100) } };
                     JTable table = new JTable(data, columnNames);
                     customizeTable.doGraphic(table);
                     customizeTable.notEditable(table);
@@ -487,11 +476,8 @@ public class VenditeImpl implements Vendite {
 
                 }
 
-
-                    
-
             }
-            
+
         });
 
         frame.add(dataInizioLabel);
@@ -500,9 +486,6 @@ public class VenditeImpl implements Vendite {
         frame.add(dataFine);
         frame.add(visualizza);
         frame.setVisible(true);
-
-
-
 
     }
 }

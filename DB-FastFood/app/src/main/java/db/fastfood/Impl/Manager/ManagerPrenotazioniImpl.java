@@ -28,11 +28,10 @@ public class ManagerPrenotazioniImpl implements ManagerPrenotazioni {
     public ManagerPrenotazioniImpl(Connection connection) {
         this.connection = connection;
     }
-    
 
     @Override
-    public void inserisciTavolo() {
-        try{
+    public void AddTable() {
+        try {
             String numero = JOptionPane.showInputDialog("Inserisci numero tavolo");
             String nposti = JOptionPane.showInputDialog("Inserisci numero posti");
 
@@ -48,83 +47,12 @@ public class ManagerPrenotazioniImpl implements ManagerPrenotazioni {
         }
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
-    public void visualizzaTavoli() {
-        //Apre una tabella con tutti i tavoli
-       JFrame frame = new JFrame("Tavoli");
-         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.setLayout(new BorderLayout());
-        frame.setSize(300, 300);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
-            JButton btnElimina = new JButton("Elimina");
-            //JButton btnModifica = new JButton("Modifica");
-
-            JTable table = new JTable();
-            customTable.doGraphic(table);
-            table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-            table.setFillsViewportHeight(true);
-
-            JScrollPane scrollPane = new JScrollPane(table);
-            frame.add(scrollPane);
-
-            try {
-                String query = "SELECT * FROM tavolo";
-                PreparedStatement statement = connection.prepareStatement(query);
-                ResultSet resultSet = statement.executeQuery();
-
-                ResultSetMetaData metaData = (ResultSetMetaData) resultSet.getMetaData();
-                int numberOfColumns = metaData.getColumnCount();
-                DefaultTableModel tableModel = new DefaultTableModel();
-
-                for (int i = 1; i <= numberOfColumns; i++) {
-                    tableModel.addColumn(metaData.getColumnLabel(i));
-                }
-
-                while (resultSet.next()) {
-                    Object[] row = new Object[numberOfColumns];
-                    for (int i = 1; i <= numberOfColumns; i++) {
-                        row[i - 1] = resultSet.getObject(i);
-                    }
-                    tableModel.addRow(row);
-                }
-
-                table.setModel(tableModel);
-                statement.close();
-                resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            frame.add(btnElimina, BorderLayout.SOUTH);
-            //frame.add(btnModifica, BorderLayout.SOUTH);
-
-            btnElimina.addActionListener(e -> {
-                try {
-                    int row = table.getSelectedRow();
-                    String cella = table.getModel().getValueAt(row, 0).toString();
-                    String query = "DELETE FROM tavolo WHERE numero = ?";
-                    PreparedStatement statement = connection.prepareStatement(query);
-                    statement.setInt(1, Integer.parseInt(cella));
-                    statement.executeUpdate();
-                    statement.close();
-                    JOptionPane.showMessageDialog(null, "Tavolo eliminato");
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            });
-
-           
-
-
-
-    }
-
-    @Override
-    public void visualizzaPrenotazioni() {
-        //Apre una tabella con tutte le prenotazioni
-        JFrame frame = new JFrame("Prenotazioni");
+    public void showTable() {
+        JFrame frame = new JFrame("Tavoli");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.setSize(300, 300);
@@ -132,8 +60,8 @@ public class ManagerPrenotazioniImpl implements ManagerPrenotazioni {
         frame.setVisible(true);
 
         JButton btnElimina = new JButton("Elimina");
-        //JButton btnModifica = new JButton("Modifica");
-        
+        // JButton btnModifica = new JButton("Modifica");
+
         JTable table = new JTable();
         customTable.doGraphic(table);
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
@@ -142,6 +70,76 @@ public class ManagerPrenotazioniImpl implements ManagerPrenotazioni {
         JScrollPane scrollPane = new JScrollPane(table);
         frame.add(scrollPane);
 
+        try {
+            String query = "SELECT * FROM tavolo";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            ResultSetMetaData metaData = (ResultSetMetaData) resultSet.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            DefaultTableModel tableModel = new DefaultTableModel();
+
+            for (int i = 1; i <= numberOfColumns; i++) {
+                tableModel.addColumn(metaData.getColumnLabel(i));
+            }
+
+            while (resultSet.next()) {
+                Object[] row = new Object[numberOfColumns];
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    row[i - 1] = resultSet.getObject(i);
+                }
+                tableModel.addRow(row);
+            }
+
+            table.setModel(tableModel);
+            statement.close();
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        frame.add(btnElimina, BorderLayout.SOUTH);
+
+        btnElimina.addActionListener(e -> {
+            try {
+                int row = table.getSelectedRow();
+                String cella = table.getModel().getValueAt(row, 0).toString();
+                String query = "DELETE FROM tavolo WHERE numero = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setInt(1, Integer.parseInt(cella));
+                statement.executeUpdate();
+                statement.close();
+                JOptionPane.showMessageDialog(null, "Tavolo eliminato");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
+
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    @Override
+    public void showreservation() {
+        // Apre una tabella con tutte le prenotazioni
+        JFrame frame = new JFrame("Prenotazioni");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        frame.setSize(300, 300);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        JButton btnElimina = new JButton("Elimina");
+        // JButton btnModifica = new JButton("Modifica");
+
+        JTable table = new JTable();
+        customTable.doGraphic(table);
+        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        table.setFillsViewportHeight(true);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame.add(scrollPane);
 
         try {
             String query = "SELECT * FROM prenotazione_tavolo";
@@ -169,12 +167,9 @@ public class ManagerPrenotazioniImpl implements ManagerPrenotazioni {
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }   
+        }
 
         frame.setLayout(new FlowLayout());
-
-        //frame.add(btnElimina, BorderLayout.SOUTH);
-        //frame.add(btnModifica, BorderLayout.SOUTH);
 
         btnElimina.addActionListener(e -> {
             try {
@@ -191,14 +186,14 @@ public class ManagerPrenotazioniImpl implements ManagerPrenotazioni {
             }
         });
 
-       
-
-        
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
-    public void inserisciPrenotazione() {
-        try{
+    public void AddReservation() {
+        try {
 
             String nominativo = JOptionPane.showInputDialog("Inserisci nominativo");
             String data = JOptionPane.showInputDialog("Inserisci data");
@@ -220,5 +215,5 @@ public class ManagerPrenotazioniImpl implements ManagerPrenotazioni {
             e.printStackTrace();
         }
     }
-    
+
 }

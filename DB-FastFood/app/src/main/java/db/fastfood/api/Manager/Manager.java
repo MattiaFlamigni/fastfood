@@ -5,26 +5,26 @@ public interface Manager {
     /**
      * Method that allow to create a fidelity card
      */
-    public void creaFidelty();
+    public void createFidelity();
 
     /**
      * Method that allow to register the waste
      */
-    public void registraScarti();
+    public void newWaste();
 
     /**
      * Method that allow to show the waste
      */
-    public void visualizzaScarti();
+    public void showWaste();
 
     /**
      * Method that allow to show the extra expenses
      */
-    public void speseExtra();
+    public void extra();
 
     /**
      * Method that allow to show the extra expenses
      */
-    public void visualizzaSpeseExtra();
+    public void showExtra();
 
 }

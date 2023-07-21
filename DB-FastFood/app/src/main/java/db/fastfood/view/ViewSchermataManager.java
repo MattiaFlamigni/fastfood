@@ -2,7 +2,6 @@ package db.fastfood.view;
 
 import javax.swing.*;
 
-
 import java.awt.*;
 import java.sql.*;
 
@@ -36,7 +35,7 @@ public class ViewSchermataManager extends JFrame {
         JButton btnVisualizzaContratti = new JButton("Visualizza contratti");
         JButton btnRicercaContratto = new JButton("Ricerca contratto");
 
-        //creazione dei pulsanti per la sezione "ordini ai fornitori"
+        // creazione dei pulsanti per la sezione "ordini ai fornitori"
         JButton btnInserisciFornitore = new JButton("Inserisci Fornitore");
         JButton btnVisualizzaFornitori = new JButton("Visualizza Fornitori");
         JButton btnInserisciOrdine = new JButton("Inserisci Ordine");
@@ -81,7 +80,6 @@ public class ViewSchermataManager extends JFrame {
         dipendentiPanel.add(btnRicercaContratto);
         container.add(dipendentiPanel);
 
-
         // Aggiunta dei pulsanti alla sezione "Altro"
         JPanel altroPanel = new JPanel();
 
@@ -91,8 +89,7 @@ public class ViewSchermataManager extends JFrame {
         altroPanel.add(btnVenditeGiornaliere);
         container.add(altroPanel);
 
-
-        //aggiunta dei pulsanti per la sezione "ordini ai fornitori"
+        // aggiunta dei pulsanti per la sezione "ordini ai fornitori"
         JPanel ordiniFornitoriPanel = new JPanel();
         ordiniFornitoriPanel.setLayout(new FlowLayout());
         ordiniFornitoriPanel.add(btnInserisciFornitore);
@@ -100,85 +97,5 @@ public class ViewSchermataManager extends JFrame {
         ordiniFornitoriPanel.add(btnInserisciOrdine);
         container.add(ordiniFornitoriPanel);
 
-
-
-        // Aggiunta delle azioni ai pulsanti
-        /*
-        btnVisualizzaProdotti.addActionListener(e -> {
-            ManagerProducts managerProducts = new ManagerProductsImpl(conn);
-            managerProducts.visualizzaProdottiDisponibili();
-        });
-        btnAggiungiProdotto.addActionListener(e -> {
-            ManagerProducts managerProducts = new ManagerProductsImpl(conn);
-            managerProducts.aggiungiProdotto();
-        });
-        btnAggiungiIngredienti.addActionListener(e -> {
-            ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
-            managerIngredienti.aggiungiIngredienteAProdotto();
-        });
-        btnAggiungiIngrediente.addActionListener(e -> {
-            ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
-            managerIngredienti.aggiungiIngrediente();
-        });
-        btnVisualizzaIngredienti.addActionListener(e -> {
-            ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
-            managerIngredienti.visualizzaIngredientiProdotto();
-        });
-        btnInserisciRichiesta.addActionListener(e -> {
-            ManagerRichieste managerRichieste = new ManagerRichiesteImpl(conn);
-            managerRichieste.inserisciRichiesta();
-        });
-        btnVisualizzaRifiuta.addActionListener(e -> {
-            ManagerRichieste managerRichieste = new ManagerRichiesteImpl(conn);
-            managerRichieste.visualizzaRifiutaRichieste();
-        });
-        btnInserisciAddetto.addActionListener(e -> {
-            ManagerAddetti logic = new ManagerAddettiImpl(conn);
-            logic.inserisciDipendente();
-        });
-        btnVisualizzaAddetti.addActionListener(e -> {
-            ManagerAddetti logic = new ManagerAddettiImpl(conn);
-            logic.visualizzaAddetti();
-        });
-        btnContratti.addActionListener(e -> {
-            ManagerContratti logic = new ManagerContrattiImpl(conn);
-            logic.inserisciContratto();
-        });
-        btnVisualizzaContratti.addActionListener(e -> {
-            ManagerContratti logic = new ManagerContrattiImpl(conn);
-            logic.visualizzaContratti("");
-        });
-        btnRicercaContratto.addActionListener(e -> {
-            ManagerContratti logic = new ManagerContrattiImpl(conn);
-            logic.ricercaContratti();
-        });
-        btnFatturatoMensile.addActionListener(e -> {
-            Vendite logic = new VenditeImpl(conn);
-            logic.visualizzaFatturatoMensile();
-        });
-        btnCreaFidelity.addActionListener(e -> {
-            Manager logic = new ManagerImpl(conn);
-            logic.creaFidelty();
-        });
-        btnMagazzino.addActionListener(e -> {
-            ManagerIngredientiImpl managerIngredienti = new ManagerIngredientiImpl(conn);
-            managerIngredienti.visualizzaMagazzino();
-        });
-        btnVenditeGiornaliere.addActionListener(e -> {
-            Vendite logic = new VenditeImpl(conn);
-            logic.visualizzaVenditeGiornaliere();
-        });
-        btnInserisciFornitore.addActionListener(e -> {
-            ManagerFornitori logic = new ManagerFornitoriImpl(conn);
-            logic.inserisciFornitore();
-        });
-        btnVisualizzaFornitori.addActionListener(e -> {
-            ManagerFornitori logic = new ManagerFornitoriImpl(conn);
-            logic.visualizzaFornitori();
-        });
-        btnInserisciOrdine.addActionListener(e -> {
-            ManagerFornitori logic = new ManagerFornitoriImpl(conn);
-            logic.makeOrder();
-        });*/
     }
 }

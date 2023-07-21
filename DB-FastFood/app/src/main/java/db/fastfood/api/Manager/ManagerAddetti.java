@@ -4,10 +4,10 @@ public interface ManagerAddetti {
     /**
      * Method that allow to add a new employee
      */
-    public void inserisciDipendente();
+    public void addEmployee();
 
     /**
      * Method that allow to show all employees
      */
-    public void visualizzaAddetti();
+    public void showEmployee();
 }

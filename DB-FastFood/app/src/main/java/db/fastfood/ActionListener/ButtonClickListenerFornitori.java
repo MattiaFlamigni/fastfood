@@ -23,10 +23,10 @@ public class ButtonClickListenerFornitori implements ActionListener {
 
         switch (buttonName) {
             case "Inserisci Fornitore":
-                fornitori.inserisciFornitore();
+                fornitori.addSupplier();
                 break;
             case "Visualizza Fornitori":
-                fornitori.visualizzaFornitori();
+                fornitori.showSupplier();
                 break;
             case "Inserisci Ordine":
                 fornitori.makeOrder();

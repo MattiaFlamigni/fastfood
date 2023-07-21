@@ -51,7 +51,6 @@ public class SchermataInizialeFinale extends JFrame {
         btnPrenotazioni.addActionListener(e -> openPrenotazioniSection());
     }
 
-    // Metodo di utilità per creare un pannello per una sezione con il titolo e il pulsante
     private JPanel createSectionPanel(JButton button) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -61,9 +60,8 @@ public class SchermataInizialeFinale extends JFrame {
         return panel;
     }
 
-    // Metodi per aprire le sezioni corrispondenti
     private void openProdottiSection() {
-        //apre la schermata prodotti
+        // apre la schermata prodotti
         SchermataProdotti schermataProdotti = new SchermataProdotti(conn);
         schermataProdotti.setVisible(true);
 

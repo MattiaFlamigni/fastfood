@@ -27,23 +27,23 @@ public class ButtonClickListenerDipendenti implements ActionListener {
 
         switch (buttonName) {
             case "Visualizza Dipendenti":
-                addetti.visualizzaAddetti();
+                addetti.showEmployee();
                 break;
             case "Inserisci Dipendente":
-                addetti.inserisciDipendente();
+                addetti.addEmployee();
                 break;
 
             case "Visualizza contratti":
                 System.out.println("Visualizza Contratti");
-                contratti.visualizzaContratti("");
+                contratti.showContract("");
                 break;
             case "Crea contratto":
-                contratti.inserisciContratto();
+                contratti.newContract();
                 break;
             case "Ricerca contratto":
                 // String cf = JOptionPane.showInputDialog("Inserisci il codice fiscale del
                 // dipendente");
-                contratti.ricercaContratti();
+                contratti.searchContract();
                 break;
 
             default:

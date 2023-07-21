@@ -37,7 +37,7 @@ public class ManagerImpl implements Manager {
      * {@inheritDoc}
      */
     @Override
-    public void creaFidelty() {
+    public void createFidelity() {
         String id = JOptionPane.showInputDialog(null, "numero tessera:");
         int timbri = 0;
         String scadenza = JOptionPane.showInputDialog(null, "scadenza card [YYYY-MM-DD]:");
@@ -63,9 +63,7 @@ public class ManagerImpl implements Manager {
         }
     }
 
-    public void registraScarti() {
-        // apertura di una nuova finestra con una conmbobox per la scelta del prodotto e
-        // un campo per la quantità
+    public void newWaste() {
 
         // codice per la creazione della finestra
         JFrame frame = new JFrame("Registra scarti");
@@ -97,14 +95,10 @@ public class ManagerImpl implements Manager {
                     JOptionPane.ERROR_MESSAGE);
         }
 
-        // codice per la creazione del campo di testo
         JTextField quantita = new JTextField();
         quantita.setPreferredSize(new Dimension(100, 30));
 
-        // codice per la creazione del bottone
-
         JButton registra = new JButton("Registra");
-        // var codiceee = 0;
         registra.addActionListener(new ActionListener() {
 
             @Override
@@ -224,9 +218,7 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public void visualizzaScarti() {
-        // visualizza una tabella con gli ingredienti che sono stati scartati in un
-        // determinato intervallo di
+    public void showWaste() {
 
         JFrame frame = new JFrame("Visualizza scarti");
         frame.setSize(400, 300);
@@ -309,7 +301,8 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public void speseExtra() {
+    public void extra() {
+
         String cfDirettore = JOptionPane.showInputDialog(null, "CF direttore: ", "Spese extra",
                 JOptionPane.QUESTION_MESSAGE);
         if (cfDirettore == null)
@@ -356,9 +349,7 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public void visualizzaSpeseExtra() {
-        // visualizza una tabella con le spese extra effettuate in un determinato
-        // intervallo di tempo
+    public void showExtra() {
 
         JFrame frame = new JFrame("Visualizza spese extra");
         frame.setSize(400, 300);
