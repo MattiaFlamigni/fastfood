@@ -217,9 +217,6 @@ public class ManagerFornitoriImpl implements ManagerFornitori {
         if (fornitore == null)
             return;
 
-        // si apre una nuova schermata con la tabella degli ngredienti. L'utente
-        // seleziona gli ingredienti e inserisce la quantità
-
         // creo la tabella.
         JTable table = new JTable(customtable);
         customtable.doGraphic(table);
